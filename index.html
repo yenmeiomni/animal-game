@@ -71,11 +71,15 @@
     </div>
 
     <div id="photos" class="info-box">
-        <h3>🖼️ 真實生活影像</h3>
-        <div class="photo-grid">
-            <img src="polarbear_photo_01.jpg" alt="北極熊生活照">
+        <h3>🖼️ 真實生活影像牆</h3>
+        <div class="photo-grid" style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px;">
             
-            <div style="position: relative; width: 100%; padding-bottom: 56.25%; height: 0; border-radius: 10px; overflow: hidden; border: 1px solid #ddd;">
+            <div class="media-item">
+                <img src="./polarbear_photo_01.jpg" 
+                     style="width: 100%; height: 120px; object-fit: cover; border-radius: 10px; border: 1px solid #ddd;" alt="生活照1">
+            </div>
+
+            <div class="media-item" style="position: relative; width: 100%; height: 120px; border-radius: 10px; overflow: hidden; border: 1px solid #ddd;">
                 <iframe 
                     style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; border: none;"
                     src="https://www.youtube.com/embed/0IUIdLOtcpk?rel=0" 
@@ -84,8 +88,19 @@
                     allowfullscreen>
                 </iframe>
             </div>
+
+            <div class="media-item">
+                <img src="./polarbear_photo_02.png" 
+                     style="width: 100%; height: 120px; object-fit: cover; border-radius: 10px; border: 1px solid #ddd;" alt="生活照2">
+            </div>
+
+            <div class="media-item">
+                <img src="./polarbear_photo_03.jpg" 
+                     style="width: 100%; height: 120px; object-fit: cover; border-radius: 10px; border: 1px solid #ddd;" alt="生活照3">
+            </div>
+
         </div>
-        <p style="margin-top: 10px;">左邊是靜態照片，右邊可以播放真實影片喔！</p>
+        <p style="margin-top: 10px; font-size: 14px; color: #666; text-align: center;">點擊照片可放大觀察，點擊影片可直接播放！</p>
     </div>
     
     <div id="game" class="info-box">
