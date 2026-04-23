@@ -3,180 +3,298 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>北極熊互動探索</title>
+    <title>北極熊探索教室</title>
     <script type="module" src="https://ajax.googleapis.com/ajax/libs/model-viewer/3.5.0/model-viewer.min.js"></script>
     
     <style>
-        /* 【顏色與字體設定】這裡可以隨意更換你喜歡的顏色 */
+        /* 【設計基礎】這裡設定你草圖中的霧藍色和圓角 */
         :root {
-            --primary-color: #0077be;    /* 主色調：深藍 */
-            --accent-color: #87ceeb;     /* 輔色：淺藍 */
-            --bg-color: #f8fbff;         /* 背景：極淺藍 */
-            --text-color: #2c3e50;
-            --btn-radius: 30px;          /* 按鈕圓角：30px 是膠囊狀，10px 是方圓形 */
+            --dusty-blue: #7ba2c1;    /* 草圖中的主色調：霧藍 */
+            --white: #ffffff;
+            --btn-blue: #72a2d4;      /* 按鈕顏色 */
+            --radius-round: 50px;     /* 超圓的膠囊狀 */
+            --text-color: #333333;
         }
 
         body { 
             margin: 0; 
-            font-family: "Microsoft JhengHei", sans-serif; 
-            background-color: var(--bg-color); 
-            color: var(--text-color);
+            font-family: "Microsoft JhengHei", "PingFang TC", sans-serif; 
+            background-color: var(--white); 
             display: flex;
             flex-direction: column;
             align-items: center;
+            overflow-x: hidden; /* 防止寬度溢出 */
+            color: var(--text-color);
         }
 
-        /* 3D 視窗美化 */
+        /* 【區塊 A: 3D 視窗】(參考 image_0.png 排版) */
+        .model-section {
+            width: 100%;
+            background-color: var(--dusty-blue);
+            padding-bottom: 50px; /* 為三角旗留空間 */
+            position: relative;
+        }
+
+        .header-title {
+            text-align: center;
+            font-size: 32px;
+            color: black;
+            padding-top: 40px;
+            margin: 0;
+            font-weight: bold;
+        }
+
         model-viewer { 
             width: 100%; 
             height: 350px; 
-            background: radial-gradient(circle, #ffffff 0%, #e0f2fe 100%);
-            border-bottom: 3px solid var(--accent-color);
+            background-color: transparent; /* 背景透明，顯示下方的霧藍 */
         }
 
-        .container { width: 100%; max-width: 500px; padding: 15px; box-sizing: border-box; }
-
-        /* 【按鈕設計】修改這裡的樣式 */
-        .menu { 
-            display: grid; 
-            grid-template-columns: 1fr 1fr; 
-            gap: 12px; 
-            margin: 20px 0; 
+        /* 【三角旗形狀】(參考 image_0.png 底部) */
+        .bunting-svg {
+            position: absolute;
+            bottom: -1px; /* 貼合底部，防止有細縫 */
+            left: 0;
+            width: 100%;
+            height: 50px;
         }
 
+        /* 【區塊 B: 選單與內容】(參考 image_1.png 排版) */
+        .content-section {
+            width: 100%;
+            background-color: var(--white);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 30px 20px;
+            box-sizing: border-box;
+        }
+
+        /* 雪花圖示 */
+        .snowflake {
+            color: #00bfff;
+            font-size: 40px;
+            margin-bottom: 20px;
+        }
+
+        .main-layout {
+            display: grid;
+            grid-template-columns: 1fr 1fr; /* 左側照片，右側按鈕 */
+            gap: 20px;
+            width: 100%;
+            max-width: 400px;
+            align-items: center;
+        }
+
+        .menu-btn-group {
+            display: flex;
+            flex-direction: column;
+            gap: 15px; /* 按鈕之間的間距 */
+        }
+
+        /* 【膠囊型按鈕設計】(參考 image_1.png) */
         .btn { 
-            background: white; 
-            border: 2px solid var(--primary-color); 
-            padding: 12px; 
-            border-radius: var(--btn-radius); 
-            font-size: 15px; 
+            background: var(--btn-blue); 
+            border: none;
+            padding: 12px 25px; 
+            border-radius: var(--radius-round); 
+            font-size: 16px; 
             font-weight: bold; 
-            color: var(--primary-color);
-            cursor: pointer;
-            transition: all 0.3s ease; /* 增加平滑動畫 */
-            box-shadow: 0 4px 6px rgba(0,0,0,0.05);
-        }
-
-        /* 點擊或滑鼠移入的效果 */
-        .btn:hover, .btn:active {
-            background: var(--primary-color);
             color: white;
-            transform: translateY(-3px); /* 向上浮起感 */
-            box-shadow: 0 6px 12px rgba(0,0,0,0.1);
+            cursor: pointer;
+            transition: all 0.2s ease;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+            text-align: center;
         }
 
-        /* 資訊框美化 */
+        /* 按鈕點擊或移入效果 */
+        .btn:hover, .btn:active {
+            transform: scale(1.05); /* 輕微放大 */
+            box-shadow: 0 6px 10px rgba(0,0,0,0.15);
+        }
+
+        /* 資訊框佈局 */
         .info-box { 
-            background: white; 
-            padding: 20px; 
-            border-radius: 20px; 
-            box-shadow: 0 10px 25px rgba(0,0,0,0.05); 
-            display: none; 
-            margin-top: 10px;
+            width: 100%;
+            max-width: 400px;
+            margin-top: 20px;
+            display: none; /* 預設藏起來 */
+            animation: fadeIn 0.5s ease-out;
         }
 
-        /* 田字型媒體牆 */
-        .media-grid {
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* 【區塊 C: 互動遊戲】(參考 image_2.png 排版) */
+        .game-title-btn {
+            background-color: var(--btn-blue);
+            color: white;
+            border-radius: var(--radius-round);
+            padding: 10px 30px;
+            font-size: 18px;
+            border: none;
+            margin-bottom: 20px;
+            cursor: default; /* 這不是一個可點擊的按鈕，只是一個標題 */
+        }
+
+        .game-desc {
+            font-size: 18px;
+            color: #2c3e50;
+            text-align: center;
+            line-height: 1.6;
+            margin: 15px 0;
+            max-width: 350px;
+        }
+
+        /* 遊戲選項設計 (參考 image_2.png) */
+        .game-choices {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+            width: 100%;
+            max-width: 350px;
+        }
+
+        .choice-btn {
+            width: 100%;
+            padding: 15px;
+            border-radius: var(--radius-round);
+            border: 2px solid #ddd;
+            background: white;
+            font-size: 16px;
+            cursor: pointer;
+            transition: 0.3s;
+            text-align: center;
+        }
+
+        .choice-btn:active { background-color: #f0f0f0; }
+        
+        /* 答對與答錯的樣式 */
+        .correct { background-color: #dcfce7 !important; border-color: #22c55e !important; color: #166534; }
+        .wrong { background-color: #fee2e2 !important; border-color: #ef4444 !important; color: #991b1b; }
+
+        /* 照片牆 (田字型，升級佈局) */
+        .photo-grid {
             display: grid;
             grid-template-columns: 1fr 1fr;
             gap: 10px;
-            margin-top: 15px;
+            width: 100%;
         }
 
         .media-item img, .media-item iframe {
             width: 100%;
-            height: 120px;
+            height: 110px;
             object-fit: cover;
             border-radius: 12px;
             border: 1px solid #eee;
         }
-
-        /* 互動小遊戲按鈕 */
-        .game-choice {
-            width: 100%;
-            padding: 15px;
-            margin: 8px 0;
-            border-radius: 15px;
-            border: 2px solid #ddd;
-            background: #fff;
-            font-size: 16px;
-            cursor: pointer;
-        }
-
-        .correct { background-color: #dcfce7 !important; border-color: #22c55e !important; color: #166534; }
     </style>
 </head>
 <body>
 
-    <model-viewer 
-        src="https://cdn.jsdelivr.net/gh/yenmeiomni/animal-game@main/Polarbear-v1.glb" 
-        auto-rotate camera-controls ar shadow-intensity="1">
-    </model-viewer>
+    <div class="model-section">
+        <h1 class="header-title">北極熊</h1>
+        
+        <model-viewer 
+            src="https://cdn.jsdelivr.net/gh/yenmeiomni/animal-game@main/Polarbear-v1.glb" 
+            auto-rotate camera-controls ar shadow-intensity="1">
+        </model-viewer>
 
-    <div class="container">
-        <h2 style="text-align: center; color: var(--primary-color);">🐾 北極熊探索教室</h2>
+        <svg class="bunting-svg" viewBox="0 0 100 100" preserveAspectRatio="none">
+            <path d="M0,0 L0,50 L50,100 L100,50 L100,0 Z" fill="white"/>
+        </svg>
+    </div>
 
-        <div class="menu">
-            <button class="btn" onclick="showSection('features')">🔍 身體特徵</button>
-            <button class="btn" onclick="showSection('facts')">💡 生態知識</button>
-            <button class="btn" onclick="showSection('photos')">🖼️ 影像牆</button>
-            <button class="btn" onclick="showSection('game')">🎮 挑戰家園</button>
+    <div class="content-section">
+        <div class="snowflake">❄️</div>
+
+        <div class="main-layout">
+            <div class="media-item">
+                <img src="https://cdn.jsdelivr.net/gh/yenmeiomni/animal-game@main/你的北極熊生活照.jpg" alt="北極熊" style="height: auto;">
+            </div>
+
+            <div class="menu-btn-group">
+                <button class="btn" onclick="showSection('features')">認識我</button>
+                <button class="btn" onclick="showSection('facts')">尋找線索</button>
+                <button class="btn" onclick="showSection('photos')">小影片</button>
+                <button class="btn" onclick="showSection('game')">互動遊戲</button>
+            </div>
         </div>
 
         <div id="features" class="info-box">
-            <h3 style="color: var(--primary-color);">🔍 身體特徵</h3>
+            <h3>🔍 身體特徵</h3>
             <ul>
-                <li><b>皮膚是黑色的：</b>用來吸收陽光熱量。</li>
-                <li><b>中空的毛：</b>其實是透明的，看起來白是反射光。</li>
+                <li><b>透明中空的毛：</b>其實是透明的，看起來白是反射光線。</li>
+                <li><b>黑色的皮膚：</b>毛下面其實是黑色的皮膚，用來吸收陽光熱量。</li>
+                <li><b>禦寒專家：</b>擁有非常厚實的皮下脂肪和羽毛般的毛。</li>
             </ul>
         </div>
 
+        <div id="facts" class="info-box">
+            <h3>💡 生態知識</h3>
+            <p>北極熊生活在寒冷的北極，牠們是游泳健將，主要在海冰上捕食海豹喔！</p>
+        </div>
+
         <div id="photos" class="info-box">
-            <h3 style="color: var(--primary-color);">🖼️ 影像牆</h3>
-            <div class="media-grid">
-                <div class="media-item">
-                    <img src="./polarbear_photo_01.jpg">
-                </div>
-                <div class="media-item" style="position: relative;">
-                    <iframe src="https://www.youtube.com/embed/0Pi0Pd4Cvqg?rel=0" allowfullscreen></iframe>
-                </div>
-                <div class="media-item">
-                    <img src="./polarbear_photo_02.png">
-                </div>
-                <div class="media-item">
-                    <img src="./polarbear_photo_03.jpg">
-                </div>
+            <h3>🖼️ 影像牆</h3>
+            <div class="photo-grid">
+                <div class="media-item"><img src="./polarbear_photo_01.jpg"></div>
+                <div class="media-item" style="position: relative;"><iframe src="https://www.youtube.com/embed/0Pi0Pd4Cvqg?rel=0" allowfullscreen></iframe></div>
+                <div class="media-item"><img src="./polarbear_photo_02.png"></div>
+                <div class="media-item"><img src="./polarbear_photo_03.jpg"></div>
             </div>
         </div>
 
         <div id="game" class="info-box">
-            <h3>🎮 建造家園</h3>
-            <p>北極熊最適合住在？</p>
-            <button class="game-choice" onclick="checkAns(this, true)">❄️ 寒冷的冰原</button>
-            <button class="game-choice" onclick="checkAns(this, false)">🏜️ 炎熱的沙漠</button>
-            <p id="msg" style="text-align: center; font-weight: bold;"></p>
+            <div style="text-align: center;">
+                <button class="game-title-btn">互動遊戲</button>
+            </div>
+
+            <img src="https://cdn.jsdelivr.net/gh/yenmeiomni/animal-game@main/你的遊戲積木照片.jpg" alt="互動積木" style="width: 100%; border-radius: 15px;">
+
+            <p class="game-desc">
+                北極熊毛很厚最喜歡待在冷冷的環境中吹風<br>
+                <b>請問下面哪一個環境是北極熊的家？</b>
+            </p>
+            
+            <div class="game-choices">
+                <button class="choice-btn" onclick="checkGameAns(this, false)">🏜️ 炎熱的沙漠環境</button>
+                
+                <button class="choice-btn" onclick="checkGameAns(this, true)">❄️ 寒冷的冰原環境</button>
+            </div>
+            
+            <p id="game-feedback" style="text-align: center; font-weight: bold; margin-top: 15px; font-size: 18px;"></p>
         </div>
     </div>
 
     <script>
-        // 切換顯示區塊的指令
+        // 【指令 1：切換顯示區塊】
         function showSection(id) {
+            // 先把所有框框藏起來
             document.querySelectorAll('.info-box').forEach(box => box.style.display = 'none');
+            // 顯示被點擊的那一個
             const target = document.getElementById(id);
             target.style.display = 'block';
+            // 自動捲動到該框框
             target.scrollIntoView({ behavior: 'smooth' });
         }
 
-        // 遊戲判斷指令
-        function checkAns(btn, isCorrect) {
-            const msg = document.getElementById('msg');
+        // 【指令 2：遊戲判斷指令】
+        function checkGameAns(btn, isCorrect) {
+            const feedback = document.getElementById('game-feedback');
+            // 先重設所有按鈕樣式
+            document.querySelectorAll('.choice-btn').forEach(b => b.classList.remove('correct', 'wrong'));
+            
             if(isCorrect) {
                 btn.classList.add('correct');
-                msg.innerText = "🎉 答對了！你太棒了！";
-                msg.style.color = "#22c55e";
+                feedback.innerText = "🎉 答對了！我最喜歡冰原積木了！";
+                feedback.style.color = "#22c55e"; // 綠色
             } else {
-                msg.innerText = "❌ 答錯囉，再試一次！";
-                msg.style.color = "#ef4444";
+                btn.classList.add('wrong');
+                feedback.innerText = "❌ 哎呀，這裡對我來說太熱了啦！";
+                feedback.style.color = "#ef4444"; // 紅色
             }
         }
     </script>
