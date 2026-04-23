@@ -3,61 +3,113 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>動物教具互動網頁</title>
+    <title>北極熊探索教室</title>
     <script type="module" src="https://ajax.googleapis.com/ajax/libs/model-viewer/3.5.0/model-viewer.min.js"></script>
     <style>
-        body { margin: 0; background: #fdf6e3; font-family: sans-serif; display: flex; flex-direction: column; align-items: center; }
-        .container { width: 95%; max-width: 600px; padding: 20px; }
-        /* 3D 視窗高度固定，方便兒童操作 */
-        model-viewer { width: 100%; height: 400px; background: radial-gradient(#ffffff, #e0e0e0); border-radius: 20px; box-shadow: 0 8px 16px rgba(0,0,0,0.1); }
-        .nav-buttons { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; margin-top: 20px; }
-        .btn { padding: 15px; border: none; border-radius: 12px; font-size: 16px; font-weight: bold; cursor: pointer; color: white; transition: 0.2s; }
-        .btn-1 { background: #4a90e2; } /* 特徵 */
-        .btn-2 { background: #f5a623; } /* 知識 */
-        .btn-3 { background: #7ed321; } /* 圖片 */
-        .btn-4 { background: #d0021b; } /* 遊戲 */
-        .content-box { background: white; padding: 20px; border-radius: 15px; margin-top: 20px; display: none; box-shadow: 0 4px 6px rgba(0,0,0,0.05); }
+        :root { --main-color: #0077be; --bg-color: #f0f8ff; }
+        body { margin: 0; font-family: "PingFang TC", sans-serif; background-color: var(--bg-color); display: flex; flex-direction: column; align-items: center; }
+        .container { width: 100%; max-width: 500px; padding-bottom: 50px; }
+        
+        /* 3D 模型區 */
+        model-viewer { width: 100%; height: 400px; background: white; }
+
+        /* 動物標題 */
+        .header { text-align: center; padding: 20px; }
+        .header h1 { margin: 0; color: var(--main-color); }
+
+        /* 四大分類按鈕 */
+        .menu { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; padding: 15px; }
+        .btn { background: white; border: 2px solid var(--main-color); padding: 15px; border-radius: 15px; font-size: 16px; font-weight: bold; cursor: pointer; color: var(--main-color); transition: 0.3s; }
+        .btn:active { background: var(--main-color); color: white; transform: scale(0.95); }
+
+        /* 資訊顯示框 */
+        .info-box { background: white; margin: 0 15px; padding: 20px; border-radius: 20px; box-shadow: 0 5px 15px rgba(0,0,0,0.05); display: none; animation: fadeIn 0.5s; }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+        
+        .info-box h3 { margin-top: 0; color: var(--main-color); border-left: 5px solid var(--main-color); padding-left: 10px; }
+        
+        /* 圖片牆 */
+        .photo-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+        .photo-grid img { width: 100%; border-radius: 10px; border: 1px solid #ddd; }
+
+        /* 遊戲區域 */
+        .game-btn { width: 100%; padding: 15px; margin: 10px 0; border-radius: 10px; border: none; font-size: 18px; cursor: pointer; background: #e0e0e0; }
+        .correct { background: #d4edda; color: #155724; border: 2px solid #c3e6cb; }
     </style>
 </head>
 <body>
 
-    <div class="container">
-        <h1>🦁 我的動物真的來了！</h1>
+<div class="container">
+    <model-viewer 
+        src="https://cdn.jsdelivr.net/gh/yenmeiomni/animal-game@main/Polarbear-v1.glb" 
+        auto-rotate camera-controls ar shadow-intensity="1">
+    </model-viewer>
 
-        <model-viewer 
-            src="./Polarbear-v1.glb" 
-            auto-rotate 
-            camera-controls 
-            ar
-            shadow-intensity="1">
-        </model-viewer>
-
-        <div class="nav-buttons">
-            <button class="btn btn-1" onclick="showSection('features')">🔍 身體特徵</button>
-            <button class="btn btn-2" onclick="showSection('facts')">💡 冷知識</button>
-            <button class="btn btn-3" onclick="showSection('photos')">🖼️ 照片牆</button>
-            <button class="btn btn-4" onclick="showSection('game')">🏗️ 建造家園</button>
-        </div>
-
-        <div id="features" class="content-box"><h3>🔍 身體特徵</h3><p>這隻動物擁有強大的肌肉與靈敏的聽覺...</p></div>
-        <div id="facts" class="content-box"><h3>💡 冷知識</h3><p>你知道嗎？牠們一天可以睡 20 個小時喔！</p></div>
-        <div id="photos" class="content-box"><h3>🖼️ 照片牆</h3><p>（這裡之後可以放入你的圖片檔案）</p></div>
-        <div id="game" class="content-box">
-            <h3>🏗️ 建造家園</h3>
-            <p>請拿起你的【地形積木】，這隻動物應該住在森林還是沙漠？</p>
-            <button onclick="alert('正確！牠喜歡潮濕的森林環境。')">我選森林</button>
-        </div>
+    <div class="header">
+        <h1>🐾 北極熊探索教室</h1>
+        <p>滑動模型觀察，點選下方看更多！</p>
     </div>
 
-    <script>
-        function showSection(id) {
-            // 先隱藏所有框框
-            document.querySelectorAll('.content-box').forEach(el => el.style.display = 'none');
-            // 顯示被點擊的那一個
-            document.getElementById(id).style.display = 'block';
-            // 自動捲動到內容區
-            window.scrollTo({ top: document.body.scrollHeight, behavior: 'smooth' });
+    <div class="menu">
+        <button class="btn" onclick="showContent('features')">🔍 身體特徵</button>
+        <button class="btn" onclick="showContent('facts')">💡 冷知識</button>
+        <button class="btn" onclick="showContent('photos')">🖼️ 照片牆</button>
+        <button class="btn" onclick="showContent('game')">🎮 建造家園</button>
+    </div>
+
+    <div id="features" class="info-box">
+        <h3>🔍 身體特徵</h3>
+        <p>1. <b>透明的毛：</b>北極熊的毛其實是透明中空的，可以反射光線看起來是白色的。</p>
+        <p>2. <b>黑色的皮膚：</b>毛下面其實是黑色的皮膚，用來吸收太陽熱量。</p>
+        <p>3. <b>大腳掌：</b>像雪鞋一樣，讓牠們在冰上行走不會滑倒。</p>
+    </div>
+
+    <div id="facts" class="info-box">
+        <h3>💡 冷知識</h3>
+        <p>● 北極熊其實是「游泳健將」，牠們可以在海裡連續游好幾天！</p>
+        <p>● 牠們的嗅覺超級靈敏，可以聞到 1 公里外冰層下的海豹喔。</p>
+    </div>
+
+    <div id="photos" class="info-box">
+        <h3>🖼️ 真實生活照片牆</h3>
+        <div class="photo-grid">
+            <img src="polar_bear_1.jpg" alt="生活照1">
+            <img src="polar_bear_2.jpg" alt="生活照2">
+        </div>
+        <p style="font-size: 12px; color: gray; margin-top: 10px;">(提示：點擊按鈕可切換內容)</p>
+    </div>
+
+    <div id="game" class="info-box">
+        <h3>🎮 建造家園小遊戲</h3>
+        <p>請拿起你的<b>【地形積木】</b>，北極熊最適合住在下面哪一個環境呢？</p>
+        <button class="game-btn" onclick="playGame(false, this)">🏜️ 沙漠積木 (很熱)</button>
+        <button class="game-btn" onclick="playGame(true, this)">❄️ 冰原積木 (寒冷)</button>
+        <p id="game-feedback" style="font-weight: bold; text-align: center; margin-top: 10px;"></p>
+    </div>
+</div>
+
+<script>
+    function showContent(id) {
+        // 隱藏所有方框
+        document.querySelectorAll('.info-box').forEach(div => div.style.display = 'none');
+        // 顯示點選的那一個
+        document.getElementById(id).style.display = 'block';
+        // 捲動到下方
+        window.scrollTo({ top: document.body.scrollHeight, behavior: 'smooth' });
+    }
+
+    function playGame(isCorrect, btn) {
+        const feedback = document.getElementById('game-feedback');
+        if(isCorrect) {
+            btn.classList.add('correct');
+            feedback.innerText = "✅ 太棒了！北極熊最喜歡冰天雪地的家！";
+            feedback.style.color = "green";
+        } else {
+            feedback.innerText = "❌ 哎呀，沙漠對北極熊來說太熱了，換一個積木試試？";
+            feedback.style.color = "red";
         }
-    </script>
+    }
+</script>
+
 </body>
 </html>
