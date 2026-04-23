@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>動物教具互動網頁</title>
+    <script type="module" src="https://unpkg.com/@google/model-viewer/dist/model-viewer.min.js"></script>
+    <style>
+        body { margin: 0; background: #fdf6e3; font-family: sans-serif; display: flex; flex-direction: column; align-items: center; }
+        .container { width: 95%; max-width: 600px; padding: 20px; }
+        /* 3D 視窗高度固定，方便兒童操作 */
+        model-viewer { width: 100%; height: 400px; background: radial-gradient(#ffffff, #e0e0e0); border-radius: 20px; box-shadow: 0 8px 16px rgba(0,0,0,0.1); }
+        .nav-buttons { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; margin-top: 20px; }
+        .btn { padding: 15px; border: none; border-radius: 12px; font-size: 16px; font-weight: bold; cursor: pointer; color: white; transition: 0.2s; }
+        .btn-1 { background: #4a90e2; } /* 特徵 */
+        .btn-2 { background: #f5a623; } /* 知識 */
+        .btn-3 { background: #7ed321; } /* 圖片 */
+        .btn-4 { background: #d0021b; } /* 遊戲 */
+        .content-box { background: white; padding: 20px; border-radius: 15px; margin-top: 20px; display: none; box-shadow: 0 4px 6px rgba(0,0,0,0.05); }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <h1>🐾 探索動物夥伴</h1>
+
+        <model-viewer 
+            src="https://github.com/yenmeiomni/animal-game/raw/ad77267f1a4b95f59ffcf3023ee88175cb03748f/Polarbear-v1.glb" 
+            auto-rotate camera-controls ar shadow-intensity="1">
+        </model-viewer>
+
+        <div class="nav-buttons">
+            <button class="btn btn-1" onclick="showSection('features')">🔍 身體特徵</button>
+            <button class="btn btn-2" onclick="showSection('facts')">💡 冷知識</button>
+            <button class="btn btn-3" onclick="showSection('photos')">🖼️ 照片牆</button>
+            <button class="btn btn-4" onclick="showSection('game')">🏗️ 建造家園</button>
+        </div>
+
+        <div id="features" class="content-box"><h3>🔍 身體特徵</h3><p>這隻動物擁有強大的肌肉與靈敏的聽覺...</p></div>
+        <div id="facts" class="content-box"><h3>💡 冷知識</h3><p>你知道嗎？牠們一天可以睡 20 個小時喔！</p></div>
+        <div id="photos" class="content-box"><h3>🖼️ 照片牆</h3><p>（這裡之後可以放入你的圖片檔案）</p></div>
+        <div id="game" class="content-box">
+            <h3>🏗️ 建造家園</h3>
+            <p>請拿起你的【地形積木】，這隻動物應該住在森林還是沙漠？</p>
+            <button onclick="alert('正確！牠喜歡潮濕的森林環境。')">我選森林</button>
+        </div>
+    </div>
+
+    <script>
+        function showSection(id) {
+            // 先隱藏所有框框
+            document.querySelectorAll('.content-box').forEach(el => el.style.display = 'none');
+            // 顯示被點擊的那一個
+            document.getElementById(id).style.display = 'block';
+            // 自動捲動到內容區
+            window.scrollTo({ top: document.body.scrollHeight, behavior: 'smooth' });
+        }
+    </script>
+</body>
+</html>
