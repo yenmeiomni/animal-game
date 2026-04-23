@@ -3,14 +3,15 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>北極熊可愛探索網頁</title>
+    <title>北極熊可愛探索網頁-鑽石版</title>
     <script type="module" src="https://ajax.googleapis.com/ajax/libs/model-viewer/3.5.0/model-viewer.min.js"></script>
     
     <style>
         :root {
-            --dusty-blue: #7ba2c1;
+            --dusty-blue: #7ba2c1;   /* 冰山區背景色 */
             --white: #ffffff;
-            --btn-blue: #72a2d4;
+            --btn-light-blue: #7bb5e3; /* 按鈕內淺藍 (image_3) */
+            --btn-dark-blue: #2c689c;  /* 按鈕外框深藍 (image_3) */
             --text-color: #333333;
         }
 
@@ -20,94 +21,160 @@
             display: flex; flex-direction: column; align-items: center; overflow-x: hidden;
         }
 
-        /* 【區塊 A: 3D 視窗與雲朵對話框】 */
+        /* 🎵 保持不變：區塊 A - 3D 視窗與雲朵音效 */
         .model-section {
             width: 100%; background-color: var(--dusty-blue);
             padding-bottom: 60px; position: relative;
             display: flex; flex-direction: column; align-items: center;
+            z-index: 1; /* 確保在冰山之上 */
         }
 
-        /* 雲朵對話框 */
         .cloud-speech {
             position: relative; background: #fff; border-radius: 50px;
             padding: 15px 30px; margin-top: 30px; font-weight: bold; font-size: 20px;
             box-shadow: 0 5px 15px rgba(0,0,0,0.1); display: flex; align-items: center;
         }
-        .cloud-speech::after { /* 雲朵的小尾巴 */
+        .cloud-speech::after {
             content: ''; position: absolute; bottom: -10px; left: 50%;
             width: 20px; height: 20px; background: white; border-radius: 50%; transform: translateX(-50%);
         }
 
-        /* 小喇叭按鈕 */
-        .speaker-btn {
-            margin-left: 10px; cursor: pointer; font-size: 24px;
-            transition: transform 0.2s;
-        }
+        .speaker-btn { margin-left: 10px; cursor: pointer; font-size: 24px; transition: transform 0.2s; }
         .speaker-btn:active { transform: scale(1.2); }
 
         model-viewer { width: 100%; height: 320px; background: transparent; }
 
-        /* 【兩座小冰山轉場】取代三角旗 */
+        /* 🏔️ 保持不變：兩座小冰山轉場 */
         .iceberg-container {
-            position: absolute; bottom: 0; left: 0; width: 100%; height: 60px; pointer-events: none;
+            position: absolute; bottom: 0; left: 0; width: 100%; height: 60px; pointer-events: none; z-index: 2;
         }
-        .iceberg-left { /* 左邊大冰山 */
+        .iceberg-left {
             position: absolute; bottom: 0; left: -10%; width: 70%; height: 100%;
             background-color: white; clip-path: polygon(0% 100%, 30% 20%, 100% 100%);
         }
-        .iceberg-right { /* 右邊小冰山 */
+        .iceberg-right {
             position: absolute; bottom: 0; right: -5%; width: 50%; height: 60%;
             background-color: white; opacity: 0.8; clip-path: polygon(0% 100%, 50% 10%, 100% 100%);
         }
 
-        /* 【區塊 B: 內容與六邊形按鈕】 */
+        /* ========================================= */
+        /* 💎 核心修改：冰山轉場以下的內容區 */
+        /* ========================================= */
+        
         .content-section {
-            width: 100%; padding: 40px 20px; box-sizing: border-box;
-            background: url('https://www.transparenttextures.com/patterns/paws.png'); /* 這裡會顯示淡淡的小腳印圖案 */
+            width: 100%; 
+            /* 調整 paddingTop，讓內容在冰山下方自然浮現，且留白符合兒童繪本感 */
+            padding: 80px 20px 40px 20px; 
+            box-sizing: border-box;
+            background-color: var(--white);
             display: flex; flex-direction: column; align-items: center;
+            position: relative;
+            z-index: 0; /* 在冰山下方 */
         }
 
-        .main-layout {
-            display: grid; grid-template-columns: 1fr 1fr; gap: 20px;
-            width: 100%; max-width: 400px; align-items: center;
+        /* 鑽石佈局容器 (CSS Grid 超強應用) */
+        .diamond-grid-container {
+            position: relative;
+            width: 100%;
+            max-width: 360px; /* 控制菱形整體的寬度 */
+            height: 480px; /* 控制菱形整體的高度 */
+            margin: 0 auto;
+            /* 定義一個 2x3 的網格，並讓格子稍微重疊 */
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            grid-template-rows: 1fr 1fr 1fr;
+            gap: 0px; /* 重疊核心：gap 設為 0 */
+            justify-items: center;
+            align-items: center;
         }
 
-        /* 按鈕路徑動畫：由下往上浮現 */
-        .menu-btn-group {
-            display: flex; flex-direction: column; gap: 10px;
-            animation: slideUp 1s ease-out;
-        }
-        @keyframes slideUp {
-            from { opacity: 0; transform: translateY(50px); }
-            to { opacity: 1; transform: translateY(0); }
+        /* 【菱形按鈕基礎樣式】 */
+        .diamond-btn {
+            position: relative;
+            width: 160px; /* 按鈕寬度 */
+            height: 160px; /* 按鈕高度 */
+            background-color: var(--btn-light-blue);
+            border: 10px solid var(--btn-dark-blue); /* 深藍粗邊框 */
+            box-sizing: border-box;
+            cursor: pointer;
+            transition: all 0.3s ease; /* 平滑過渡 */
+            display: flex; justify-content: center; align-items: center;
+            text-align: center;
+            box-shadow: 0 6px 12px rgba(0,0,0,0.1);
+            
+            /* 將六邊形旋轉變成菱形 */
+            clip-path: polygon(50% 0%, 100% 25%, 100% 75%, 50% 100%, 0% 75%, 0% 25%);
+            transform: rotate(0deg); /* 預設不旋轉，clip-path 已經定義好菱形形狀 */
         }
 
-        /* 【六邊形按鈕】 */
-        .btn-hex {
-            background: var(--btn-blue); color: white; border: none;
-            width: 120px; height: 45px; font-weight: bold; cursor: pointer;
-            clip-path: polygon(15% 0%, 85% 0%, 100% 50%, 85% 100%, 15% 100%, 0% 50%);
-            transition: all 0.3s; margin: 5px 0;
+        /* 【新的點擊特效】按下去只放大，不換色 */
+        .diamond-btn:active {
+            transform: scale(1.1) translateY(-5px); /* 放大 1.1 倍並微微浮起 */
+            box-shadow: 0 10px 20px rgba(0,0,0,0.15);
+            z-index: 10; /* 確保放大的按鈕不會被其他按鈕擋住 */
         }
-        .btn-hex:active { background: #5a8bbd; transform: scale(0.9); }
 
-        /* 資訊顯示框 */
+        /* 按鈕文字 */
+        .diamond-btn span {
+            color: white;
+            font-size: 22px;
+            font-weight: bold;
+            line-height: 1.2;
+            padding: 0 15px;
+            /* 文字不隨按鈕旋轉 (如果 clip-path 定義的是六邊形再旋轉才需要，這裡不需要) */
+        }
+
+        /* 【重疊與定位】讓格子疊在一起 */
+        .btn-top { grid-column: 1 / span 2; grid-row: 1; transform: translateY(40px); }
+        .btn-left { grid-column: 1; grid-row: 2; transform: translateX(30px); }
+        .btn-right { grid-column: 2; grid-row: 2; transform: translateX(-30px); }
+        .btn-bottom { grid-column: 1 / span 2; grid-row: 3; transform: translateY(-40px); }
+
+        /* 重設 active 時的偏移 */
+        .diamond-btn:active.btn-top { transform: scale(1.1) translateY(35px); }
+        .diamond-btn:active.btn-left { transform: scale(1.1) translateX(35px) translateY(-5px); }
+        .diamond-btn:active.btn-right { transform: scale(1.1) translateX(-35px) translateY(-5px); }
+        .diamond-btn:active.btn-bottom { transform: scale(1.1) translateY(-45px); }
+
+
+        /* 【雪花與腳印裝飾】來自 image_3 */
+        .deco-icon { position: absolute; pointer-events: none; opacity: 0.8; }
+        .snowflake { color: #00bfff; font-size: 35px; }
+        .paws { color: #555; font-size: 35px; transform: rotate(-15deg); }
+
+        /* 定位雪花與腳印 */
+        .deco-1 { top: 100px; left: 10px; } /* 左上雪花 */
+        .deco-2 { top: 20px; right: 20px; }  /* 右上腳印 */
+        .deco-3 { bottom: 100px; left: 10px; } /* 左下腳印 */
+        .deco-4 { bottom: 60px; right: 30px; } /* 右下雪花 */
+
+
+        /* ----------------------------------------- */
+        /* 保持不變：資訊顯示框與遊戲/影像牆樣式 */
+        /* ----------------------------------------- */
         .info-box { 
-            width: 100%; max-width: 400px; margin-top: 20px; display: none;
-            background: white; border-radius: 20px; padding: 20px;
-            box-shadow: 0 8px 20px rgba(0,0,0,0.05); border: 2px dashed var(--dusty-blue);
+            width: 100%; max-width: 400px; margin-top: 30px; display: none;
+            background: white; border-radius: 20px; padding: 25px;
+            box-shadow: 0 8px 25px rgba(0,0,0,0.06); 
+            border: 2px dashed var(--btn-dark-blue); /* 使用按鈕深藍做虛線框 */
+            animation: fadeIn 0.4s ease-out;
         }
 
-        .photo-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
-        .media-item img, .media-item iframe { width: 100%; height: 110px; object-fit: cover; border-radius: 12px; }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(15px); } to { opacity: 1; transform: translateY(0); } }
 
-        /* 遊戲按鈕同樣設定為六邊形 */
-        .game-choice-hex {
-            width: 100%; padding: 15px; border: 2px solid var(--btn-blue);
-            background: white; border-radius: 15px; font-size: 16px; margin: 10px 0;
-            cursor: pointer; transition: 0.3s;
+        .info-box h3 { color: var(--btn-dark-blue); margin-top: 0; border-left: 5px solid var(--btn-dark-blue); padding-left: 10px; }
+
+        .photo-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+        .media-item img, .media-item iframe { width: 100%; height: 120px; object-fit: cover; border-radius: 12px; border: 1px solid #eee; }
+
+        .game-choice-rect {
+            width: 100%; padding: 18px; border: 2px solid var(--btn-dark-blue);
+            background: white; border-radius: 15px; font-size: 17px; margin: 12px 0;
+            cursor: pointer; transition: 0.3s; font-weight: bold; color: var(--btn-dark-blue);
         }
-        .correct { background: #dcfce7 !important; border-color: #22c55e !important; }
+        .game-choice-rect:active { background-color: #f0f7ff; }
+        .correct { background: #dcfce7 !important; border-color: #22c55e !important; color: #166534 !important; }
+        .wrong { background: #fee2e2 !important; border-color: #ef4444 !important; color: #991b1b !important; }
     </style>
 </head>
 <body>
@@ -127,27 +194,46 @@
     </div>
 
     <div class="content-section">
-        <div class="main-layout">
-            <img src="https://cdn.jsdelivr.net/gh/yenmeiomni/animal-game@main/你的北極熊生活照.jpg" style="width: 100%; border-radius: 20px;">
+        
+        <div class="diamond-grid-container">
+            
+            <div class="deco-icon snowflake deco-1">❄️</div>
+            <div class="deco-icon paws deco-2">🐾</div>
+            <div class="deco-icon paws deco-3">🐾</div>
+            <div class="deco-icon snowflake deco-4">❄️</div>
 
-            <div class="menu-btn-group">
-                <button class="btn-hex" onclick="show('features')">認識我</button>
-                <button class="btn-hex" onclick="show('facts')">尋找線索</button>
-                <button class="btn-hex" onclick="show('photos')">小影片</button>
-                <button class="btn-hex" onclick="show('game')">互動遊戲</button>
+            <div class="diamond-btn btn-top" onclick="show('features')">
+                <span>認識我</span>
+            </div>
+            <div class="diamond-btn btn-left" onclick="show('facts')">
+                <span>小小秘密</span>
+            </div>
+            <div class="diamond-btn btn-right" onclick="show('game')">
+                <span>互動遊戲</span>
+            </div>
+            <div class="diamond-btn btn-bottom" onclick="show('photos')">
+                <span>生活影像</span>
             </div>
         </div>
 
         <div id="features" class="info-box">
-            <h3>🐾 我的小秘密</h3>
-            <p>● 我的皮膚其實是黑色的喔！<br>● 我的腳掌很大，走路不會滑倒。</p>
+            <h3>🔍 我的小秘密</h3>
+            <ul>
+                <li><b>最大的企鵝：</b>皇帝企鵝是所有企鵝中體型最大的。</li>
+                <li><b>禦寒專家：</b>擁有非常厚實的羽毛和皮下脂肪。</li>
+            </ul>
+        </div>
+
+        <div id="facts" class="info-box">
+            <h3>💡 生態知識</h3>
+            <p>北極熊生活在寒冷的北極，牠們是游泳健將，主要在海冰上捕食海豹喔！</p>
         </div>
 
         <div id="photos" class="info-box">
-            <h3>🖼️ 影像牆</h3>
+            <h3>🖼️ 生活影像牆</h3>
             <div class="photo-grid">
                 <div class="media-item"><img src="./polarbear_photo_01.jpg"></div>
-                <div class="media-item"><iframe src="https://www.youtube.com/embed/0Pi0Pd4Cvqg?rel=0"></iframe></div>
+                <div class="media-item" style="position: relative;"><iframe src="https://www.youtube.com/embed/0Pi0Pd4Cvqg?rel=0" allowfullscreen></iframe></div>
                 <div class="media-item"><img src="./polarbear_photo_02.png"></div>
                 <div class="media-item"><img src="./polarbear_photo_03.jpg"></div>
             </div>
@@ -155,11 +241,16 @@
 
         <div id="game" class="info-box">
             <h3 style="text-align:center">🎮 找找我的家</h3>
-            <img src="https://cdn.jsdelivr.net/gh/yenmeiomni/animal-game@main/你的積木照片.jpg" style="width:100%; border-radius:15px;">
-            <p style="text-align:center">哪一個環境是北極熊的家呢？</p>
-            <button class="game-choice-hex" onclick="ans(this, false)">🏜️ 炎熱沙漠</button>
-            <button class="game-choice-hex" onclick="ans(this, true)">❄️ 寒冷冰原</button>
-            <p id="feedback" style="text-align:center; font-weight:bold"></p>
+            <img src="https://cdn.jsdelivr.net/gh/yenmeiomni/animal-game@main/你的積木照片.jpg" alt="互動積木" style="width:100%; border-radius:15px; margin-bottom:15px; border:2px solid #ddd;">
+            
+            <p style="text-align:center; font-size:18px; line-height:1.6;">
+                北極熊毛很厚最喜歡待在冷冷的環境中吹風<br>
+                <b>請問下面哪一個環境是北極熊的家？</b>
+            </p>
+            
+            <button class="game-choice-rect" onclick="ans(this, false)">🌳 濕熱的雨林環境</button>
+            <button class="game-choice-rect" onclick="ans(this, true)">❄️ 寒冷的冰原環境</button>
+            <p id="feedback" style="text-align:center; font-weight:bold; font-size:18px; margin-top:15px;"></p>
         </div>
     </div>
 
@@ -170,21 +261,34 @@
             document.getElementById('bearSound').play();
         }
 
+        // 【切換顯示區塊指令】
         function show(id) {
+            // 先把所有框框藏起來
             document.querySelectorAll('.info-box').forEach(b => b.style.display = 'none');
+            // 顯示被點擊的那一個
             const target = document.getElementById(id);
             target.style.display = 'block';
-            target.scrollIntoView({ behavior: 'smooth' });
+            // 自動捲動到該框框 (加上一點偏移，避免框框頂部貼著按鈕)
+            setTimeout(() => {
+                const yOffset = -50; 
+                const y = target.getBoundingClientRect().top + window.pageYOffset + yOffset;
+                window.scrollTo({top: y, behavior: 'smooth'});
+            }, 100);
         }
 
+        // 【遊戲判斷指令】
         function ans(btn, isCorrect) {
             const f = document.getElementById('feedback');
+            // 先重設所有按鈕樣式
+            document.querySelectorAll('.game-choice-rect').forEach(b => b.classList.remove('correct', 'wrong'));
+            
             if(isCorrect) {
                 btn.classList.add('correct');
-                f.innerText = "🎉 答對了！好涼快呀！";
+                f.innerText = "🎉 答對了！我最喜歡冰原積木了！";
                 f.style.color = "green";
             } else {
-                f.innerText = "❌ 嗚～這裡太熱了啦！";
+                btn.classList.add('wrong');
+                f.innerText = "❌ 嗚～這裡太熱了啦！換一個積木試試？";
                 f.style.color = "red";
             }
         }
