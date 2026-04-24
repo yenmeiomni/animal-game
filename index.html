@@ -211,13 +211,22 @@
         </div>
 
         <div id="box3" class="info-card">
-            <h3 style="justify-content: center;">🎮 找找我的家</h3>
-            <img src="https://cdn.jsdelivr.net/gh/yenmeiomni/animal-game@main/你的積木照片.jpg" style="width:100%; border-radius:20px; margin-bottom:15px;">
-            <p style="text-align:center;"><b>請問下面哪一個環境是我的家？</b></p>
-            <button class="game-btn" onclick="check(this, false)">🏜️ 炎熱的沙漠</button>
-            <button class="game-btn" onclick="check(this, true)">❄️ 寒冷的冰原</button>
-            <p id="msg" style="text-align:center; font-weight:bold; margin-top:15px;"></p>
-        </div>
+    <h3 style="justify-content: center; width: 100%; display: flex;">🎮 找找我的家</h3>
+    
+    <div class="ice-photo-frame">
+        <img src="https://cdn.jsdelivr.net/gh/yenmeiomni/animal-game@main/你的積木照片.jpg" alt="互動積木照片">
+    </div>
+
+    <div class="description-text" style="text-align: center; margin-bottom: 20px;">
+        <p>北極熊毛很厚，最喜歡待在冷冷的環境中吹風...<br>
+           <b>請低頭找找看，哪一個積木是我的家？</b></p>
+    </div>
+    
+    <button class="game-btn" onclick="check(this, false)">🏜️ 炎熱的沙漠積木</button>
+    <button class="game-btn" onclick="check(this, true)">❄️ 寒冷的冰原積木</button>
+    
+    <p id="msg" style="text-align:center; font-weight:bold; margin-top:15px; font-size: 18px;"></p>
+</div>
     </div>
 
     <audio id="snd" src="https://www.soundjay.com/nature/sounds/bear-growl-01.mp3"></audio>
