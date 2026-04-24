@@ -331,7 +331,11 @@
     <audio id="snd" src="https://www.soundjay.com/nature/sounds/Polar Bear - Sound Effect _ ProSounds.mp3"></audio>
 
     <script>
-        function playAudio() { document.getElementById('snd').play(); }
+        function playAudio() { 
+            const audio = document.getElementById('snd');
+            audio.volume = 0.5; // 0.0 是靜音，1.0 是最大聲，這裡設定為一半
+            audio.play();
+        }
 
         function openBox(id) {
             document.querySelectorAll('.info-card').forEach(c => c.style.display = 'none');
