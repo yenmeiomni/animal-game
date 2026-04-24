@@ -150,6 +150,65 @@
     color: #1a4a73;
     font-size: 20px;
 }
+
+        /* --- 翻轉卡片容器 --- */
+.knowledge-card-container {
+    perspective: 1000px; /* 建立 3D 空間感 */
+    width: 100%;
+    height: 250px;
+    margin-bottom: 25px;
+    cursor: pointer;
+}
+
+.knowledge-card-inner {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    text-align: center;
+    transition: transform 0.8s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    transform-style: preserve-3d;
+}
+
+/* 點擊後翻轉 180 度 */
+.knowledge-card-container.flipped .knowledge-card-inner {
+    transform: rotateY(180deg);
+}
+
+/* 正面與背面共用樣式 */
+.card-front, .card-back {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    backface-visibility: hidden; /* 翻過去後隱藏背面 */
+    border-radius: 30px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    padding: 20px;
+    box-sizing: border-box;
+    box-shadow: 0 10px 0 var(--ice-shadow); /* 維持 3D 厚度感 */
+}
+
+/* 正面樣式 (冰塊感) */
+.card-front {
+    background: var(--ice-white);
+    border: 3px solid var(--ocean-blue);
+    color: var(--text-blue);
+}
+
+.card-front .q-mark {
+    font-size: 60px;
+    margin-bottom: 10px;
+}
+
+/* 背面樣式 (翻開後的顏色) */
+.card-back {
+    background: #ffffff;
+    border: 3px solid #ffd700; /* 金色邊框代表找到寶藏答案 */
+    transform: rotateY(180deg);
+    color: #333;
+}
     </style>
 </head>
 <body>
@@ -197,15 +256,48 @@
         <p><b>● 透明中空的毛</b><br>
            北極熊看起來是白色的，但毛其實是透明的管子喔！這能幫牠們收集熱量，像穿了太陽能衣。</p>
         
-        <p><b>● 黑色的皮膚</b><br>
-           在白毛下面，北極熊的皮膚其實是黑色的。黑色最會吸收熱量，讓牠們在冰天雪地也暖呼呼！</p>
+        <p><b>● 巨大的雪地靴（腳掌）</b><br>
+           我的腳掌非常大，腳底還有毛，讓我在冰上跑步也不會滑倒！</p>
+
+        <p><b>● 靈敏的黑鼻子</b><br>
+           我是北極小偵探，可以聞到很遠很遠地方的氣味喔！</p>
+           
+        <p><b>● 可愛的小耳朵</b><br>
+           為了不讓熱量跑掉，我的耳朵小小的，這就是我的保暖秘訣。</p>
     </div>
 </div>
 
         <div id="box2" class="info-card">
-            <h3>💡 獵食小祕密</h3>
-            <p>北極熊的嗅覺非常靈敏，可以聞到一公里外冰層下的氣味喔！</p>
+    <h3 style="text-align: center; width: 100%; display: block;">💡 點點看，找秘密！</h3>
+
+    <div class="knowledge-card-container" onclick="this.classList.toggle('flipped')">
+        <div class="knowledge-card-inner">
+            <div class="card-front">
+                <div class="q-mark">❓</div>
+                <p><b>北極熊真的是白色的嗎？</b></p>
+                <small>(點一下翻開看答案)</small>
+            </div>
+            <div class="card-back">
+                <p><b>✨ 其實我是透明的！</b></p>
+                <p style="font-size: 16px;">我的毛像透明吸管，會把陽光送到黑色的皮膚上，幫我吸熱保暖喔！</p>
+            </div>
         </div>
+    </div>
+
+    <div class="knowledge-card-container" onclick="this.classList.toggle('flipped')">
+        <div class="knowledge-card-inner">
+            <div class="card-front">
+                <div class="q-mark">🏊‍♂️</div>
+                <p><b>聽說我是個「大魚」？</b></p>
+                <small>(點一下翻開看答案)</small>
+            </div>
+            <div class="card-back">
+                <p><b>✨ 我是海洋生物喔！</b></p>
+                <p style="font-size: 16px;">我雖然有四隻腳，但我跟鯨魚一樣被歸類為「海洋哺乳動物」，我可以連續游好幾天都不休息！</p>
+            </div>
+        </div>
+    </div>
+</div>
         
         <div id="box4" class="info-card">
             <h3>🖼️ 影像牆</h3>
