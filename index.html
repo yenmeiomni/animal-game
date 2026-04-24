@@ -116,6 +116,40 @@
         }
         .game-btn:active { transform: translateY(3px); box-shadow: 0 2px 0 #ccddec; }
         .correct { background: #e6ffed !important; box-shadow: 0 5px 0 #b2d8b9 !important; color: #22863a !important; }
+
+        /* --- 認識我：冰磚相框與文字樣式更新 --- */
+.ice-photo-frame {
+    width: 100%;
+    background: #f0f8ff; /* 冰塊白 */
+    border-radius: 25px 40px 30px 35px; /* 這裡讓它有不規則的自然感 */
+    padding: 10px;
+    box-shadow: 0 10px 0 #7ba2c1; /* 這裡就是你想要的 3D 厚度感 */
+    margin-bottom: 25px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    overflow: hidden;
+    box-sizing: border-box;
+}
+
+.ice-photo-frame img {
+    width: 100%;
+    height: 220px; /* 如果覺得照片太高，可以改小這個數值 */
+    object-fit: cover; /* 讓照片自動填滿不變形 */
+    border-radius: 20px;
+}
+
+.description-text {
+    font-size: 18px;
+    line-height: 1.8;
+    color: #2c689c; /* 深藍色文字，小朋友比較好閱讀 */
+    text-align: left;
+}
+
+.description-text b {
+    color: #1a4a73;
+    font-size: 20px;
+}
     </style>
 </head>
 <body>
@@ -146,14 +180,20 @@
         </div>
 
         <div id="box1" class="info-card">
-            <h3>🔍 身體特徵</h3>
-            <p>● 我的毛是透明中空的，能收集陽光。<br>● 毛下面是黑色的皮膚，這能讓我保持溫暖！</p>
-        </div>
+    <div class="ice-photo-frame">
+        <img src="https://cdn.jsdelivr.net/gh/yenmeiomni/animal-game@main/你的北極熊照片.jpg" alt="北極熊真實照">
+    </div>
 
-        <div id="box2" class="info-card">
-            <h3>💡 獵食小祕密</h3>
-            <p>北極熊的嗅覺非常靈敏，可以聞到一公里外冰層下的氣味喔！</p>
-        </div>
+    <h3>🔍 身體特徵</h3>
+    
+    <div class="description-text">
+        <p><b>● 透明中空的毛</b><br>
+           北極熊看起來是白色的，但毛其實是透明的管子喔！這能幫牠們收集熱量，像穿了太陽能衣。</p>
+        
+        <p><b>● 黑色的皮膚</b><br>
+           在白毛下面，北極熊的皮膚其實是黑色的。黑色最會吸收熱量，讓牠們在冰天雪地也暖呼呼！</p>
+    </div>
+</div>
 
         <div id="box4" class="info-card">
             <h3>🖼️ 影像牆</h3>
