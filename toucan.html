@@ -52,21 +52,21 @@
         .ice-transition {
             position: absolute; bottom: 0; left: 0; width: 100%; height: 60px; pointer-events: none;
         }
-        /* 左側大樹葉 */
+        /* 左側落葉堆 */
         .ice-l { 
-            background: #2e7d32; /* 深綠葉色 */
-            /* 這裡畫出一個像左半邊葉子的弧形 */
-            clip-path: polygon(0% 0%, 100% 50%, 0% 100%, 0% 50%);
-            border-radius: 0 100% 0 100%;
+            background: #689f38; /* 橄欖綠 */
+            /* 這裡把尖端改成圓弧狀，像堆疊的葉子 */
+            border-radius: 100% 0% 100% 0% / 100% 100% 0% 0%;
+            transform: rotate(-10deg);
         }
 
-         /* 右側大樹葉 */
-         .ice-r { 
-             background: #4caf50; /* 亮綠葉色 */
-             opacity: 0.95;
-             /* 這裡畫出一個像右半邊葉子的弧形 */
-             clip-path: polygon(100% 0%, 0% 50%, 100% 100%, 100% 50%);
-             border-radius: 100% 0 100% 0;
+        /* 右側落葉堆 */
+        .ice-r { 
+            background: #8bc34a; /* 嫩草綠 */
+            opacity: 0.9;
+            /* 另一片重疊的葉子感 */
+            border-radius: 0% 100% 0% 100% / 100% 100% 0% 0%;
+            transform: rotate(10deg);
         }
         
         /* 🌊 海域內容區：冰漂浮排版 */
@@ -115,16 +115,34 @@
         }
 
         /* 📖 資訊展示框 */
+        /* --- 托哥巨嘴鳥：資訊卡片與綠色光暈特效 --- */
         .info-card {
-            width: 100%; max-width: 380px; margin-top: 40px; display: none;
-            background: white; border-radius: 30px; padding: 25px;
-            box-shadow: 0 15px 45px rgba(123, 162, 193, 0.2);
-            border: 3px solid var(--ice-white);
-            animation: icePop 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            display: none;
+            position: relative;
+            width: 90%;
+            max-width: 500px;
+            margin: 20px auto;
+            background: #ffffff; /* 卡片內部維持白色，閱讀最舒服 */
+            border-radius: 30px;
+            padding: 25px;
+            border: 3px solid #8bc34a; /* 綠色邊框 */
+            box-sizing: border-box;
+            z-index: 10;
+    
+            /* 修改這裡：將藍色光暈改成綠色漸層光 */
+            box-shadow: 0 0 30px rgba(139, 195, 74, 0.6), 
+                        0 0 10px rgba(139, 195, 74, 0.3);
+    
+            /* 讓卡片出現時有一點點浮起來的動態感 */
+            animation: slideUp 0.4s ease-out;
         }
 
-        @keyframes icePop { from { opacity: 0; transform: scale(0.9) translateY(20px); } to { opacity: 1; transform: scale(1) translateY(0); } }
-
+        /* 確保你有這個動畫，會讓卡片跳出來更可愛 */
+        @keyframes slideUp {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
         /* 修改點開後的資訊卡片背景 */
         .info-card {
             /* ... 原有的樣式保持不變 ... */
@@ -147,6 +165,15 @@
             color: var(--text-blue); font-size: 18px; font-weight: bold;
             box-shadow: 0 5px 0 #ccddec; cursor: pointer; transition: 0.2s;
         }
+        
+        /* 修改放置四個大按鈕的區塊背景 */
+        .btn-container {
+            background-color: #f1f8e9; /* 淺草綠 */
+            border-radius: 40px 40px 0 0; /* 讓頂部有點圓弧感 */
+            padding: 30px 15px;
+            margin-top: -20px; /* 稍微往上提，接住上方的落葉堆 */
+        }
+        
         .game-btn:active { transform: translateY(3px); box-shadow: 0 2px 0 #ccddec; }
         .correct { background: #e6ffed !important; box-shadow: 0 5px 0 #b2d8b9 !important; color: #22863a !important; }
 
