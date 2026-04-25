@@ -73,47 +73,58 @@
             gap: 20px; width: 100%; max-width: 400px; padding: 20px 0;
             z-index: 5;
         }
-
+        
+        /* 1. 葉子按鈕基本樣式 */
         .ice-block {
-            position: relative; width: 140px; height: 90px; /* 稍微縮短高度，讓葉子看起來更修長 */
-            background: #8bc34a;
-
-            /* 🔑 關鍵：這會讓左上和右下變尖，右上和左下變圓 */
-            border-radius: 0% 100% 0% 100% / 0% 100% 0% 100%; 
-            
-            display: flex; justify-content: center; align-items: center;
-            cursor: pointer; font-weight: bold; font-size: 18px;
-
-            /* 保持原本的 3D 厚度感 */
-            box-shadow: 0 8px 0 var(--ice-shadow), 0 15px 25px rgba(0,0,0,0.05); 
-            transition: all 0.2s ease; color: var(--forest-green);
-        }
-
-        .ice-block::before {
-            content: '';
-            position: absolute; 
-            top: 50%; 
-            left: 10%;
-            width: 80%; 
-            height: 2px; /* 變成細線 */
-            background: rgba(0,0,0,0.05); /* 淡淡的線條感 */
-            border-radius: 10px; 
-            transform: translateY(-50%) rotate(-5deg); /* 斜斜的葉脈 */
-        }
-        /* 讓第 1, 3 個按鈕往左斜 */
-        .ice-grid .ice-block:nth-child(odd) {
-            transform: rotate(-5deg);
-        }
-        /* 讓第 2, 4 個按鈕往右斜 */
-        .ice-grid .ice-block:nth-child(even) {
-            transform: rotate(5deg);
+            position: relative; 
+            width: 140px; 
+            height: 90px;
+            background: #ffffff;
+            /* 葉子形狀：左上、右下是尖的 */
+            border-radius: 0% 100% 0% 100% / 0% 100% 0% 100%;
+            display: flex; 
+            justify-content: center; 
+            align-items: center;
+            cursor: pointer; 
+            font-weight: bold; 
+            font-size: 18px;
+            color: var(--forest-green);
+            /* 3D 厚度陰影 */
+            box-shadow: 0 8px 0 var(--ice-shadow), 0 15px 25px rgba(0,0,0,0.08);
+            transition: all 0.15s ease; /* 讓動作更靈敏 */
+            z-index: 5;
         }
         
-        /* 記得也要修改點擊後的狀態，不然旋轉會跑掉 */
-        .ice-block:active {
-            transform: translateY(6px) rotate(0deg); /* 踩下去時變平 */
+        /* 2. 讓文字轉回來（保持水平） */
+        .ice-block span {
+            display: inline-block;
         }
-
+        
+        /* 讓第 1, 3 個葉子往左斜，文字轉右 */
+        .ice-grid .ice-block:nth-child(odd) {
+            transform: rotate(-8deg);
+        }
+        .ice-grid .ice-block:nth-child(odd) span {
+            transform: rotate(8deg);
+        }
+        
+        /* 讓第 2, 4 個葉子往右斜，文字轉左 */
+        .ice-grid .ice-block:nth-child(even) {
+            transform: rotate(8deg);
+        }
+        .ice-grid .ice-block:nth-child(even) span {
+            transform: rotate(-8deg);
+        }
+        /* 3. 按下去的下沉特效 (模擬北極熊按鈕) */
+        .ice-block:active {
+            /* 這裡要同時保留「原本的旋轉」並加上「往下位移」 */
+            transform: translateY(6px) !important; 
+            box-shadow: 0 2px 0 var(--ice-shadow), 0 5px 10px rgba(0,0,0,0.1);
+        }
+        /* 修正：按下去時文字也要保持正的 */
+        .ice-grid .ice-block:nth-child(odd):active { transform: translateY(6px) rotate(-8deg) !important; }
+        .ice-grid .ice-block:nth-child(even):active { transform: translateY(6px) rotate(8deg) !important; }
+        
         /* 📖 資訊展示框：綠色光暈特效 */
         .info-card {
             display: none; width: 95%; max-width: 500px;
@@ -185,10 +196,10 @@
 
     <div class="ocean-content">
         <div class="ice-grid">
-            <div class="ice-block" onclick="openBox('box1')">認識我</div>
-            <div class="ice-block" onclick="openBox('box2')" style="margin-top: 15px;">小小秘密</div>
-            <div class="ice-block" onclick="openBox('box3')">互動遊戲</div>
-            <div class="ice-block" onclick="openBox('box4')" style="margin-top: 15px;">生活影像</div>
+            <div class="ice-block" onclick="openBox('box1')"><span>認識我</span></div>
+            <div class="ice-block" onclick="openBox('box2')" style="margin-top: 15px;"><span>小小秘密</span></div>
+            <div class="ice-block" onclick="openBox('box3')"><span>互動遊戲</span></div>
+            <div class="ice-block" onclick="openBox('box4')" style="margin-top: 15px;"><span>生活影像</span></div>
         </div>
 
         <div id="box1" class="info-card">
