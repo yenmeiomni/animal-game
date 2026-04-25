@@ -8,30 +8,25 @@
     
     <style>
         :root {
-            --forest-green: #2d5a27;   /* 深綠色：頂部背景 */
-            --leaf-light: #e8f5e9;     /* 淺綠色：卡片背景 */
-            --toucan-orange: #ff9800;  /* 橘色：按鈕外框 */
-            --wood-brown: #795548;     /* 棕色：3D 厚度陰影 */
-            --text-dark: #1b331a;      /* 深色：文字 */
-            --ocean-blue: #a5d6a7;     /* 改成淡綠色，讓原有的變數名稱繼續運作但變色 */
-            --ice-white: #f1f8e9;      /* 改成淡草色 */
-            --ice-shadow: #5d4037;     /* 改成深木頭色 */
-}
-
-/* 將原本的 .header-section 背景色改為深綠 */
-.header-section {
-    background-color: var(--forest-green);
-}
+            --forest-green: #2d5a27;   /* 深綠色 */
+            --leaf-light: #e8f5e9;     /* 淺綠色 */
+            --toucan-orange: #ff9800;  /* 橘色 */
+            --wood-brown: #795548;     /* 棕色 */
+            --text-dark: #1b331a;      /* 深綠文字 */
+            --ocean-green: #f1f8e9;    /* 按鈕區背景 */
+            --ice-white: #ffffff;      /* 卡片底色 */
+            --ice-shadow: #558b2f;     /* 綠色厚度感 */
+        }
 
         body { 
             margin: 0; font-family: "Microsoft JhengHei", sans-serif; 
-            background-color: #ffffff; color: var(--text-blue);
+            background-color: #ffffff; color: var(--text-dark);
             display: flex; flex-direction: column; align-items: center; overflow-x: hidden;
         }
 
-        /* ❄️ 頂部 3D 區：保持冰山轉場 */
+        /* 🌿 頂部 3D 區 */
         .header-section {
-            width: 100%; background-color: var(--ocean-blue);
+            width: 100%; background-color: var(--forest-green);
             padding-bottom: 60px; position: relative;
             display: flex; flex-direction: column; align-items: center;
         }
@@ -39,8 +34,8 @@
         .cloud-speech {
             position: relative; background: #fff; border-radius: 30px;
             padding: 12px 25px; margin-top: 25px; font-weight: bold; font-size: 18px;
-            box-shadow: 0 4px 10px rgba(0,0,0,0.05); display: flex; align-items: center;
-            z-index: 10;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.1); display: flex; align-items: center;
+            z-index: 10; color: var(--forest-green);
         }
         .cloud-speech::after {
             content: ''; position: absolute; bottom: -8px; left: 50%;
@@ -49,234 +44,112 @@
 
         model-viewer { width: 100%; height: 320px; background: transparent; }
 
+        /* 🍂 落葉堆轉場區 */
         .ice-transition {
-            position: absolute; bottom: 0; left: 0; width: 100%; height: 60px; pointer-events: none;
+            position: absolute; bottom: 0; left: 0; width: 100%; height: 80px; 
+            display: flex; justify-content: center; align-items: flex-end; pointer-events: none;
         }
-        /* 左側落葉堆 */
+        .ice-l, .ice-r {
+            width: 60%; height: 100%; position: absolute; bottom: -10px;
+        }
         .ice-l { 
-            background: #689f38; /* 橄欖綠 */
-            /* 這裡把尖端改成圓弧狀，像堆疊的葉子 */
+            background: #689f38; left: -10%;
             border-radius: 100% 0% 100% 0% / 100% 100% 0% 0%;
-            transform: rotate(-10deg);
+            transform: rotate(-5deg); z-index: 2;
         }
-
-        /* 右側落葉堆 */
         .ice-r { 
-            background: #8bc34a; /* 嫩草綠 */
-            opacity: 0.9;
-            /* 另一片重疊的葉子感 */
+            background: #8bc34a; right: -10%;
             border-radius: 0% 100% 0% 100% / 100% 100% 0% 0%;
-            transform: rotate(10deg);
+            transform: rotate(5deg); opacity: 0.9; z-index: 1;
         }
         
-        /* 🌊 海域內容區：冰漂浮排版 */
+        /* 🍃 下方內容區：背景改為淺綠色 */
         .ocean-content {
-            width: 100%; padding: 60px 20px; box-sizing: border-box;
-            background: linear-gradient(180deg, #ffffff 0%, #eef6ff 100%);
+            width: 100%; padding: 40px 20px; box-sizing: border-box;
+            background-color: var(--ocean-green); /* 這裡改成了淺綠色背景 */
             display: flex; flex-direction: column; align-items: center;
-            position: relative;
+            position: relative; min-height: 600px;
         }
 
-        /* 裝飾小腳印 */
-        .deco-paws { position: absolute; font-size: 24px; opacity: 0.15; filter: grayscale(1); }
-
-        /* 🧊 漂浮冰塊按鈕 */
+        /* 🧊 漂浮木按鈕 (原本的冰塊按鈕) */
         .ice-grid {
             display: flex; flex-wrap: wrap; justify-content: center;
-            gap: 25px; width: 100%; max-width: 400px; padding: 20px 0;
+            gap: 20px; width: 100%; max-width: 400px; padding: 20px 0;
+            z-index: 5;
         }
 
         .ice-block {
-            position: relative; width: 140px; height: 110px;
-            background: var(--ice-white);
-            border-radius: 40% 60% 50% 50% / 60% 40% 60% 40%; /* 不規則圓潤形狀 */
+            position: relative; width: 140px; height: 100px;
+            background: #ffffff;
+            border-radius: 30% 70% 50% 50% / 50% 30% 70% 50%; 
             display: flex; justify-content: center; align-items: center;
             cursor: pointer; font-weight: bold; font-size: 18px;
-            box-shadow: 
-                0 8px 0 var(--ice-shadow), /* 模擬冰塊厚度 */
-                0 15px 25px rgba(0,0,0,0.08); /* 底部柔和陰影 */
-            transition: all 0.2s ease;
-            user-select: none;
+            box-shadow: 0 8px 0 var(--ice-shadow), 0 15px 25px rgba(0,0,0,0.05); 
+            transition: all 0.2s ease; color: var(--forest-green);
         }
 
-        /* 噗通！點擊特效：模擬踩下冰塊 */
         .ice-block:active {
-            transform: translateY(6px); /* 往下沉 */
-            box-shadow: 
-                0 2px 0 var(--ice-shadow), /* 厚度變薄 */
-                0 5px 10px rgba(0,0,0,0.1); 
+            transform: translateY(6px);
+            box-shadow: 0 2px 0 var(--ice-shadow); 
         }
 
-        /* 裝飾用的冰紋 */
-        .ice-block::before {
-            content: ''; position: absolute; top: 15%; left: 20%;
-            width: 30%; height: 10%; background: rgba(255,255,255,0.8);
-            border-radius: 10px; transform: rotate(-10deg);
-        }
-
-        /* 📖 資訊展示框 */
-        /* --- 托哥巨嘴鳥：資訊卡片與綠色光暈特效 --- */
+        /* 📖 資訊展示框：綠色光暈特效 */
         .info-card {
-            display: none;
-            position: relative;
-            width: 90%;
-            max-width: 500px;
-            margin: 20px auto;
-            background: #ffffff; /* 卡片內部維持白色，閱讀最舒服 */
-            border-radius: 30px;
-            padding: 25px;
-            border: 3px solid #8bc34a; /* 綠色邊框 */
-            box-sizing: border-box;
+            display: none; width: 95%; max-width: 500px;
+            margin: 25px auto; background: #ffffff !important;
+            border-radius: 30px; padding: 25px;
+            border: 3px solid #8bc34a; box-sizing: border-box;
             z-index: 10;
-    
-            /* 修改這裡：將藍色光暈改成綠色漸層光 */
-            box-shadow: 0 0 30px rgba(139, 195, 74, 0.6), 
-                        0 0 10px rgba(139, 195, 74, 0.3);
-    
-            /* 讓卡片出現時有一點點浮起來的動態感 */
+            /* 這是你喜歡的綠色光暈 */
+            box-shadow: 0 0 35px rgba(139, 195, 74, 0.6), 0 0 10px rgba(139, 195, 74, 0.3);
             animation: slideUp 0.4s ease-out;
         }
 
-        /* 確保你有這個動畫，會讓卡片跳出來更可愛 */
         @keyframes slideUp {
             from { opacity: 0; transform: translateY(20px); }
             to { opacity: 1; transform: translateY(0); }
         }
 
-        /* 修改放置四個大按鈕的區塊背景 */
-        .btn-container {
-            background-color: #f1f8e9; /* 淺草綠 */
-            border-radius: 40px 40px 0 0; /* 讓頂部有點圓弧感 */
-            padding: 30px 15px;
-            margin-top: -20px; /* 稍微往上提，接住上方的落葉堆 */
+        /* 認識我：相框樣式 */
+        .ice-photo-frame {
+            width: 100%; background: #f9fbf7;
+            border-radius: 20px 50px 30px 40px; padding: 10px;
+            box-shadow: 0 10px 0 var(--wood-brown);
+            margin-bottom: 25px; display: flex; justify-content: center; align-items: center;
+            overflow: hidden; box-sizing: border-box;
         }
-        
-        /* 修改點開後的資訊卡片背景 */
-        .info-card {
-            /* ... 原有的樣式保持不變 ... */
-            background: #f1f8e9 !important; /* 舒服的淺綠色背景 */
-            border: 3px solid #a5d6a7;    /* 搭配淡綠色邊框 */
-        }
+        .ice-photo-frame img { width: 100%; height: 220px; object-fit: cover; border-radius: 20px; }
 
-        /* 如果你想讓最底下那一整塊放按鈕的區域也變色 */
-        .button-section {
-            background-color: #e8f5e9; /* 極淺的綠色 */
+        .description-text { font-size: 17px; line-height: 1.7; color: #333; text-align: left; }
+        .description-text b { color: var(--forest-green); font-size: 19px; }
+
+        /* 翻轉卡片 */
+        .knowledge-card-container { perspective: 1000px; width: 100%; height: 220px; margin-bottom: 20px; }
+        .knowledge-card-inner { position: relative; width: 100%; height: 100%; transition: transform 0.6s; transform-style: preserve-3d; }
+        .knowledge-card-container.flipped .knowledge-card-inner { transform: rotateY(180deg); }
+        .card-front, .card-back {
+            position: absolute; width: 100%; height: 100%; backface-visibility: hidden;
+            border-radius: 25px; display: flex; flex-direction: column; justify-content: center; align-items: center;
+            padding: 20px; box-sizing: border-box; box-shadow: 0 8px 0 #ccddec;
         }
-        
+        .card-front { background: #fff; border: 3px solid #8bc34a; color: var(--forest-green); }
+        .card-back { background: #fff; border: 3px solid #ff9800; transform: rotateY(180deg); }
+
         .photo-wall { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-top: 15px; }
-        .photo-wall img, .photo-wall iframe { width: 100%; height: 110px; object-fit: cover; border-radius: 18px; background: #eee; }
+        .photo-wall img, .photo-wall iframe { width: 100%; height: 110px; border-radius: 15px; }
 
-        /* 遊戲選項：同樣使用小冰塊感 */
         .game-btn {
-            width: 100%; padding: 18px; margin: 10px 0; border: none;
-            background: var(--ice-white); border-radius: 20px;
-            color: var(--text-blue); font-size: 18px; font-weight: bold;
-            box-shadow: 0 5px 0 #ccddec; cursor: pointer; transition: 0.2s;
+            width: 100%; padding: 15px; margin: 10px 0; border: none;
+            background: #fff; border-radius: 15px; font-weight: bold;
+            box-shadow: 0 5px 0 #558b2f; cursor: pointer;
         }
-        
-        .game-btn:active { transform: translateY(3px); box-shadow: 0 2px 0 #ccddec; }
-        .correct { background: #e6ffed !important; box-shadow: 0 5px 0 #b2d8b9 !important; color: #22863a !important; }
-
-        /* --- 認識我：冰磚相框與文字樣式更新 --- */
-.ice-photo-frame {
-    width: 100%;
-    background: var(--leaf-light);
-    border-radius: 20px 50px 30px 40px; /* 這裡讓它有不規則的自然感 */
-    padding: 10px;
-    box-shadow: 0 10px 0 var(--wood-brown); /* 變成木頭厚度感 */
-    margin-bottom: 25px;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    overflow: hidden;
-    box-sizing: border-box;
-}
-
-.ice-photo-frame img {
-    width: 100%;
-    height: 220px; /* 如果覺得照片太高，可以改小這個數值 */
-    object-fit: cover; /* 讓照片自動填滿不變形 */
-    border-radius: 20px;
-}
-
-.description-text {
-    font-size: 18px;
-    line-height: 1.8;
-    color: #2c689c; /* 深藍色文字，小朋友比較好閱讀 */
-    text-align: left;
-}
-
-.description-text b {
-    color: #1a4a73;
-    font-size: 20px;
-}
-
-        /* --- 翻轉卡片容器 --- */
-.knowledge-card-container {
-    perspective: 1000px; /* 建立 3D 空間感 */
-    width: 100%;
-    height: 250px;
-    margin-bottom: 25px;
-    cursor: pointer;
-}
-
-.knowledge-card-inner {
-    position: relative;
-    width: 100%;
-    height: 100%;
-    text-align: center;
-    transition: transform 0.8s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-    transform-style: preserve-3d;
-}
-
-/* 點擊後翻轉 180 度 */
-.knowledge-card-container.flipped .knowledge-card-inner {
-    transform: rotateY(180deg);
-}
-
-/* 正面與背面共用樣式 */
-.card-front, .card-back {
-    position: absolute;
-    width: 100%;
-    height: 100%;
-    backface-visibility: hidden; /* 翻過去後隱藏背面 */
-    border-radius: 30px;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    padding: 20px;
-    box-sizing: border-box;
-    box-shadow: 0 10px 0 var(--ice-shadow); /* 維持 3D 厚度感 */
-}
-
-/* 正面樣式 (冰塊感) */
-.card-front {
-    background: var(--ice-white);
-    border: 3px solid var(--ocean-blue);
-    color: var(--text-blue);
-}
-
-.card-front .q-mark {
-    font-size: 60px;
-    margin-bottom: 10px;
-}
-
-/* 背面樣式 (翻開後的顏色) */
-.card-back {
-    background: #ffffff;
-    border: 3px solid #ffd700; /* 金色邊框代表找到寶藏答案 */
-    transform: rotateY(180deg);
-    color: #333;
-}
+        .correct { background: #e6ffed !important; color: #22863a !important; box-shadow: 0 5px 0 #22863a !important; }
     </style>
 </head>
 <body>
 
     <div class="header-section">
-        <div class="cloud-speech">
-            哈囉！我是托哥巨嘴鳥！🪶
-        </div>
+        <div class="cloud-speech">哈囉！我是托哥巨嘴鳥托托！🦜</div>
         
         <model-viewer src="https://cdn.jsdelivr.net/gh/yenmeiomni/animal-game@main/toucan-v1.glb" auto-rotate camera-controls ar></model-viewer>
 
@@ -287,79 +160,53 @@
     </div>
 
     <div class="ocean-content">
-        <div class="deco-paws" style="top:20px; left:15%;">🌿</div>
-        <div class="deco-paws" style="top:100px; right:10%;">🌿</div>
-
         <div class="ice-grid">
             <div class="ice-block" onclick="openBox('box1')">認識我</div>
-            <div class="ice-block" onclick="openBox('box2')" style="margin-top: 15px;">小小秘密</div>
+            <div class="ice-block" onclick="openBox('box2')" style="margin-top: 15px;">雨林秘密</div>
             <div class="ice-block" onclick="openBox('box3')">互動遊戲</div>
             <div class="ice-block" onclick="openBox('box4')" style="margin-top: 15px;">生活影像</div>
         </div>
 
         <div id="box1" class="info-card">
-    <div class="ice-photo-frame">
-        <img src="./toucan_photo_04.jpg" alt="大巨嘴鳥真實照">
-    </div>
-
-    <div style="background: #ffffff; border-radius: 20px; padding: 20px; margin-bottom: 25px; border: 2px solid #2d5a27; position: relative;">
-        <p style="margin: 8px 0;"><b>🆔 名字：</b> 大巨嘴鳥 (Toco Toucan)</p>
-        <p style="margin: 8px 0;"><b>🏠 住址：</b> 南美洲的熱帶雨林樹冠層</p>
-        <p style="margin: 8px 0;"><b>🍴 愛吃：</b> 甜甜的水果或小昆蟲</p>
-        <p style="margin: 8px 0;"><b>🏅 專長：</b> 有著厲害的飛行與精準接果實的技術</p>
-        
-        <div style="margin-top: 15px; padding-top: 10px; border-top: 1px dashed var(--ocean-blue); display: flex; align-items: center; justify-content: center; cursor: pointer;" onclick="playAudio()">
-            <span style="font-size: 18px; color: var(--text-blue); font-weight: bold;">🔊 點我來聽聽我的叫聲</span>
+            <div class="ice-photo-frame">
+                <img src="./toucan_photo_04.jpg" alt="巨嘴鳥真實照">
+            </div>
+            <div style="background: #fff; border-radius: 20px; padding: 18px; margin-bottom: 20px; border: 2px solid var(--forest-green);">
+                <p><b>🆔 名字：</b> 托托 (Toco Toucan)</p>
+                <p><b>🏠 住址：</b> 南美洲熱帶雨林</p>
+                <p><b>🍴 愛吃：</b> 水果、小昆蟲</p>
+                <div style="margin-top:10px; border-top:1px dashed #ccc; padding-top:10px; text-align:center; cursor:pointer;" onclick="playAudio()">
+                    <b>🔊 點我聽聽我的叫聲</b>
+                </div>
+            </div>
+            <h3>🔍 身體特徵</h3>
+            <div class="description-text">
+                <p><b>● 巨大的橘色嘴巴</b><br>看起來很重其實很輕，還能幫我散熱喔！</p>
+                <p><b>● 夾子腳趾</b><br>兩隻在前、兩隻在後，抓樹枝最穩了。</p>
+            </div>
         </div>
-    </div>
-
-    <h3>🔍 身體特徵</h3>
-    
-    <div class="description-text">
-        <p><b>● 巨大的嘴巴</b><br>
-           我的橘色嘴巴雖然看起來很重，但裡面像海綿一樣有很多洞洞，其實非常輕喔，同時還幫我散熱喔！</p>
-        
-        <p><b>● 靈活的腳趾</b><br>
-           我的腳趾是兩隻在前、兩隻在後，可以像夾子一樣緊緊抓住樹枝。</p>
-
-        <p><b>● 鮮豔的眼妝</b><br>
-           我的眼睛周圍有一圈漂亮的顏色，讓我看起來畫著美麗眼妝看起來更有精神！</p>
-           
-    </div>
-</div>
 
         <div id="box2" class="info-card">
-    <h3 style="text-align: center; width: 100%; display: block;">💡 點點看，找秘密！</h3>
-
-    <div class="knowledge-card-container" onclick="this.classList.toggle('flipped')">
-        <div class="knowledge-card-inner">
-            <div class="card-front">
-                <div class="q-mark">❓</div>
-                <p><b>我的嘴巴有什麼作用？</b></p>
-                <small>(點一下翻開看答案)</small>
-            </div>
-            <div class="card-back">
-                <p><b>✨ 是我的行走冷氣機！</b></p>
-                <p style="font-size: 16px;">巨大的嘴巴可以幫我散熱，就像家裡的散熱片一樣，讓我在熱帶雨林裡不會中暑！</p>
+            <h3 style="text-align:center;">💡 點點看，找秘密！</h3>
+            <div class="knowledge-card-container" onclick="this.classList.toggle('flipped')">
+                <div class="knowledge-card-inner">
+                    <div class="card-front"><div style="font-size:40px;">❓</div><p>我的嘴巴有什麼作用？</p></div>
+                    <div class="card-back"><p><b>✨ 是我的行走冷氣機！</b></p><p>幫我散熱，讓我在雨林裡不中暑！</p></div>
+                </div>
             </div>
         </div>
-    </div>
 
-    <div class="knowledge-card-container" onclick="this.classList.toggle('flipped')">
-        <div class="knowledge-card-inner">
-            <div class="card-front">
-                <div class="q-mark">🏊‍♂️</div>
-                <p><b>我睡覺時嘴巴放哪裡？</b></p>
-                <small>(點一下翻開看答案)</small>
+        <div id="box3" class="info-card">
+            <h3 style="text-align:center;">🎮 找找我的家</h3>
+            <div class="ice-photo-frame">
+                <img src="https://cdn.jsdelivr.net/gh/yenmeiomni/animal-game@main/你的積木照片.jpg">
             </div>
-            <div class="card-back">
-                <p><b>✨ 其實是我藏在羽毛裡！</b></p>
-                <p style="font-size: 16px;">我睡覺時會把大嘴巴轉到背後，縮進翅膀裡，看起來就像一顆黑色的圓球！</p>
-            </div>
+            <p style="text-align:center;"><b>請找出我的家鄉積木？</b></p>
+            <button class="game-btn" onclick="check(this, true)">🌳 濕熱的雨林積木</button>
+            <button class="game-btn" onclick="check(this, false)">❄️ 寒冷的冰原積木</button>
+            <p id="msg" style="text-align:center; font-weight:bold; margin-top:10px;"></p>
         </div>
-    </div>
-</div>
-        
+
         <div id="box4" class="info-card">
             <h3>🖼️ 影像牆</h3>
             <div class="photo-wall">
@@ -369,42 +216,20 @@
                 <img src="./toucan_photo_03.jpg">
             </div>
         </div>
-
-        <div id="box3" class="info-card">
-    <h3 style="justify-content: center; width: 100%; display: flex;">🎮 找找我的家</h3>
-    
-    <div class="ice-photo-frame">
-        <img src="https://cdn.jsdelivr.net/gh/yenmeiomni/animal-game@main/你的積木照片.jpg" alt="互動積木照片">
-    </div>
-
-    <div class="description-text" style="text-align: center; margin-bottom: 20px;">
-        <p>北極熊毛很厚，最喜歡待在冷冷的環境中吹風...<br>
-           <b>請低頭找找看，哪一個積木是我的家？</b></p>
-    </div>
-    
-    <button class="game-btn" onclick="check(this, false)">🌳 濕熱的草地積木</button>
-    <button class="game-btn" onclick="check(this, true)">❄️ 寒冷的冰原積木</button>
-    
-    <p id="msg" style="text-align:center; font-weight:bold; margin-top:15px; font-size: 18px;"></p>
-</div>
     </div>
 
     <audio id="snd" src="https://cdn.jsdelivr.net/gh/yenmeiomni/animal-game@main/toucanbird_sound_01.mp3"></audio>
 
     <script>
         function playAudio() { 
-            const audio = document.getElementById('snd');
-            audio.volume = 0.5; // 0.0 是靜音，1.0 是最大聲，這裡設定為一半
-            audio.play();
+            document.getElementById('snd').play(); 
         }
-
         function openBox(id) {
             document.querySelectorAll('.info-card').forEach(c => c.style.display = 'none');
             const target = document.getElementById(id);
             target.style.display = 'block';
-            target.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+            target.scrollIntoView({ behavior: 'smooth', block: 'center' });
         }
-
         function check(btn, ok) {
             const m = document.getElementById('msg');
             if(ok) {
@@ -412,7 +237,7 @@
                 m.innerText = "🎉 答對了！這裡最舒服了！";
                 m.style.color = "#22863a";
             } else {
-                m.innerText = "❌ 嗚～這裡太熱了啦！";
+                m.innerText = "❌ 嗚～這裡太熱（冷）了啦！";
                 m.style.color = "#d73a49";
             }
         }
