@@ -72,18 +72,33 @@
             box-shadow: 
                 0 8px 0 var(--ice-shadow), /* 模擬冰塊厚度 */
                 0 15px 25px rgba(0,0,0,0.08); /* 底部柔和陰影 */
-            transition: all 0.2s ease;
-            user-select: none;
+            transition: all 0.15s ease; /* 🔑 關鍵：讓轉動滑順 */
+            transform: rotate(-5deg);    /* 讓冰塊平常向左斜 5 度 */
         }
 
-        /* 噗通！點擊特效：模擬踩下冰塊 */
+        /* 讓冰塊內的文字反向轉正 */
+        .ice-block span {
+            display: inline-block;
+            transform: rotate(5deg);
+            transition: all 0.15s ease;
+        }
+        
+        /* 按下去的特效 */
         .ice-block:active {
-            transform: translateY(6px); /* 往下沉 */
+            /* translateY(6px) 是下沉，rotate(5deg) 是讓它從 -5度 轉到 5度 */
+            transform: translateY(6px) rotate(5deg) !important;
+
+            /* 調整陰影，讓厚度變薄 */
             box-shadow: 
-                0 2px 0 var(--ice-shadow), /* 厚度變薄 */
+                0 2px 0 var(--ice-shadow), 
                 0 5px 10px rgba(0,0,0,0.1); 
         }
 
+        /* 按下去時，文字也要跟著反向轉回來，才不會歪掉 */
+        .ice-block:active span {
+            transform: rotate(-5deg) !important;
+        }
+        
         /* 裝飾用的冰紋 */
         .ice-block::before {
             content: ''; position: absolute; top: 15%; left: 20%;
@@ -231,10 +246,10 @@
         <div class="deco-paws" style="top:100px; right:10%;">🐾</div>
 
         <div class="ice-grid">
-            <div class="ice-block" onclick="openBox('box1')">認識我</div>
-            <div class="ice-block" onclick="openBox('box2')" style="margin-top: 15px;">小小秘密</div>
-            <div class="ice-block" onclick="openBox('box3')">互動遊戲</div>
-            <div class="ice-block" onclick="openBox('box4')" style="margin-top: 15px;">生活影像</div>
+            <div class="ice-block" onclick="openBox('box1')"><span>認識我</span></div>
+            <div class="ice-block" onclick="openBox('box2')" style="margin-top: 15px;"><span>小小秘密</span></div>
+            <div class="ice-block" onclick="openBox('box3')"><span>互動遊戲</span></div>
+            <div class="ice-block" onclick="openBox('box4')" style="margin-top: 15px;"><span>生活影像</span></div>
         </div>
 
         <div id="box1" class="info-card">
