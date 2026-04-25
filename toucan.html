@@ -100,27 +100,24 @@
             display: inline-block;
         }
         
-        /* 讓第 1, 3 個葉子往左斜，文字轉右 */
-        .ice-grid .ice-block:nth-child(odd) {
+        /* 讓所有葉子按鈕都統一向左斜 8 度 */
+        .ice-grid .ice-block {
             transform: rotate(-8deg);
         }
-        .ice-grid .ice-block:nth-child(odd) span {
-            transform: rotate(-8deg);
+        /* 讓所有按鈕內的文字都統一向右轉回 8 度，保持水平 */
+        .ice-block span {
+            display: inline-block;
+            transform: rotate(8deg);
         }
+        /* 移除（或註解掉）原本針對 nth-child(even) 的旋轉設定 */
+        /* 不要這段了： .ice-grid .ice-block:nth-child(even) { transform: rotate(8deg); } */
         
-        /* 讓第 2, 4 個葉子往右斜，文字轉左 */
-        .ice-grid .ice-block:nth-child(even) {
-            transform: rotate(-8deg);
-        }
-        .ice-grid .ice-block:nth-child(even) span {
-            transform: rotate(-8deg);
-        }
-        /* 3. 按下去的下沉特效 (模擬北極熊按鈕) */
+        /* 所有按鈕按下去時：保持左斜 8 度，並向下位移 6px */
         .ice-block:active {
-            /* 這裡要同時保留「原本的旋轉」並加上「往下位移」 */
-            transform: translateY(6px) !important; 
+            transform: translateY(6px) rotate(-8deg) !important;
             box-shadow: 0 2px 0 var(--ice-shadow), 0 5px 10px rgba(0,0,0,0.1);
         }
+        
         /* 修正：按下去時文字也要保持正的 */
         .ice-grid .ice-block:nth-child(odd):active { transform: translateY(6px) rotate(-8deg) !important; }
         .ice-grid .ice-block:nth-child(even):active { transform: translateY(6px) rotate(8deg) !important; }
