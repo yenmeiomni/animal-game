@@ -1,0 +1,363 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>北極熊的冰原家園</title>
+    <script type="module" src="https://ajax.googleapis.com/ajax/libs/model-viewer/3.5.0/model-viewer.min.js"></script>
+    
+    <style>
+        :root {
+            --ocean-blue: #a3c9e7;   /* 海域背景 */
+            --ice-white: #bddcef;    /* 冰塊主色 */
+            --ice-shadow: #7ba2c1;   /* 冰塊厚度色 */
+            --text-blue: #2c689c;    /* 文字深藍 */
+        }
+
+        body { 
+            margin: 0; font-family: "Microsoft JhengHei", sans-serif; 
+            background-color: #ffffff; color: var(--text-blue);
+            display: flex; flex-direction: column; align-items: center; overflow-x: hidden;
+        }
+
+        /* ❄️ 頂部 3D 區：保持冰山轉場 */
+        .header-section {
+            width: 100%; background-color: var(--ocean-blue);
+            padding-bottom: 60px; position: relative;
+            display: flex; flex-direction: column; align-items: center;
+        }
+
+        .cloud-speech {
+            position: relative; background: #fff; border-radius: 30px;
+            padding: 12px 25px; margin-top: 25px; font-weight: bold; font-size: 18px;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.05); display: flex; align-items: center;
+            z-index: 10;
+        }
+        .cloud-speech::after {
+            content: ''; position: absolute; bottom: -8px; left: 50%;
+            width: 16px; height: 16px; background: white; border-radius: 50%; transform: translateX(-50%);
+        }
+
+        model-viewer { width: 100%; height: 320px; background: transparent; }
+
+        .ice-transition {
+            position: absolute; bottom: 0; left: 0; width: 100%; height: 60px; pointer-events: none;
+        }
+        .ice-l { position: absolute; bottom: 0; left: -5%; width: 65%; height: 100%; background: white; clip-path: polygon(0 100%, 25% 15%, 100% 100%); }
+        .ice-r { position: absolute; bottom: 0; right: -5%; width: 55%; height: 70%; background: white; opacity: 0.8; clip-path: polygon(0 100%, 60% 10%, 100% 100%); }
+
+        /* 🌊 海域內容區：冰漂浮排版 */
+        .ocean-content {
+            width: 100%; padding: 60px 20px; box-sizing: border-box;
+            background: linear-gradient(180deg, #ffffff 0%, #eef6ff 100%);
+            display: flex; flex-direction: column; align-items: center;
+            position: relative;
+        }
+
+        /* 裝飾小腳印 */
+        .deco-paws { position: absolute; font-size: 24px; opacity: 0.15; filter: grayscale(1); }
+
+        /* 🧊 漂浮冰塊按鈕 */
+        .ice-grid {
+            display: flex; flex-wrap: wrap; justify-content: center;
+            gap: 25px; width: 100%; max-width: 400px; padding: 20px 0;
+        }
+
+        .ice-block {
+            position: relative; width: 140px; height: 110px;
+            background: var(--ice-white);
+            border-radius: 40% 60% 50% 50% / 60% 40% 60% 40%; /* 不規則圓潤形狀 */
+            display: flex; justify-content: center; align-items: center;
+            cursor: pointer; font-weight: bold; font-size: 18px;
+            box-shadow: 
+                0 8px 0 var(--ice-shadow), /* 模擬冰塊厚度 */
+                0 15px 25px rgba(0,0,0,0.08); /* 底部柔和陰影 */
+            transition: all 0.2s ease;
+            user-select: none;
+        }
+
+        /* 噗通！點擊特效：模擬踩下冰塊 */
+        .ice-block:active {
+            transform: translateY(6px); /* 往下沉 */
+            box-shadow: 
+                0 2px 0 var(--ice-shadow), /* 厚度變薄 */
+                0 5px 10px rgba(0,0,0,0.1); 
+        }
+
+        /* 裝飾用的冰紋 */
+        .ice-block::before {
+            content: ''; position: absolute; top: 15%; left: 20%;
+            width: 30%; height: 10%; background: rgba(255,255,255,0.8);
+            border-radius: 10px; transform: rotate(-10deg);
+        }
+
+        /* 📖 資訊展示框 */
+        .info-card {
+            width: 100%; max-width: 380px; margin-top: 40px; display: none;
+            background: white; border-radius: 30px; padding: 25px;
+            box-shadow: 0 15px 45px rgba(123, 162, 193, 0.2);
+            border: 3px solid var(--ice-white);
+            animation: icePop 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        }
+
+        @keyframes icePop { from { opacity: 0; transform: scale(0.9) translateY(20px); } to { opacity: 1; transform: scale(1) translateY(0); } }
+
+        .info-card h3 { color: var(--text-blue); margin-top: 0; display: flex; align-items: center; gap: 10px; }
+        
+        .photo-wall { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-top: 15px; }
+        .photo-wall img, .photo-wall iframe { width: 100%; height: 110px; object-fit: cover; border-radius: 18px; background: #eee; }
+
+        /* 遊戲選項：同樣使用小冰塊感 */
+        .game-btn {
+            width: 100%; padding: 18px; margin: 10px 0; border: none;
+            background: var(--ice-white); border-radius: 20px;
+            color: var(--text-blue); font-size: 18px; font-weight: bold;
+            box-shadow: 0 5px 0 #ccddec; cursor: pointer; transition: 0.2s;
+        }
+        .game-btn:active { transform: translateY(3px); box-shadow: 0 2px 0 #ccddec; }
+        .correct { background: #e6ffed !important; box-shadow: 0 5px 0 #b2d8b9 !important; color: #22863a !important; }
+
+        /* --- 認識我：冰磚相框與文字樣式更新 --- */
+.ice-photo-frame {
+    width: 100%;
+    background: #f0f8ff; /* 冰塊白 */
+    border-radius: 25px 40px 30px 35px; /* 這裡讓它有不規則的自然感 */
+    padding: 10px;
+    box-shadow: 0 10px 0 #7ba2c1; /* 這裡就是你想要的 3D 厚度感 */
+    margin-bottom: 25px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    overflow: hidden;
+    box-sizing: border-box;
+}
+
+.ice-photo-frame img {
+    width: 100%;
+    height: 220px; /* 如果覺得照片太高，可以改小這個數值 */
+    object-fit: cover; /* 讓照片自動填滿不變形 */
+    border-radius: 20px;
+}
+
+.description-text {
+    font-size: 18px;
+    line-height: 1.8;
+    color: #2c689c; /* 深藍色文字，小朋友比較好閱讀 */
+    text-align: left;
+}
+
+.description-text b {
+    color: #1a4a73;
+    font-size: 20px;
+}
+
+        /* --- 翻轉卡片容器 --- */
+.knowledge-card-container {
+    perspective: 1000px; /* 建立 3D 空間感 */
+    width: 100%;
+    height: 250px;
+    margin-bottom: 25px;
+    cursor: pointer;
+}
+
+.knowledge-card-inner {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    text-align: center;
+    transition: transform 0.8s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    transform-style: preserve-3d;
+}
+
+/* 點擊後翻轉 180 度 */
+.knowledge-card-container.flipped .knowledge-card-inner {
+    transform: rotateY(180deg);
+}
+
+/* 正面與背面共用樣式 */
+.card-front, .card-back {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    backface-visibility: hidden; /* 翻過去後隱藏背面 */
+    border-radius: 30px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    padding: 20px;
+    box-sizing: border-box;
+    box-shadow: 0 10px 0 var(--ice-shadow); /* 維持 3D 厚度感 */
+}
+
+/* 正面樣式 (冰塊感) */
+.card-front {
+    background: var(--ice-white);
+    border: 3px solid var(--ocean-blue);
+    color: var(--text-blue);
+}
+
+.card-front .q-mark {
+    font-size: 60px;
+    margin-bottom: 10px;
+}
+
+/* 背面樣式 (翻開後的顏色) */
+.card-back {
+    background: #ffffff;
+    border: 3px solid #ffd700; /* 金色邊框代表找到寶藏答案 */
+    transform: rotateY(180deg);
+    color: #333;
+}
+    </style>
+</head>
+<body>
+
+    <div class="header-section">
+        <div class="cloud-speech">
+            哈囉！我是北極熊！ 🐾
+        </div>
+        
+        <model-viewer src="https://cdn.jsdelivr.net/gh/yenmeiomni/animal-game@main/Polarbear-v1.glb" auto-rotate camera-controls ar></model-viewer>
+
+        <div class="ice-transition">
+            <div class="ice-l"></div>
+            <div class="ice-r"></div>
+        </div>
+    </div>
+
+    <div class="ocean-content">
+        <div class="deco-paws" style="top:20px; left:15%;">🐾</div>
+        <div class="deco-paws" style="top:100px; right:10%;">🐾</div>
+
+        <div class="ice-grid">
+            <div class="ice-block" onclick="openBox('box1')">認識我</div>
+            <div class="ice-block" onclick="openBox('box2')" style="margin-top: 15px;">小小秘密</div>
+            <div class="ice-block" onclick="openBox('box3')">互動遊戲</div>
+            <div class="ice-block" onclick="openBox('box4')" style="margin-top: 15px;">生活影像</div>
+        </div>
+
+        <div id="box1" class="info-card">
+    <div class="ice-photo-frame">
+        <img src="./polarbear_photo_04.jpg" alt="北極熊真實照">
+    </div>
+
+    <div style="background: #eef6ff; border-radius: 20px; padding: 15px; margin-bottom: 25px; border: 2px solid var(--ocean-blue);">
+        <p style="margin: 8px 0;"><b>🆔 名字：</b> 北極熊 (Polar Bear)</p>
+        <p style="margin: 8px 0;"><b>🏠 住址：</b> 北極寒冷的冰原</p>
+        <p style="margin: 8px 0;"><b>🍴 愛吃：</b> 肥美的海豹</p>
+        <p style="margin: 8px 0;"><b>🏅 專長：</b> 冰上滑行、游泳健將</p>
+        
+        <div style="margin-top: 15px; padding-top: 10px; border-top: 1px dashed var(--ocean-blue); display: flex; align-items: center; justify-content: center; cursor: pointer;" onclick="playAudio()">
+            <span style="font-size: 18px; color: var(--text-blue); font-weight: bold;">🔊 點我來聽聽我的叫聲</span>
+        </div>
+    </div>
+
+    <h3>🔍 身體特徵</h3>
+    
+    <div class="description-text">
+        <p><b>● 神奇的白毛</b><br>
+           北極熊看起來是白色的，但白毛就像透明的管子隨時隨地幫北極熊收集熱量，讓牠能輕鬆生活在北極寒冷之地。</p>
+        
+        <p><b>● 巨大的雪地靴</b><br>
+           北極熊的腳掌非常大，腳底還有毛，讓牠在冰上跑步也不會滑倒！</p>
+
+        <p><b>● 偵探小能力</b><br>
+           有著靈敏的黑鼻子，在很遠很遠的地方牠都能聞得到你的氣味喔！</p>
+           
+        <p><b>● 小小保暖秘訣</b><br>
+           別看牠耳朵小小的，那可是為了不讓熱量跑掉，而有著特殊器官喔！</p>
+    </div>
+</div>
+
+        <div id="box2" class="info-card">
+    <h3 style="text-align: center; width: 100%; display: block;">💡 點點看，找秘密！</h3>
+
+    <div class="knowledge-card-container" onclick="this.classList.toggle('flipped')">
+        <div class="knowledge-card-inner">
+            <div class="card-front">
+                <div class="q-mark">❓</div>
+                <p><b>北極熊皮膚是甚麼顏色？</b></p>
+                <small>(點一下翻開看答案)</small>
+            </div>
+            <div class="card-back">
+                <p><b>✨ 北極熊的皮膚是黑色！</b></p>
+                <p style="font-size: 16px;">在白毛下面，真實皮膚是黑色，能像發熱衣一樣幫我吸熱喔！穿著兩層保暖大衣就不怕北極寒冷的氣溫喔！</p>
+            </div>
+        </div>
+    </div>
+
+    <div class="knowledge-card-container" onclick="this.classList.toggle('flipped')">
+        <div class="knowledge-card-inner">
+            <div class="card-front">
+                <div class="q-mark">🏊‍♂️</div>
+                <p><b>聽說有人叫我「陸地大魚」？</b></p>
+                <small>(點一下翻開看答案)</small>
+            </div>
+            <div class="card-back">
+                <p><b>✨ 應該是叫「海洋哺乳動物」喔！</b></p>
+                <p style="font-size: 16px;">我雖然有四隻腳，但我跟鯨魚一樣被歸類為「海洋哺乳動物」，我可以連續游好幾天都不休息！</p>
+            </div>
+        </div>
+    </div>
+</div>
+        
+        <div id="box4" class="info-card">
+            <h3>🖼️ 影像牆</h3>
+            <div class="photo-wall">
+                <img src="./polarbear_photo_01.jpg">
+                <iframe src="https://www.youtube.com/embed/0Pi0Pd4Cvqg?rel=0"></iframe>
+                <img src="./polarbear_photo_02.png">
+                <img src="./polarbear_photo_03.jpg">
+            </div>
+        </div>
+
+        <div id="box3" class="info-card">
+    <h3 style="justify-content: center; width: 100%; display: flex;">🎮 找找我的家</h3>
+    
+    <div class="ice-photo-frame">
+        <img src="https://cdn.jsdelivr.net/gh/yenmeiomni/animal-game@main/你的積木照片.jpg" alt="互動積木照片">
+    </div>
+
+    <div class="description-text" style="text-align: center; margin-bottom: 20px;">
+        <p>北極熊毛很厚，最喜歡待在冷冷的環境中吹風...<br>
+           <b>請低頭找找看，哪一個積木是我的家？</b></p>
+    </div>
+    
+    <button class="game-btn" onclick="check(this, false)">🌳 濕熱的草地積木</button>
+    <button class="game-btn" onclick="check(this, true)">❄️ 寒冷的冰原積木</button>
+    
+    <p id="msg" style="text-align:center; font-weight:bold; margin-top:15px; font-size: 18px;"></p>
+</div>
+    </div>
+
+    <audio id="snd" src="https://cdn.jsdelivr.net/gh/yenmeiomni/animal-game@main/PolarBear_Sound_01.mp3"></audio>
+
+    <script>
+        function playAudio() { 
+            const audio = document.getElementById('snd');
+            audio.volume = 0.5; // 0.0 是靜音，1.0 是最大聲，這裡設定為一半
+            audio.play();
+        }
+
+        function openBox(id) {
+            document.querySelectorAll('.info-card').forEach(c => c.style.display = 'none');
+            const target = document.getElementById(id);
+            target.style.display = 'block';
+            target.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+        }
+
+        function check(btn, ok) {
+            const m = document.getElementById('msg');
+            if(ok) {
+                btn.classList.add('correct');
+                m.innerText = "🎉 答對了！這裡最舒服了！";
+                m.style.color = "#22863a";
+            } else {
+                m.innerText = "❌ 嗚～這裡太熱了啦！";
+                m.style.color = "#d73a49";
+            }
+        }
+    </script>
+</body>
+</html>
