@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>大巨嘴鳥的雨林家園</title>
+    <title>托哥巨嘴鳥的雨林家園</title>
     <script type="module" src="https://ajax.googleapis.com/ajax/libs/model-viewer/3.5.0/model-viewer.min.js"></script>
     
     <style>
@@ -13,9 +13,9 @@
             --toucan-orange: #ff9800;  /* 橘色 */
             --wood-brown: #795548;     /* 棕色 */
             --text-dark: #1b331a;      /* 深綠文字 */
-            --ocean-green: #f1f8e9;    /* 按鈕區背景 */
-            --ice-white: #ffffff;      /* 卡片底色 */
-            --ice-shadow: #558b2f;     /* 綠色厚度感 */
+            --ocean-green: #f1f8e9;    /* 按鈕區背景：淺綠色 */
+            --ice-white: #ffffff;      
+            --ice-shadow: #558b2f;     
         }
 
         body { 
@@ -24,7 +24,6 @@
             display: flex; flex-direction: column; align-items: center; overflow-x: hidden;
         }
 
-        /* 🌿 頂部 3D 區 */
         .header-section {
             width: 100%; background-color: var(--forest-green);
             padding-bottom: 60px; position: relative;
@@ -49,9 +48,7 @@
             position: absolute; bottom: 0; left: 0; width: 100%; height: 80px; 
             display: flex; justify-content: center; align-items: flex-end; pointer-events: none;
         }
-        .ice-l, .ice-r {
-            width: 60%; height: 100%; position: absolute; bottom: -10px;
-        }
+        .ice-l, .ice-r { width: 60%; height: 100%; position: absolute; bottom: -10px; }
         .ice-l { 
             background: #689f38; left: -10%;
             border-radius: 100% 0% 100% 0% / 100% 100% 0% 0%;
@@ -63,15 +60,14 @@
             transform: rotate(5deg); opacity: 0.9; z-index: 1;
         }
         
-        /* 🍃 下方內容區：背景改為淺綠色 */
+        /* 🍃 按鈕內容區背景色改為淺綠 */
         .ocean-content {
             width: 100%; padding: 40px 20px; box-sizing: border-box;
-            background-color: var(--ocean-green); /* 這裡改成了淺綠色背景 */
+            background-color: var(--ocean-green); 
             display: flex; flex-direction: column; align-items: center;
-            position: relative; min-height: 600px;
+            position: relative; min-height: 800px;
         }
 
-        /* 🧊 漂浮木按鈕 (原本的冰塊按鈕) */
         .ice-grid {
             display: flex; flex-wrap: wrap; justify-content: center;
             gap: 20px; width: 100%; max-width: 400px; padding: 20px 0;
@@ -88,20 +84,16 @@
             transition: all 0.2s ease; color: var(--forest-green);
         }
 
-        .ice-block:active {
-            transform: translateY(6px);
-            box-shadow: 0 2px 0 var(--ice-shadow); 
-        }
+        .ice-block:active { transform: translateY(6px); box-shadow: 0 2px 0 var(--ice-shadow); }
 
         /* 📖 資訊展示框：綠色光暈特效 */
         .info-card {
             display: none; width: 95%; max-width: 500px;
-            margin: 25px auto; background: #ffffff !important;
+            margin: 25px auto; background: #f1f8e9 !important;
             border-radius: 30px; padding: 25px;
             border: 3px solid #8bc34a; box-sizing: border-box;
             z-index: 10;
-            /* 這是你喜歡的綠色光暈 */
-            box-shadow: 0 0 35px rgba(139, 195, 74, 0.6), 0 0 10px rgba(139, 195, 74, 0.3);
+            box-shadow: 0 0 30px rgba(139, 195, 74, 0.6), 0 0 10px rgba(139, 195, 74, 0.3);
             animation: slideUp 0.4s ease-out;
         }
 
@@ -110,9 +102,8 @@
             to { opacity: 1; transform: translateY(0); }
         }
 
-        /* 認識我：相框樣式 */
         .ice-photo-frame {
-            width: 100%; background: #f9fbf7;
+            width: 100%; background: var(--leaf-light);
             border-radius: 20px 50px 30px 40px; padding: 10px;
             box-shadow: 0 10px 0 var(--wood-brown);
             margin-bottom: 25px; display: flex; justify-content: center; align-items: center;
@@ -120,28 +111,28 @@
         }
         .ice-photo-frame img { width: 100%; height: 220px; object-fit: cover; border-radius: 20px; }
 
-        .description-text { font-size: 17px; line-height: 1.7; color: #333; text-align: left; }
-        .description-text b { color: var(--forest-green); font-size: 19px; }
+        .description-text { font-size: 18px; line-height: 1.8; color: #2c689c; text-align: left; }
+        .description-text b { color: #1a4a73; font-size: 20px; }
 
-        /* 翻轉卡片 */
-        .knowledge-card-container { perspective: 1000px; width: 100%; height: 220px; margin-bottom: 20px; }
-        .knowledge-card-inner { position: relative; width: 100%; height: 100%; transition: transform 0.6s; transform-style: preserve-3d; }
+        /* 翻轉卡片容器 */
+        .knowledge-card-container { perspective: 1000px; width: 100%; height: 250px; margin-bottom: 25px; cursor: pointer; }
+        .knowledge-card-inner { position: relative; width: 100%; height: 100%; text-align: center; transition: transform 0.8s; transform-style: preserve-3d; }
         .knowledge-card-container.flipped .knowledge-card-inner { transform: rotateY(180deg); }
         .card-front, .card-back {
             position: absolute; width: 100%; height: 100%; backface-visibility: hidden;
-            border-radius: 25px; display: flex; flex-direction: column; justify-content: center; align-items: center;
-            padding: 20px; box-sizing: border-box; box-shadow: 0 8px 0 #ccddec;
+            border-radius: 30px; display: flex; flex-direction: column; justify-content: center; align-items: center;
+            padding: 20px; box-sizing: border-box; box-shadow: 0 10px 0 #ccddec;
         }
         .card-front { background: #fff; border: 3px solid #8bc34a; color: var(--forest-green); }
-        .card-back { background: #fff; border: 3px solid #ff9800; transform: rotateY(180deg); }
+        .card-back { background: #fff; border: 3px solid #ffd700; transform: rotateY(180deg); color: #333; }
 
         .photo-wall { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-top: 15px; }
-        .photo-wall img, .photo-wall iframe { width: 100%; height: 110px; border-radius: 15px; }
+        .photo-wall img, .photo-wall iframe { width: 100%; height: 110px; border-radius: 18px; object-fit: cover; }
 
         .game-btn {
-            width: 100%; padding: 15px; margin: 10px 0; border: none;
-            background: #fff; border-radius: 15px; font-weight: bold;
-            box-shadow: 0 5px 0 #558b2f; cursor: pointer;
+            width: 100%; padding: 18px; margin: 10px 0; border: none;
+            background: #fff; border-radius: 20px; color: var(--forest-green);
+            font-size: 18px; font-weight: bold; box-shadow: 0 5px 0 #558b2f; cursor: pointer;
         }
         .correct { background: #e6ffed !important; color: #22863a !important; box-shadow: 0 5px 0 #22863a !important; }
     </style>
@@ -149,10 +140,8 @@
 <body>
 
     <div class="header-section">
-        <div class="cloud-speech">哈囉！我是大巨嘴鳥！🪶</div>
-        
+        <div class="cloud-speech">哈囉！我是托哥巨嘴鳥！🪶</div>
         <model-viewer src="https://cdn.jsdelivr.net/gh/yenmeiomni/animal-game@main/toucan-v1.glb" auto-rotate camera-controls ar></model-viewer>
-
         <div class="ice-transition">
             <div class="ice-l"></div>
             <div class="ice-r"></div>
@@ -162,7 +151,7 @@
     <div class="ocean-content">
         <div class="ice-grid">
             <div class="ice-block" onclick="openBox('box1')">認識我</div>
-            <div class="ice-block" onclick="openBox('box2')" style="margin-top: 15px;">雨林秘密</div>
+            <div class="ice-block" onclick="openBox('box2')" style="margin-top: 15px;">小小秘密</div>
             <div class="ice-block" onclick="openBox('box3')">互動遊戲</div>
             <div class="ice-block" onclick="openBox('box4')" style="margin-top: 15px;">生活影像</div>
         </div>
@@ -171,13 +160,13 @@
             <div class="ice-photo-frame">
                 <img src="./toucan_photo_04.jpg" alt="大巨嘴鳥真實照">
             </div>
-            <div style="background: #fff; border-radius: 20px; padding: 18px; margin-bottom: 20px; border: 2px solid var(--forest-green);">
-                <p><b>🆔 名字：</b> 大巨嘴鳥 (Toco Toucan)</p>
-                <p><b>🏠 住址：</b> 南美洲的熱帶雨林樹冠層</p>
-                <p><b>🍴 愛吃：</b> 甜甜的水果或小昆蟲</p>
-                <p><b>🏅 專長：</b> 有著厲害的飛行與精準接果實的技術</p>
-                <div style="margin-top:10px; border-top:1px dashed #ccc; padding-top:10px; text-align:center; cursor:pointer;" onclick="playAudio()">
-                    <b>🔊 點我聽聽我的叫聲</b>
+            <div style="background: #ffffff; border-radius: 20px; padding: 20px; margin-bottom: 25px; border: 2px solid #2d5a27; position: relative;">
+                <p style="margin: 8px 0;"><b>🆔 名字：</b> 大巨嘴鳥 (Toco Toucan)</p>
+                <p style="margin: 8px 0;"><b>🏠 住址：</b> 南美洲的熱帶雨林樹冠層</p>
+                <p style="margin: 8px 0;"><b>🍴 愛吃：</b> 甜甜的水果或小昆蟲</p>
+                <p style="margin: 8px 0;"><b>🏅 專長：</b> 有著厲害的飛行與精準接果實的技術</p>
+                <div style="margin-top: 15px; padding-top: 10px; border-top: 1px dashed #2d5a27; display: flex; align-items: center; justify-content: center; cursor: pointer;" onclick="playAudio()">
+                    <span style="font-size: 18px; color: var(--forest-green); font-weight: bold;">🔊 點我來聽聽我的叫聲</span>
                 </div>
             </div>
             <h3>🔍 身體特徵</h3>
@@ -189,32 +178,46 @@
         </div>
 
         <div id="box2" class="info-card">
-            <h3 style="text-align:center;">💡 點點看，找秘密！</h3>
+            <h3 style="text-align: center; width: 100%; display: block;">💡 點點看，找秘密！</h3>
             <div class="knowledge-card-container" onclick="this.classList.toggle('flipped')">
                 <div class="knowledge-card-inner">
-                    <div class="card-front"><div style="font-size:40px;">❓</div><p>我的嘴巴有什麼作用？</p></div>
-                    <div class="card-back"><p><b>✨幫我散熱！</b></p><p>我的嘴巴就像散熱片一樣，讓我在雨林裡不中暑！</p></div>
+                    <div class="card-front">
+                        <div class="q-mark">❓</div>
+                        <p><b>我的嘴巴有什麼作用？</b></p>
+                        <small>(點一下翻開看答案)</small>
+                    </div>
+                    <div class="card-back">
+                        <p><b>✨ 是我的行走冷氣機！</b></p>
+                        <p style="font-size: 16px;">巨大的嘴巴可以幫我散熱，就像家裡的散熱片一樣，讓我在熱帶雨林裡不會中暑！</p>
+                    </div>
                 </div>
             </div>
-        </div>
-
             <div class="knowledge-card-container" onclick="this.classList.toggle('flipped')">
                 <div class="knowledge-card-inner">
-                    <div class="card-front"><div style="font-size:40px;">❓</div><p>我睡覺時嘴巴放哪裡？</p></div>
-                    <div class="card-back"><p><b>✨其實是我藏在羽毛裡！</b></p><p>我睡覺時會把大嘴巴轉到背後，縮進翅膀裡，看起來就像一顆黑色的圓球！</p></div>
+                    <div class="card-front">
+                        <div class="q-mark">💤</div>
+                        <p><b>我睡覺時嘴巴放哪裡？</b></p>
+                        <small>(點一下翻開看答案)</small>
+                    </div>
+                    <div class="card-back">
+                        <p><b>✨ 其實是我藏在羽毛裡！</b></p>
+                        <p style="font-size: 16px;">我睡覺時會把大嘴巴轉到背後，縮進翅膀裡，看起來就像一顆黑色的圓球！</p>
+                    </div>
                 </div>
             </div>
         </div>
 
         <div id="box3" class="info-card">
-            <h3 style="text-align:center;">🎮 找找我的家</h3>
+            <h3 style="text-align: center;">🎮 找找我的家</h3>
             <div class="ice-photo-frame">
-                <img src="https://cdn.jsdelivr.net/gh/yenmeiomni/animal-game@main/你的積木照片.jpg">
+                <img src="https://cdn.jsdelivr.net/gh/yenmeiomni/animal-game@main/你的積木照片.jpg" alt="互動積木照片">
             </div>
-            <p style="text-align:center;"><b>請找出我的家鄉積木？</b></p>
+            <div class="description-text" style="text-align: center; margin-bottom: 20px;">
+                <p>我最喜歡待在溫暖且茂密的森林裡...<br><b>請低頭找找看，哪一個積木是我的家？</b></p>
+            </div>
             <button class="game-btn" onclick="check(this, true)">🌳 濕熱的雨林積木</button>
             <button class="game-btn" onclick="check(this, false)">❄️ 寒冷的冰原積木</button>
-            <p id="msg" style="text-align:center; font-weight:bold; margin-top:10px;"></p>
+            <p id="msg" style="text-align:center; font-weight:bold; margin-top:15px; font-size: 18px;"></p>
         </div>
 
         <div id="box4" class="info-card">
@@ -231,14 +234,12 @@
     <audio id="snd" src="https://cdn.jsdelivr.net/gh/yenmeiomni/animal-game@main/toucanbird_sound_01.mp3"></audio>
 
     <script>
-        function playAudio() { 
-            document.getElementById('snd').play(); 
-        }
+        function playAudio() { document.getElementById('snd').play(); }
         function openBox(id) {
             document.querySelectorAll('.info-card').forEach(c => c.style.display = 'none');
             const target = document.getElementById(id);
             target.style.display = 'block';
-            target.scrollIntoView({ behavior: 'smooth', block: 'center' });
+            target.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
         }
         function check(btn, ok) {
             const m = document.getElementById('msg');
@@ -247,7 +248,7 @@
                 m.innerText = "🎉 答對了！這裡最舒服了！";
                 m.style.color = "#22863a";
             } else {
-                m.innerText = "❌ 嗚～這裡太熱（冷）了啦！";
+                m.innerText = "❌ 嗚～這裡太冷了啦！";
                 m.style.color = "#d73a49";
             }
         }
