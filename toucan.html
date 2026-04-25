@@ -98,11 +98,13 @@
         /* 2. 讓文字轉回來（保持水平） */
         .ice-block span {
             display: inline-block;
+            transition: all 0.15s ease; /* 這一行很重要，讓轉動變滑順，不是死板板的切換 */
         }
         
         /* 讓所有葉子按鈕都統一向左斜 8 度 */
         .ice-grid .ice-block {
             transform: rotate(-8deg);
+            transition: all 0.15s ease;
         }
         /* 讓所有按鈕內的文字都統一向右轉回 8 度，保持水平 */
         .ice-block span {
@@ -114,8 +116,13 @@
         
         /* 所有按鈕按下去時：保持左斜 8 度，並向下位移 6px */
         .ice-block:active {
-            transform: translateY(6px) rotate(-8deg) !important;
+            transform: translateY(6px) rotate(0deg) !important;
             box-shadow: 0 2px 0 var(--ice-shadow), 0 5px 10px rgba(0,0,0,0.1);
+        }
+        
+        /* 同時，因為葉子變 0 度了，文字也要跟著變回 0 度才會是正的 */
+        .ice-block:active span {
+            transform: rotate(0deg) !important;
         }
         
         /* 📖 資訊展示框：綠色光暈特效 */
