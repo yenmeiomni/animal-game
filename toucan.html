@@ -52,14 +52,21 @@
         .ice-transition {
             position: absolute; bottom: 0; left: 0; width: 100%; height: 60px; pointer-events: none;
         }
+        /* 左側大樹葉 */
         .ice-l { 
-            background: #4caf50; /* 草綠色 */
-            clip-path: polygon(0 100%, 50% 0%, 100% 100%); /* 改成三角形的小山丘感 */
+            background: #2e7d32; /* 深綠葉色 */
+            /* 這裡畫出一個像左半邊葉子的弧形 */
+            clip-path: polygon(0% 0%, 100% 50%, 0% 100%, 0% 50%);
+            border-radius: 0 100% 0 100%;
         }
-        .ice-r { 
-            background: #81c784; 
-            opacity: 0.9;
-            clip-path: polygon(0 100%, 60% 15%, 100% 100%);
+
+         /* 右側大樹葉 */
+         .ice-r { 
+             background: #4caf50; /* 亮綠葉色 */
+             opacity: 0.95;
+             /* 這裡畫出一個像右半邊葉子的弧形 */
+             clip-path: polygon(100% 0%, 0% 50%, 100% 100%, 100% 50%);
+             border-radius: 100% 0 100% 0;
         }
         
         /* 🌊 海域內容區：冰漂浮排版 */
@@ -118,7 +125,17 @@
 
         @keyframes icePop { from { opacity: 0; transform: scale(0.9) translateY(20px); } to { opacity: 1; transform: scale(1) translateY(0); } }
 
-        .info-card h3 { color: var(--text-blue); margin-top: 0; display: flex; align-items: center; gap: 10px; }
+        /* 修改點開後的資訊卡片背景 */
+        .info-card {
+            /* ... 原有的樣式保持不變 ... */
+            background: #f1f8e9 !important; /* 舒服的淺綠色背景 */
+            border: 3px solid #a5d6a7;    /* 搭配淡綠色邊框 */
+        }
+
+        /* 如果你想讓最底下那一整塊放按鈕的區域也變色 */
+        .button-section {
+            background-color: #e8f5e9; /* 極淺的綠色 */
+        }
         
         .photo-wall { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-top: 15px; }
         .photo-wall img, .photo-wall iframe { width: 100%; height: 110px; object-fit: cover; border-radius: 18px; background: #eee; }
@@ -258,7 +275,7 @@
         <img src="./polarbear_photo_04.jpg" alt="北極熊真實照">
     </div>
 
-    <div style="background: #eef6ff; border-radius: 20px; padding: 15px; margin-bottom: 25px; border: 2px solid var(--ocean-blue);">
+    <div style="background: #ffffff; border-radius: 20px; padding: 20px; margin-bottom: 25px; border: 2px solid #2d5a27; position: relative;">
         <p style="margin: 8px 0;"><b>🆔 名字：</b> 大巨嘴鳥 (Toco Toucan)</p>
         <p style="margin: 8px 0;"><b>🏠 住址：</b> 南美洲的熱帶雨林樹冠層</p>
         <p style="margin: 8px 0;"><b>🍴 愛吃：</b> 甜甜的水果或小昆蟲</p>
