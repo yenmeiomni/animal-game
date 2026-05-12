@@ -241,6 +241,31 @@
             transform: translateY(2px);
             box-shadow: 0 2px 0 #fb8c00;
         }
+        
+        /* 彩帶動畫容器 */
+        .confetti-container {
+            position: absolute; width: 100%; height: 100%;
+            top: 0; left: 0; pointer-events: none; overflow: hidden;
+            display: none; z-index: 100;
+        }
+        .confetti {
+            position: absolute; width: 10px; height: 10px;
+            background: #ffeb3b; animation: fall 2s infinite;
+        }
+        @keyframes fall {
+            0% { transform: translateY(-10px) rotate(0deg); opacity: 1; }
+            100% { transform: translateY(200px) rotate(360deg); opacity: 0; }
+        }
+        
+        /* 遊戲進度條 */
+        .game-progress {
+            width: 100%; height: 10px; background: #ddd;
+            border-radius: 5px; margin-bottom: 15px; overflow: hidden;
+        }
+        .progress-fill {
+            width: 20%; height: 100%; background: var(--forest-green);
+            transition: width 0.3s ease;
+        }
     </style>
 </head>
 <body>
@@ -313,18 +338,28 @@
             </div>
         </div>
 
-        <div id="box3" class="info-card">
-            <h3 style="text-align: center;">🎮 找找我的家</h3>
-            <div class="ice-photo-frame">
-                <img src="https://cdn.jsdelivr.net/gh/yenmeiomni/animal-game@main/你的積木照片.jpg" alt="互動積木照片">
-            </div>
-            <div class="description-text" style="text-align: center; margin-bottom: 20px;">
-                <p>我喜歡靜靜地躲在河水裡面或躺在草地岸邊...<br><b>請低頭找找看，哪一個積木是我的家？</b></p>
-            </div>
-            <button class="game-btn" onclick="check(this, true)">💧 涼爽的河流積木</button>
-            <button class="game-btn" onclick="check(this, true)">🌿 濕熱的草地積木</button>
+        <div id="box3" class="info-card" style="position: relative;">
+            <div id="confetti" class="confetti-container"></div>
             
-            <button class="game-btn" onclick="check(this, false)">❄️ 寒冷的冰原積木</button>
+            <h3 id="game-title" style="text-align: center;">🎮 森林探險：第一關</h3>
+            <div class="game-progress"><div id="progress" class="progress-fill"></div></div>
+            
+            <div id="game-content">
+                <div class="ice-photo-frame">
+                    <img id="game-img" src="./crocodile_photo_01.jpg" alt="遊戲圖片">
+                
+                </div>
+                
+                <div class="description-text" style="text-align: center; margin-bottom: 20px;">
+                    <p id="game-question">我是亞馬遜最大的掠食者，我的皮膚是什麼顏色呢？</p>
+                </div>
+                
+                <div id="options-area">
+                    <button class="game-btn" onclick="nextStep(1, true)">🖤 帥氣的黑色</button>
+                    <button class="game-btn" onclick="nextStep(1, false)">💖 可愛的粉色</button>
+                </div>
+            </div>
+            
             <p id="msg" style="text-align:center; font-weight:bold; margin-top:15px; font-size: 18px;"></p>
         </div>
 
@@ -342,55 +377,131 @@
     <audio id="snd" src="https://cdn.jsdelivr.net/gh/yenmeiomni/animal-game@main/crocodile_sound_01.mp3"></audio>
 
     <script>
-    function playAudio() { 
-        document.getElementById('snd').play(); 
-    }
-
-    function openBox(id) {
-        document.querySelectorAll('.info-card').forEach(c => c.style.display = 'none');
-        const target = document.getElementById(id);
-        if(target) {
-            target.style.display = 'block';
-            target.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+        // --- 基礎功能區 ---
+        function playAudio() { document.getElementById('snd').play(); }
+    
+        function openBox(id) {
+            document.querySelectorAll('.info-card').forEach(c => c.style.display = 'none');
+            const target = document.getElementById(id);
+            if(target) {
+                target.style.display = 'block';
+                target.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+            }
         }
-    }
 
-    function check(btn, ok) {
-        const m = document.getElementById('msg');
+        // --- 闖關遊戲變數 ---
+        let currentStep = 1;
+        let lastLevelScore = { river: false, grass: false };
+
+        // 題目資料庫 (你可以隨時修改這裡的文字)
+        const quizData = {
+            1: { q: "我的皮膚是什麼顏色，最方便在晚上躲起來？", img: "./crocodile_photo_01.jpg", opt: [
+                { t: "🖤 帥氣的黑色", ok: true }, { t: "💖 可愛的粉色", ok: false }
+            ]},
+            2: { q: "我掉牙齒了會怎麼辦？", img: "./crocodile_photo_02.jpg", opt: [
+                { t: "🦷 會長出新牙齒", ok: true }, { t: "😰 變老掉牙鱷魚", ok: false }
+            ]},
+            3: { q: "我的眼睛上面有隆起的骨頭，看起來像戴了什麼？", img: "./crocodile_photo_01.jpg", opt: [
+                { t: "🕶️ 帥氣的墨鏡", ok: true }, { t: "🎀 紅色的蝴蝶結", ok: false }
+            ]},
+            4: { q: "我強壯的尾巴有什麼功能？", img: "./crocodile_photo_01.jpg", opt: [
+                { t: "游泳前進", ok: true }, { t: "飛向宇宙", ok: false }
+            ]}
+        };
         
-        if(ok) {
-            btn.classList.add('correct');
-            m.innerText = "🎉 答對了！這裡最舒服了！";
-            m.style.color = "#22863a";
-            
-            // 延遲 1 秒後顯示成就
-            setTimeout(function() {
-                showAchievement(); 
-            }, 1000);
+        // --- 闖關邏輯 ---
+        function nextStep(step, isCorrect) {
+            const m = document.getElementById('msg');
+            if (isCorrect) {
+                m.innerText = "🎉 太棒了！答對了！";
+                m.style.color = "#22863a";
+                showConfetti(); // 答對時噴彩帶
+
+                setTimeout(() => {
+                    currentStep++;
+                    if (currentStep <= 4) {
+                        updateQuiz(currentStep);
+                    } else {
+                        showFinalLevel(); // 進入最後一關
+                    }
+                }, 1200);
+            } else {
+                m.innerText = "❌ 再想想看喔！";
+                m.style.color = "#d73a49";
+            }
+        }
+
+        function updateQuiz(step) {
+            const data = quizData[step];
+            document.getElementById('game-title').innerText = `🎮 森林探險：第 ${step} 關`;
+            document.getElementById('progress').style.width = (step * 20) + "%";
+            document.getElementById('game-img').src = data.img;
+            document.getElementById('game-question').innerText = data.q;
+            document.getElementById('msg').innerText = "";
+
+            let optHtml = "";
+            data.opt.forEach(item => {
+                optHtml += `<button class="game-btn" onclick="nextStep(${step}, ${item.ok})">${item.t}</button>`;
+            });
+            document.getElementById('options-area').innerHTML = optHtml;
+        }
+
+        function showFinalLevel() {
+            document.getElementById('game-title').innerText = `🎮 終極挑戰：找到我的家`;
+            document.getElementById('progress').style.width = "100%";
+            document.getElementById('game-question').innerHTML = "<b>最後一步！</b>請在現場積木中找出我的家，<br>要把兩個正確的家都點開才能通關喔！";
+            document.getElementById('msg').innerText = "";
         
-        } else {
-            m.innerText = "❌ 嗚～這裡太冷了啦！";
-            m.style.color = "#d73a49";
+            document.getElementById('options-area').innerHTML = `
+                <button class="game-btn" id="btn-river" onclick="checkFinal('river')">💧 涼爽的河流積木</button>
+                <button class="game-btn" id="btn-grass" onclick="checkFinal('grass')">🌿 濕熱的草地積木</button>
+                <button class="game-btn" onclick="nextStep(5, false)">❄️ 寒冷的冰原積木</button>
+            `;
         }
-    }
 
-    // --- 🌟 這是你之前漏掉的關鍵部分，請務必貼上 ---
+        function checkFinal(type) {
+            const m = document.getElementById('msg');
+            if (type === 'river') {
+                lastLevelScore.river = true;
+                document.getElementById('btn-river').classList.add('correct');
+            } else if (type === 'grass') {
+                lastLevelScore.grass = true;
+                document.getElementById('btn-grass').classList.add('correct');
+            }
 
-    // 顯示成就彈窗的功能
-    function showAchievement() {
-        const popup = document.getElementById('achievementPopup');
-        if (popup) {
-            popup.style.display = 'flex';
+            if (lastLevelScore.river && lastLevelScore.grass) {
+                m.innerText = "🎊 恭喜！你找齊了所有的家！";
+                showConfetti();
+                setTimeout(() => { showAchievement(); }, 1500);
+            } else {
+                m.innerText = "答對一個了！還差一個地方喔！";
+                m.style.color = "#2d5a27";
+            }
         }
-    }
 
-    // 關閉成就彈窗的功能
-    function closeAchievement() {
-        const popup = document.getElementById('achievementPopup');
-        if (popup) {
-            popup.style.display = 'none';
+        // --- 特效與彈窗控制 ---
+        function showConfetti() {
+            const container = document.getElementById('confetti');
+            container.style.display = 'block';
+            container.innerHTML = '';
+            for (let i = 0; i < 30; i++) {
+                const div = document.createElement('div');
+                div.className = 'confetti';
+                div.style.left = Math.random() * 100 + "%";
+                div.style.backgroundColor = ["#ffeb3b", "#ff9800", "#4caf50", "#2196f3"][Math.floor(Math.random() * 4)];
+                div.style.animationDelay = Math.random() * 2 + "s";
+                container.appendChild(div);
+            }
+            setTimeout(() => { container.style.display = 'none'; }, 2000);
         }
-    }
+
+        function showAchievement() {
+            document.getElementById('achievementPopup').style.display = 'flex';
+        }
+
+        function closeAchievement() {
+            document.getElementById('achievementPopup').style.display = 'none';
+        }
 </script>
     <div id="achievementPopup" class="achievement-overlay">
         <div class="achievement-card">
