@@ -133,97 +133,181 @@
         .correct { background: #e6ffed !important; box-shadow: 0 5px 0 #b2d8b9 !important; color: #22863a !important; }
 
         /* --- 認識我：冰磚相框與文字樣式更新 --- */
-.ice-photo-frame {
-    width: 100%;
-    background: #f0f8ff; /* 冰塊白 */
-    border-radius: 25px 40px 30px 35px; /* 這裡讓它有不規則的自然感 */
-    padding: 10px;
-    box-shadow: 0 10px 0 #7ba2c1; /* 這裡就是你想要的 3D 厚度感 */
-    margin-bottom: 25px;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    overflow: hidden;
-    box-sizing: border-box;
-}
+        .ice-photo-frame {
+            width: 100%;
+            background: #f0f8ff; /* 冰塊白 */
+            border-radius: 25px 40px 30px 35px; /* 這裡讓它有不規則的自然感 */
+            padding: 10px;
+            box-shadow: 0 10px 0 #7ba2c1; /* 這裡就是你想要的 3D 厚度感 */
+            margin-bottom: 25px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            overflow: hidden;
+            box-sizing: border-box;
+        }
 
-.ice-photo-frame img {
-    width: 100%;
-    height: 220px; /* 如果覺得照片太高，可以改小這個數值 */
-    object-fit: cover; /* 讓照片自動填滿不變形 */
-    border-radius: 20px;
-}
+        .ice-photo-frame img {
+            width: 100%;
+            height: 220px; /* 如果覺得照片太高，可以改小這個數值 */
+            object-fit: cover; /* 讓照片自動填滿不變形 */
+            border-radius: 20px;
+        }
 
-.description-text {
-    font-size: 18px;
-    line-height: 1.8;
-    color: #2c689c; /* 深藍色文字，小朋友比較好閱讀 */
-    text-align: left;
-}
+        .description-text {
+            font-size: 18px;
+            line-height: 1.8;
+            color: #2c689c; /* 深藍色文字，小朋友比較好閱讀 */
+            text-align: left;
+        }
 
-.description-text b {
-    color: #1a4a73;
-    font-size: 20px;
-}
+        .description-text b {
+            color: #1a4a73;
+            font-size: 20px;
+        }
 
         /* --- 翻轉卡片容器 --- */
-.knowledge-card-container {
-    perspective: 1000px; /* 建立 3D 空間感 */
-    width: 100%;
-    height: 250px;
-    margin-bottom: 25px;
-    cursor: pointer;
-}
+        .knowledge-card-container {
+            perspective: 1000px; /* 建立 3D 空間感 */
+            width: 100%;
+            height: 250px;
+            margin-bottom: 25px;
+            cursor: pointer;
+        }
 
-.knowledge-card-inner {
-    position: relative;
-    width: 100%;
-    height: 100%;
-    text-align: center;
-    transition: transform 0.8s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-    transform-style: preserve-3d;
-}
+        .knowledge-card-inner {
+            position: relative;
+            width: 100%;
+            height: 100%;
+            text-align: center;
+            transition: transform 0.8s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            transform-style: preserve-3d;
+        }
 
-/* 點擊後翻轉 180 度 */
-.knowledge-card-container.flipped .knowledge-card-inner {
-    transform: rotateY(180deg);
-}
+        /* 點擊後翻轉 180 度 */
+        .knowledge-card-container.flipped .knowledge-card-inner {
+            transform: rotateY(180deg);
+        }
 
-/* 正面與背面共用樣式 */
-.card-front, .card-back {
-    position: absolute;
-    width: 100%;
-    height: 100%;
-    backface-visibility: hidden; /* 翻過去後隱藏背面 */
-    border-radius: 30px;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    padding: 20px;
-    box-sizing: border-box;
-    box-shadow: 0 10px 0 var(--ice-shadow); /* 維持 3D 厚度感 */
-}
+        /* 正面與背面共用樣式 */
+        .card-front, .card-back {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            backface-visibility: hidden; /* 翻過去後隱藏背面 */
+            border-radius: 30px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+            box-sizing: border-box;
+            box-shadow: 0 10px 0 var(--ice-shadow); /* 維持 3D 厚度感 */
+        }
 
-/* 正面樣式 (冰塊感) */
-.card-front {
-    background: var(--ice-white);
-    border: 3px solid var(--ocean-blue);
-    color: var(--text-blue);
-}
+        /* 正面樣式 (冰塊感) */
+        .card-front {
+            background: var(--ice-white);
+            border: 3px solid var(--ocean-blue);
+            color: var(--text-blue);
+        }
 
-.card-front .q-mark {
-    font-size: 60px;
-    margin-bottom: 10px;
-}
+        .card-front .q-mark {
+            font-size: 60px;
+            margin-bottom: 10px;
+        }
 
-/* 背面樣式 (翻開後的顏色) */
-.card-back {
-    background: #ffffff;
-    border: 3px solid #ffd700; /* 金色邊框代表找到寶藏答案 */
-    transform: rotateY(180deg);
-    color: #333;
-}
+        /* 背面樣式 (翻開後的顏色) */
+        .card-back {
+            background: #ffffff;
+            border: 3px solid #ffd700; /* 金色邊框代表找到寶藏答案 */
+            transform: rotateY(180deg);
+            color: #333;
+        }
+                /* 成就彈窗背景（全螢幕半透明黑） */
+        .achievement-overlay {
+            display: none; /* 平時隱藏 */
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(0, 0, 0, 0.7);
+            z-index: 1000;
+            justify-content: center;
+            align-items: center;
+        }
+        
+        /* 彈窗主體卡片 */
+        .achievement-card {
+            background: #ffeb3b; /* 暖黃色背景 */
+            background: linear-gradient(180deg, #ffe082 0%, #ffca28 100%);
+            width: 85%;
+            max-width: 350px;
+            padding: 30px 20px;
+            border-radius: 40px;
+            text-align: center;
+            position: relative;
+            border: 5px solid #fff;
+            box-shadow: 0 0 30px rgba(255, 235, 59, 0.5);
+            animation: popIn 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        }
+        
+        /* 彈入動畫 */
+        @keyframes popIn {
+            0% { transform: scale(0.5); opacity: 0; }
+            100% { transform: scale(1); opacity: 1; }
+        }
+        /* 徽章圖片樣式 */
+        .medal-img {
+            width: 200px;
+            margin-bottom: 20px;
+        }
+        .congrats-title {
+            font-size: 28px;
+            color: #795548; /* 深咖啡色文字 */
+            font-weight: bold;
+            margin-bottom: 10px;
+        }
+        .achievement-btn {
+            background: #fff;
+            border: none;
+            padding: 12px 40px;
+            border-radius: 50px;
+            font-size: 18px;
+            font-weight: bold;
+            color: #ff9800;
+            box-shadow: 0 4px 0 #fb8c00;
+            cursor: pointer;
+            margin-top: 20px;
+        }
+        
+        .achievement-btn:active {
+            transform: translateY(2px);
+            box-shadow: 0 2px 0 #fb8c00;
+        }
+        
+        /* 彩帶動畫容器 */
+        .confetti-container {
+            position: absolute; width: 100%; height: 100%;
+            top: 0; left: 0; pointer-events: none; overflow: hidden;
+            display: none; z-index: 100;
+        }
+        .confetti {
+            position: absolute; width: 10px; height: 10px;
+            background: #ffeb3b; animation: fall 2s infinite;
+        }
+        @keyframes fall {
+            0% { transform: translateY(-10px) rotate(0deg); opacity: 1; }
+            100% { transform: translateY(200px) rotate(360deg); opacity: 0; }
+        }
+        
+        /* 遊戲進度條 */
+        .game-progress {
+            width: 100%; height: 10px; background: #ddd;
+            border-radius: 5px; margin-bottom: 15px; overflow: hidden;
+        }
+        .progress-fill {
+            width: 20%; height: 100%; background: var(--forest-green);
+            transition: width 0.3s ease;
+        }
     </style>
 </head>
 <body>
@@ -327,52 +411,176 @@
             </div>
         </div>
 
-        <div id="box3" class="info-card">
-    <h3 style="justify-content: center; width: 100%; display: flex;">🎮 找找我的家</h3>
+        <div id="box3" class="info-card" style="position: relative;">
+            <div id="confetti" class="confetti-container"></div>
+            
+            <h3 id="game-title" style="text-align: center;">🎮 森林探險：第一關</h3>
+            <div class="game-progress"><div id="progress" class="progress-fill"></div></div>
+            
+            <div id="game-content">
+                <div class="ice-photo-frame">
+                    <img id="game-img" src="./crocodile_photo_01.jpg" alt="遊戲圖片">
+                
+                </div>
+                
+                <div class="description-text" style="text-align: center; margin-bottom: 20px;">
+                    <p id="game-question">我是亞馬遜最大的掠食者，我的皮膚是什麼顏色呢？</p>
+                </div>
+                
+                <div id="options-area">
+                    <button class="game-btn" onclick="nextStep(1, true)">🖤 帥氣的黑色</button>
+                    <button class="game-btn" onclick="nextStep(1, false)">💖 可愛的粉色</button>
+                </div>
+            </div>
     
-    <div class="ice-photo-frame">
-        <img src="https://cdn.jsdelivr.net/gh/yenmeiomni/animal-game@main/你的積木照片.jpg" alt="互動積木照片">
-    </div>
-
-    <div class="description-text" style="text-align: center; margin-bottom: 20px;">
-        <p>這裡到處都是白茫茫的雪，還有冰冷的海水...<br>
-           <b>請低頭找找看，哪一個積木是我的家？</b></p>
-    </div>
-    
-    <button class="game-btn" onclick="check(this, false)">🌳 濕熱的草地積木</button>
-    <button class="game-btn" onclick="check(this, true)">❄️ 寒冷的冰原積木</button>
-    
-    <p id="msg" style="text-align:center; font-weight:bold; margin-top:15px; font-size: 18px;"></p>
-</div>
+            <p id="msg" style="text-align:center; font-weight:bold; margin-top:15px; font-size: 18px;"></p>
+        </div>
     </div>
 
     <audio id="snd" src="https://cdn.jsdelivr.net/gh/yenmeiomni/animal-game@main/emperorpenguins_sound_01.mp3"></audio>
 
     <script>
-        function playAudio() { 
-            const audio = document.getElementById('snd');
-            audio.volume = 0.5; // 0.0 是靜音，1.0 是最大聲，這裡設定為一半
-            audio.play();
-        }
-
+        // --- 基礎功能區 ---
+        function playAudio() { document.getElementById('snd').play(); }
+    
         function openBox(id) {
             document.querySelectorAll('.info-card').forEach(c => c.style.display = 'none');
             const target = document.getElementById(id);
-            target.style.display = 'block';
-            target.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+            if(target) {
+                target.style.display = 'block';
+                target.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+            }
         }
 
-        function check(btn, ok) {
+        // --- 闖關遊戲變數 ---
+        let currentStep = 1;
+        let lastLevelScore = { river: false, grass: false };
+
+        // 題目資料庫 (你可以隨時修改這裡的文字)
+        const quizData = {
+            1: { q: "我的皮膚是什麼顏色，最方便在晚上躲起來？", img: "./crocodile_photo_01.jpg", opt: [
+                { t: "帥氣的黑色", ok: true }, { t: "可愛的粉色", ok: false }
+            ]},
+            2: { q: "天氣好熱我都會去做什麼事？", img: "./crocodile_photo_03.jpg", opt: [
+                { t: "我會去河流裡游泳", ok: true }, { t: "我會去樹上遮陽", ok: false }
+            ]},
+            3: { q: "通常我會一個人待在水裡，但遇到其他夥伴時我也會做什麼？", img: "./crocodile_photo_02.jpg", opt: [
+                { t: "跟著夥伴待在草地上做日光浴", ok: true }, { t: "躲在草叢裡面看夥伴", ok: false }
+            ]},
+            4: { q: "我強壯的尾巴有什麼功能？", img: "./crocodile_photo_05.jpg", opt: [
+                { t: "游泳前進", ok: true }, { t: "飛向宇宙", ok: false }
+            ]}
+        };
+        
+        // --- 闖關邏輯 ---
+        function nextStep(step, isCorrect) {
             const m = document.getElementById('msg');
-            if(ok) {
-                btn.classList.add('correct');
-                m.innerText = "🎉 答對了！這裡最舒服了！";
+            if (isCorrect) {
+                m.innerText = "🎉 太棒了！答對了！";
                 m.style.color = "#22863a";
+                showConfetti(); // 答對時噴彩帶
+
+                setTimeout(() => {
+                    currentStep++;
+                    if (currentStep <= 4) {
+                        updateQuiz(currentStep);
+                    } else {
+                        showFinalLevel(); // 進入最後一關
+                    }
+                }, 1200);
             } else {
-                m.innerText = "❌ 嗚～這裡太熱了啦！";
+                m.innerText = "❌ 再想想看喔！";
                 m.style.color = "#d73a49";
             }
         }
-    </script>
+
+        function updateQuiz(step) {
+            const data = quizData[step];
+            document.getElementById('game-title').innerText = `🎮 森林探險：第 ${step} 關`;
+            document.getElementById('progress').style.width = (step * 20) + "%";
+            document.getElementById('game-img').src = data.img;
+            document.getElementById('game-question').innerText = data.q;
+            document.getElementById('msg').innerText = "";
+
+            let optHtml = "";
+            data.opt.forEach(item => {
+                optHtml += `<button class="game-btn" onclick="nextStep(${step}, ${item.ok})">${item.t}</button>`;
+            });
+            document.getElementById('options-area').innerHTML = optHtml;
+        }
+
+        function showFinalLevel() {
+            document.getElementById('game-title').innerText = `🎮 終極挑戰：找到我的家`;
+            document.getElementById('progress').style.width = "100%";
+            document.getElementById('game-img').src = "./medal1.png";
+            document.getElementById('game-question').innerHTML = "<b>最後一步！</b>請在現場積木中找出我的家，<br>要把兩個正確的家都點開才能通關喔！";
+            document.getElementById('msg').innerText = "";
+        
+            document.getElementById('options-area').innerHTML = `
+                <button class="game-btn" id="btn-river" onclick="checkFinal('river')">💧 涼爽的海水/河流積木</button>
+                <button class="game-btn" id="btn-grass" onclick="checkFinal('grass')">🌿 濕熱的草地積木</button>
+                <button class="game-btn" onclick="nextStep(5, false)">❄️ 寒冷的冰原積木</button>
+            `;
+        }
+
+        function checkFinal(type) {
+            const m = document.getElementById('msg');
+            if (type === 'river') {
+                lastLevelScore.river = true;
+                document.getElementById('btn-river').classList.add('correct');
+            } else if (type === 'grass') {
+                lastLevelScore.grass = true;
+                document.getElementById('btn-grass').classList.add('correct');
+            }
+
+            if (lastLevelScore.river && lastLevelScore.grass) {
+                m.innerText = "🎊 恭喜！你找齊了所有的家！";
+                showConfetti();
+                setTimeout(() => { showAchievement(); }, 1500);
+            } else {
+                m.innerText = "答對一個了！還差一個地方喔！";
+                m.style.color = "#2d5a27";
+            }
+        }
+
+        // --- 特效與彈窗控制 ---
+        function showConfetti() {
+            const container = document.getElementById('confetti');
+            container.style.display = 'block';
+            container.innerHTML = '';
+            for (let i = 0; i < 30; i++) {
+                const div = document.createElement('div');
+                div.className = 'confetti';
+                div.style.left = Math.random() * 100 + "%";
+                div.style.backgroundColor = ["#ffeb3b", "#ff9800", "#4caf50", "#2196f3"][Math.floor(Math.random() * 4)];
+                div.style.animationDelay = Math.random() * 2 + "s";
+                container.appendChild(div);
+            }
+            setTimeout(() => { container.style.display = 'none'; }, 2000);
+        }
+
+        function showAchievement() {
+            document.getElementById('achievementPopup').style.display = 'flex';
+        }
+
+        function closeAchievement() {
+            document.getElementById('achievementPopup').style.display = 'none';
+        }
+</script>
+    <div id="achievementPopup" class="achievement-overlay">
+        <div class="achievement-card">
+            <h2 class="congrats-title">恭喜完成挑戰！</h2>
+            <p style="color: #8d6e63; font-weight: bold;">你獲得了一枚成就徽章！</p>
+        
+            <img src="./medal.png" class="medal-img" alt="成就徽章">
+        
+            <div style="background: rgba(255,255,255,0.5); padding: 10px; border-radius: 20px; margin: 10px 0;">
+                <b style="color: #5d4037;">挑戰達人</b><br>
+                <small style="color: #795548;">成功完成挑戰，太棒了！</small>
+            </div>
+
+            <button class="achievement-btn" onclick="closeAchievement()">太棒了！</button>
+        </div>
+    </div>
 </body>
 </html>
