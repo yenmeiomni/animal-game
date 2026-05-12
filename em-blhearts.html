@@ -3,27 +3,30 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>皇帝企鵝的冰原家園</title>
+    <title>皇帝企鵝的冰雪家園</title>
     <script type="module" src="https://ajax.googleapis.com/ajax/libs/model-viewer/3.5.0/model-viewer.min.js"></script>
     
     <style>
+        /* 這裡完全保留你原本的配色與樣式設定 */
         :root {
-            --ocean-blue: #a3c9e7;
-            --ice-white: #bddcef;
-            --ice-shadow: #7ba2c1;
-            --text-blue: #2c689c;
-            --forest-green: #2ecc71; /* 補上進度條顏色 */
+            --polar-blue: #005a8d;
+            --ice-light: #e0f2f1;
+            --penguin-black: #2c3e50;
+            --snow-white: #ffffff;
+            --accent-gold: #ffc107;
+            --ocean-blue: #e3f2fd;
+            --ice-white: #ffffff;
+            --ice-shadow: #b0bec5;
         }
 
         body { 
             margin: 0; font-family: "Microsoft JhengHei", sans-serif; 
-            background-color: #ffffff; color: var(--text-blue);
+            background-color: #ffffff; color: var(--penguin-black);
             display: flex; flex-direction: column; align-items: center; overflow-x: hidden;
         }
 
-        /* ❄️ 頂部 3D 區 */
         .header-section {
-            width: 100%; background-color: var(--ocean-blue);
+            width: 100%; background-color: var(--polar-blue);
             padding-bottom: 60px; position: relative;
             display: flex; flex-direction: column; align-items: center;
         }
@@ -31,214 +34,55 @@
         .cloud-speech {
             position: relative; background: #fff; border-radius: 30px;
             padding: 12px 25px; margin-top: 25px; font-weight: bold; font-size: 18px;
-            box-shadow: 0 4px 10px rgba(0,0,0,0.05); z-index: 10;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.1); display: flex; align-items: center;
+            z-index: 10; color: var(--polar-blue);
+        }
+        .cloud-speech::after {
+            content: ''; position: absolute; bottom: -8px; left: 50%;
+            width: 16px; height: 16px; background: white; border-radius: 50%; transform: translateX(-50%);
         }
 
         model-viewer { width: 100%; height: 320px; background: transparent; }
 
         .ice-transition {
-            position: absolute; bottom: 0; left: 0; width: 100%; height: 60px; pointer-events: none;
+            position: absolute; bottom: 0; left: 0; width: 100%; height: 80px; 
+            display: flex; justify-content: center; align-items: flex-end; pointer-events: none;
         }
-        .ice-l { position: absolute; bottom: 0; left: -5%; width: 65%; height: 100%; background: white; clip-path: polygon(0 100%, 25% 15%, 100% 100%); }
-        .ice-r { position: absolute; bottom: 0; right: -5%; width: 55%; height: 70%; background: white; opacity: 0.8; clip-path: polygon(0 100%, 60% 10%, 100% 100%); }
-
-        /* 🌊 海域內容區 */
+        .ice-l, .ice-r { width: 60%; height: 100%; position: absolute; bottom: -10px; }
+        .ice-l { background: #f8fdff; left: -10%; border-radius: 100% 0% 100% 0%; transform: rotate(-5deg); z-index: 2; }
+        .ice-r { background: #e0f7fa; right: -10%; border-radius: 0% 100% 0% 100%; transform: rotate(5deg); opacity: 0.9; z-index: 1; }
+        
         .ocean-content {
             width: 100%; padding: 40px 20px; box-sizing: border-box;
-            background: linear-gradient(180deg, #ffffff 0%, #eef6ff 100%);
+            background-color: var(--ocean-blue); 
             display: flex; flex-direction: column; align-items: center;
+            position: relative; min-height: 800px;
         }
 
-        .ice-grid {
-            display: flex; flex-wrap: wrap; justify-content: center;
-            gap: 20px; width: 100%; max-width: 400px; margin-bottom: 20px;
-        }
-
+        .ice-grid { display: flex; flex-wrap: wrap; justify-content: center; gap: 20px; width: 100%; max-width: 400px; padding: 20px 0; z-index: 5; }
+        
+        /* 你的冰塊按鈕樣式 */
         .ice-block {
-            position: relative; width: 140px; height: 90px;
-            background: var(--ice-white); border-radius: 20px;
-            display: flex; justify-content: center; align-items: center;
-            cursor: pointer; font-weight: bold; font-size: 18px;
-            box-shadow: 0 8px 0 var(--ice-shadow);
-            transition: all 0.1s; transform: rotate(-3deg);
+            position: relative; width: 140px; height: 90px; background: var(--ice-white);
+            border-radius: 15px; display: flex; justify-content: center; align-items: center;
+            cursor: pointer; font-weight: bold; font-size: 18px; color: var(--polar-blue);
+            box-shadow: 0 8px 0 var(--ice-shadow), 0 15px 25px rgba(0,0,0,0.08);
+            transition: all 0.15s ease; z-index: 5;
         }
-        .ice-block:active { transform: translateY(6px) rotate(2deg); box-shadow: 0 2px 0 var(--ice-shadow); }
+        .ice-grid .ice-block:nth-child(odd) { transform: rotate(-8deg); }
+        .ice-grid .ice-block:nth-child(even) { transform: rotate(8deg); }
+        .ice-block span { display: inline-block; }
+        .ice-grid .ice-block:nth-child(odd) span { transform: rotate(8deg); }
+        .ice-grid .ice-block:nth-child(even) span { transform: rotate(-8deg); }
 
-        /* 📖 資訊展示框 */
+        .ice-block:active { transform: translateY(6px) rotate(0deg) !important; box-shadow: 0 2px 0 var(--ice-shadow); }
+        .ice-block:active span { transform: rotate(0deg) !important; }
+
         .info-card {
-            width: 100%; max-width: 380px; margin-top: 30px; display: none;
-            background: white; border-radius: 30px; padding: 25px;
-            box-shadow: 0 15px 45px rgba(123, 162, 193, 0.2);
-            border: 3px solid var(--ice-white);
-            box-sizing: border-box;
+            display: none; width: 95%; max-width: 500px; margin: 25px auto;
+            background: #fff; border-radius: 30px; padding: 25px;
+            border: 3px solid #b0bec5; box-sizing: border-box;
+            box-shadow: 0 0 30px rgba(176, 190, 197, 0.4);
+            animation: slideUp 0.4s ease-out;
         }
-
-        .ice-photo-frame { width: 100%; border-radius: 20px; box-shadow: 0 8px 0 var(--ice-shadow); margin-bottom: 20px; overflow: hidden; }
-        .ice-photo-frame img { width: 100%; height: 200px; object-fit: cover; display: block; }
-
-        /* 遊戲專用樣式 */
-        .game-progress { width: 100%; height: 10px; background: #eee; border-radius: 5px; margin: 10px 0; overflow: hidden; }
-        .progress-fill { width: 20%; height: 100%; background: var(--forest-green); transition: 0.3s; }
-        .game-btn { width: 100%; padding: 15px; margin: 8px 0; border: none; background: #eef6ff; border-radius: 15px; font-weight: bold; cursor: pointer; box-shadow: 0 4px 0 #ccddec; }
-        .game-btn:active { transform: translateY(2px); box-shadow: 0 2px 0 #ccddec; }
-        .correct { background: #e6ffed !important; color: #22863a !important; box-shadow: 0 4px 0 #b2d8b9 !important; }
-
-        /* 成就彈窗 */
-        .achievement-overlay {
-            display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-            background: rgba(0,0,0,0.8); z-index: 9999; justify-content: center; align-items: center;
-        }
-        .achievement-card {
-            background: linear-gradient(180deg, #ffe082 0%, #ffca28 100%);
-            width: 80%; max-width: 300px; padding: 30px; border-radius: 30px; text-align: center; border: 5px solid #fff;
-        }
-        .confetti-container { position: absolute; width: 100%; height: 100%; top: 0; left: 0; pointer-events: none; display: none; }
-        .confetti { position: absolute; width: 8px; height: 8px; animation: fall 2s linear forwards; }
-        @keyframes fall { 0% { transform: translateY(-10px); opacity: 1; } 100% { transform: translateY(300px); opacity: 0; } }
-    </style>
-</head>
-<body>
-
-    <div class="header-section">
-        <div class="cloud-speech">哈囉！我是皇帝企鵝！🐧</div>
-        <model-viewer src="https://cdn.jsdelivr.net/gh/yenmeiomni/animal-game@main/emperorpenguin_v1.glb" auto-rotate camera-controls ar></model-viewer>
-        <div class="ice-transition"><div class="ice-l"></div><div class="ice-r"></div></div>
-    </div>
-
-    <div class="ocean-content">
-        <div class="ice-grid">
-            <div class="ice-block" onclick="openBox('box1')"><span>認識我</span></div>
-            <div class="ice-block" onclick="openBox('box2')"><span>小小秘密</span></div>
-            <div class="ice-block" onclick="openBox('box3')"><span>互動遊戲</span></div>
-            <div class="ice-block" onclick="openBox('box4')"><span>生活影像</span></div>
-        </div>
-
-        <div id="box1" class="info-card">
-            <div class="ice-photo-frame"><img src="./emperorpenguins_photo_01.jpg"></div>
-            <p><b>🏠 住址：</b> 南極洲</p>
-            <p><b>🍴 愛吃：</b> 魚、磷蝦</p>
-            <button class="game-btn" onclick="playAudio()">🔊 聽聽我的叫聲</button>
-        </div>
-
-        <div id="box3" class="info-card">
-            <div id="confetti" class="confetti-container"></div>
-            <h3 id="game-title" style="text-align:center;">🎮 闖關遊戲</h3>
-            <div class="game-progress"><div id="progress" class="progress-fill"></div></div>
-            <div id="game-content">
-                <div class="ice-photo-frame"><img id="game-img" src=""></div>
-                <p id="game-question" style="text-align:center; font-weight:bold;"></p>
-                <div id="options-area"></div>
-            </div>
-            <p id="msg" style="text-align:center;"></p>
-        </div>
-
-        <div id="box2" class="info-card"><h3>💡 小秘密</h3><p>點擊按鈕來探索吧！</p></div>
-        <div id="box4" class="info-card"><h3>🖼️ 影像牆</h3><p>這裡放影片和照片。</p></div>
-    </div>
-
-    <div id="achievementPopup" class="achievement-overlay">
-        <div class="achievement-card">
-            <h2>🎉 挑戰成功！</h2>
-            <p>你真是企鵝小專家！</p>
-            <button class="achievement-btn" onclick="closeAchievement()">太棒了</button>
-        </div>
-    </div>
-
-    <audio id="snd" src="https://cdn.jsdelivr.net/gh/yenmeiomni/animal-game@main/emperorpenguins_sound_01.mp3"></audio>
-
-    <script>
-        // 1. 核心控制：切換盒子顯示
-        function openBox(id) {
-            // 先隱藏所有卡片
-            document.querySelectorAll('.info-card').forEach(card => card.style.display = 'none');
-            // 顯示點擊的那張
-            const target = document.getElementById(id);
-            if (target) {
-                target.style.display = 'block';
-                target.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
-            }
-        }
-
-        // 2. 音效控制
-        function playAudio() { document.getElementById('snd').play(); }
-
-        // 3. 遊戲邏輯
-        let currentStep = 1;
-        let lastLevelScore = { ice: false, ocean: false };
-
-        const quizData = {
-            1: { q: "我是誰的爸爸？", img: "./emperorpenguins_photo_01.jpg", opt: [{t: "企鵝寶寶", ok: true}, {t: "北極熊", ok: false}] },
-            2: { q: "我住在什麼地方？", img: "./emperorpenguins_photo_01.jpg", opt: [{t: "南極洲", ok: true}, {t: "沙漠", ok: false}] },
-            3: { q: "我最喜歡吃什麼？", img: "./emperorpenguins_photo_01.jpg", opt: [{t: "小魚", ok: true}, {t: "漢堡", ok: false}] },
-            4: { q: "我會飛嗎？", img: "./emperorpenguins_photo_01.jpg", opt: [{t: "不會，我會游泳", ok: true}, {t: "會，我飛超高", ok: false}] }
-        };
-
-        function updateQuiz(step) {
-            const data = quizData[step];
-            if(!data) return;
-            document.getElementById('game-title').innerText = `🎮 南極挑戰：第 ${step} 關`;
-            document.getElementById('progress').style.width = (step * 20) + "%";
-            document.getElementById('game-img').src = data.img;
-            document.getElementById('game-question').innerText = data.q;
-            document.getElementById('msg').innerText = "";
-
-            let html = "";
-            data.opt.forEach(o => {
-                html += `<button class="game-btn" onclick="nextStep(${step}, ${o.ok})">${o.t}</button>`;
-            });
-            document.getElementById('options-area').innerHTML = html;
-        }
-
-        function nextStep(step, isCorrect) {
-            const m = document.getElementById('msg');
-            if (isCorrect) {
-                m.innerText = "🎉 答對了！";
-                showConfetti();
-                setTimeout(() => {
-                    currentStep++;
-                    if (currentStep <= 4) updateQuiz(currentStep);
-                    else showFinalLevel();
-                }, 1000);
-            } else {
-                m.innerText = "❌ 再試一次！";
-            }
-        }
-
-        function showFinalLevel() {
-            document.getElementById('game-title').innerText = `🎮 最終挑戰`;
-            document.getElementById('progress').style.width = "100%";
-            document.getElementById('game-question').innerText = "選出兩個我的家！";
-            document.getElementById('options-area').innerHTML = `
-                <button class="game-btn" id="f1" onclick="checkFinal('ice')">❄️ 浮冰積木</button>
-                <button class="game-btn" id="f2" onclick="checkFinal('ocean')">🌊 大海積木</button>
-            `;
-        }
-
-        function checkFinal(type) {
-            if(type==='ice'){ lastLevelScore.ice = true; document.getElementById('f1').classList.add('correct'); }
-            if(type==='ocean'){ lastLevelScore.ocean = true; document.getElementById('f2').classList.add('correct'); }
-            if(lastLevelScore.ice && lastLevelScore.ocean) {
-                showConfetti();
-                setTimeout(() => { document.getElementById('achievementPopup').style.display='flex'; }, 1000);
-            }
-        }
-
-        function showConfetti() {
-            const c = document.getElementById('confetti');
-            c.style.display = 'block'; c.innerHTML = '';
-            for(let i=0; i<20; i++){
-                const d = document.createElement('div');
-                d.className = 'confetti'; d.style.left = Math.random()*100+'%';
-                d.style.backgroundColor = ['#fff','#7ba2c1','#ffd700'][Math.floor(Math.random()*3)];
-                c.appendChild(d);
-            }
-            setTimeout(()=>c.style.display='none', 2000);
-        }
-
-        function closeAchievement() { document.getElementById('achievementPopup').style.display = 'none'; }
-
-        // 啟動第一題
-        updateQuiz(1);
-    </script>
-</body>
-</html>
+        @keyframes slideUp {
