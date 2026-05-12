@@ -323,6 +323,7 @@
             </div>
             <button class="game-btn" onclick="check(this, true)">💧 涼爽的河流積木</button>
             <button class="game-btn" onclick="check(this, true)">🌿 濕熱的草地積木</button>
+            
             <button class="game-btn" onclick="check(this, false)">❄️ 寒冷的冰原積木</button>
             <p id="msg" style="text-align:center; font-weight:bold; margin-top:15px; font-size: 18px;"></p>
         </div>
@@ -350,13 +351,23 @@
         }
         function check(btn, ok) {
             const m = document.getElementById('msg');
+            
             if(ok) {
-                btn.classList.add('correct');
+                // --- 使用者選對了 ---
+                btn.classList.add('correct'); // 按鈕變綠
                 m.innerText = "🎉 答對了！這裡最舒服了！";
                 m.style.color = "#22863a";
+                
+                // 🌟 只在「答對」的情況下，才召喚徽章
+                setTimeout(function() {
+                    showAchievement(); // 呼叫顯示徽章的功能
+                }, 1000);
+            
             } else {
+                // --- 使用者選錯了 ---
                 m.innerText = "❌ 嗚～這裡太冷了啦！";
                 m.style.color = "#d73a49";
+                // 這裡「沒有」寫 showAchievement()，所以選錯絕對不會跳出徽章
             }
         }
     </script>
