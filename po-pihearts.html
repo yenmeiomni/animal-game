@@ -425,12 +425,12 @@
                 </div>
                 
                 <div class="description-text" style="text-align: center; margin-bottom: 20px;">
-                    <p id="game-question">我是亞馬遜最大的掠食者，我的皮膚是什麼顏色呢？</p>
+                    <p id="game-question">我的皮膚其實是什麼顏色的，才能吸收陽光保暖？</p>
                 </div>
                 
                 <div id="options-area">
-                    <button class="game-btn" onclick="nextStep(1, true)">🖤 帥氣的黑色</button>
-                    <button class="game-btn" onclick="nextStep(1, false)">💖 可愛的粉色</button>
+                    <button class="game-btn" onclick="nextStep(1, true)">黑色</button>
+                    <button class="game-btn" onclick="nextStep(1, false)">白色</button>
                 </div>
             </div>
     
@@ -459,17 +459,17 @@
 
         // 題目資料庫 (你可以隨時修改這裡的文字)
         const quizData = {
-            1: { q: "我的皮膚是什麼顏色，最方便在晚上躲起來？", img: "./crocodile_photo_01.jpg", opt: [
-                { t: "帥氣的黑色", ok: true }, { t: "可愛的粉色", ok: false }
+            1: { q: "我的皮膚其實是什麼顏色的，才能吸收陽光保暖？", img: "./polarbear_photo_02.png", opt: [
+                { t: "黑色", ok: true }, { t: "白色", ok: false }
             ]},
-            2: { q: "天氣好熱我都會去做什麼事？", img: "./crocodile_photo_03.jpg", opt: [
-                { t: "我會去河流裡游泳", ok: true }, { t: "我會去樹上遮陽", ok: false }
+            2: { q: "我的毛其實不是白色的，那是反射光線的結果，它其實是？", img: "./polarbear_photo_01.jpg", opt: [
+                { t: "透明中空的", ok: true }, { t: "灰色的實心毛", ok: false }
             ]},
-            3: { q: "通常我會一個人待在水裡，但遇到其他夥伴時我也會做什麼？", img: "./crocodile_photo_02.jpg", opt: [
-                { t: "跟著夥伴待在草地上做日光浴", ok: true }, { t: "躲在草叢裡面看夥伴", ok: false }
+            3: { q: "我在水裡游得很厲害，這要歸功於我的哪一部分？", img: "./polarbear_photo_03.jpg", opt: [
+                { t: "像雷達的小耳朵", ok: false }, { t: "像槳一樣的大前肢", ok: true }
             ]},
-            4: { q: "我強壯的尾巴有什麼功能？", img: "./crocodile_photo_05.jpg", opt: [
-                { t: "游泳前進", ok: true }, { t: "飛向宇宙", ok: false }
+            4: { q: "晚上要睡覺的時候我會去哪裡休息？", img: "./polarbear_photo_04.jpg", opt: [
+                { t: "淺入餅海裡睡覺", ok: true }, { t: "躺在浮冰上睡覺", ok: false }
             ]}
         };
         
