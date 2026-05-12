@@ -504,6 +504,21 @@
         function closeAchievement() {
             document.getElementById('achievementPopup').style.display = 'none';
         }
-    </script>
+</script>
+    <div id="achievementPopup" class="achievement-overlay">
+        <div class="achievement-card">
+            <h2 class="congrats-title">恭喜完成挑戰！</h2>
+            <p style="color: #8d6e63; font-weight: bold;">你獲得了一枚成就徽章！</p>
+        
+            <img src="./medal.png" class="medal-img" alt="成就徽章">
+        
+            <div style="background: rgba(255,255,255,0.5); padding: 10px; border-radius: 20px; margin: 10px 0;">
+                <b style="color: #5d4037;">挑戰達人</b><br>
+                <small style="color: #795548;">成功完成挑戰，太棒了！</small>
+            </div>
+
+            <button class="achievement-btn" onclick="closeAchievement()">太棒了！</button>
+        </div>
+    </div>
 </body>
 </html>
