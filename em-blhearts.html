@@ -419,17 +419,17 @@
             
             <div id="game-content">
                 <div class="ice-photo-frame">
-                    <img id="game-img" src="./crocodile_photo_01.jpg" alt="遊戲圖片">
+                    <img id="game-img" src="./emperorpenguins_photo_04.jpg" alt="遊戲圖片">
                 
                 </div>
                 
                 <div class="description-text" style="text-align: center; margin-bottom: 20px;">
-                    <p id="game-question">我是亞馬遜最大的掠食者，我的皮膚是什麼顏色呢？</p>
+                    <p id="game-question">在寒冷的南極，是誰負責孵蛋，並把蛋放在腳上蓋著？</p>
                 </div>
                 
                 <div id="options-area">
-                    <button class="game-btn" onclick="nextStep(1, true)">🖤 帥氣的黑色</button>
-                    <button class="game-btn" onclick="nextStep(1, false)">💖 可愛的粉色</button>
+                    <button class="game-btn" onclick="nextStep(1, true)">辛苦的企鵝爸爸</button>
+                    <button class="game-btn" onclick="nextStep(1, false)">企鵝媽媽</button>
                 </div>
             </div>
     
@@ -458,16 +458,16 @@
 
         // 題目資料庫 (你可以隨時修改這裡的文字)
         const quizData = {
-            1: { q: "在寒冷的南極，是誰負責孵蛋，並把蛋放在腳上蓋著？", img: "./crocodile_photo_01.jpg", opt: [
+            1: { q: "在寒冷的南極，是誰負責孵蛋，並把蛋放在腳上蓋著？", img: "./emperorpenguins_photo_04.jpg", opt: [
                 { t: "辛苦的企鵝爸爸", ok: true }, { t: "企鵝媽媽", ok: false }
             ]},
-            2: { q: "我們一大群企鵝擠在一起是為了什麼？", img: "./crocodile_photo_03.jpg", opt: [
+            2: { q: "我們一大群企鵝擠在一起是為了什麼？", img: "./emperorpenguins_photo_03.jpg", opt: [
                 { t: "祈禱天氣變好", ok: false }, { t: "互相取暖", ok: true }
             ]},
-            3: { q: "我們會聚在哪裡，來孵化我們的小寶寶？", img: "./crocodile_photo_02.jpg", opt: [
+            3: { q: "我們會聚在哪裡，來孵化我們的小寶寶？", img: "./emperorpenguins_photo_02.jpeg", opt: [
                 { t: "冰山上", ok: true }, { t: "冰海水裡", ok: false }
             ]},
-            4: { q: "我可以潛入多深的海水裡找食物？", img: "./crocodile_photo_05.jpg", opt: [
+            4: { q: "我可以潛入多深的海水裡找食物？", img: "./emperorpenguins_photo_01.jpg", opt: [
                 { t: "只能在水面", ok: false }, { t: "超過 500 公尺", ok: true }
             ]}
         };
@@ -517,9 +517,9 @@
             document.getElementById('msg').innerText = "";
         
             document.getElementById('options-area').innerHTML = `
-                <button class="game-btn" id="btn-river" onclick="checkFinal('river')">💧 涼爽的海水/河流積木</button>
-                <button class="game-btn" id="btn-grass" onclick="checkFinal('grass')">🌿 濕熱的草地積木</button>
-                <button class="game-btn" onclick="nextStep(5, false)">❄️ 寒冷的冰原積木</button>
+                <button class="game-btn" id="btn-river" onclick="checkFinal('river')">❄️ 寒冷的冰原積木</button>
+                <button class="game-btn" id="btn-grass" onclick="checkFinal('grass')">💧 涼爽的海水/河流積木</button>
+                <button class="game-btn" onclick="nextStep(5, false)">🌿 濕熱的草地積木</button>
             `;
         }
 
