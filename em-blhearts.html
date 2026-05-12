@@ -1,4 +1,4 @@
-        <!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="zh-Hant">
 <head>
     <meta charset="UTF-8">
@@ -8,10 +8,11 @@
     
     <style>
         :root {
-            --ocean-blue: #a3c9e7;   /* 海域背景 */
-            --ice-white: #bddcef;    /* 冰塊主色 */
-            --ice-shadow: #7ba2c1;   /* 冰塊厚度色 */
-            --text-blue: #2c689c;    /* 文字深藍 */
+            --ocean-blue: #a3c9e7;
+            --ice-white: #bddcef;
+            --ice-shadow: #7ba2c1;
+            --text-blue: #2c689c;
+            --forest-green: #2ecc71; /* 補上進度條顏色 */
         }
 
         body { 
@@ -20,7 +21,7 @@
             display: flex; flex-direction: column; align-items: center; overflow-x: hidden;
         }
 
-        /* ❄️ 頂部 3D 區：保持冰山轉場 */
+        /* ❄️ 頂部 3D 區 */
         .header-section {
             width: 100%; background-color: var(--ocean-blue);
             padding-bottom: 60px; position: relative;
@@ -30,12 +31,7 @@
         .cloud-speech {
             position: relative; background: #fff; border-radius: 30px;
             padding: 12px 25px; margin-top: 25px; font-weight: bold; font-size: 18px;
-            box-shadow: 0 4px 10px rgba(0,0,0,0.05); display: flex; align-items: center;
-            z-index: 10;
-        }
-        .cloud-speech::after {
-            content: ''; position: absolute; bottom: -8px; left: 50%;
-            width: 16px; height: 16px; background: white; border-radius: 50%; transform: translateX(-50%);
+            box-shadow: 0 4px 10px rgba(0,0,0,0.05); z-index: 10;
         }
 
         model-viewer { width: 100%; height: 320px; background: transparent; }
@@ -46,407 +42,141 @@
         .ice-l { position: absolute; bottom: 0; left: -5%; width: 65%; height: 100%; background: white; clip-path: polygon(0 100%, 25% 15%, 100% 100%); }
         .ice-r { position: absolute; bottom: 0; right: -5%; width: 55%; height: 70%; background: white; opacity: 0.8; clip-path: polygon(0 100%, 60% 10%, 100% 100%); }
 
-        /* 🌊 海域內容區：冰漂浮排版 */
+        /* 🌊 海域內容區 */
         .ocean-content {
-            width: 100%; padding: 60px 20px; box-sizing: border-box;
+            width: 100%; padding: 40px 20px; box-sizing: border-box;
             background: linear-gradient(180deg, #ffffff 0%, #eef6ff 100%);
             display: flex; flex-direction: column; align-items: center;
-            position: relative;
         }
 
-        /* 裝飾小腳印 */
-        .deco-paws { position: absolute; font-size: 24px; opacity: 0.15; filter: grayscale(1); }
-
-        /* 🧊 漂浮冰塊按鈕 */
         .ice-grid {
             display: flex; flex-wrap: wrap; justify-content: center;
-            gap: 25px; width: 100%; max-width: 400px; padding: 20px 0;
+            gap: 20px; width: 100%; max-width: 400px; margin-bottom: 20px;
         }
 
         .ice-block {
-            position: relative; width: 140px; height: 110px;
-            background: var(--ice-white);
-            border-radius: 40% 60% 50% 50% / 60% 40% 60% 40%; /* 不規則圓潤形狀 */
+            position: relative; width: 140px; height: 90px;
+            background: var(--ice-white); border-radius: 20px;
             display: flex; justify-content: center; align-items: center;
             cursor: pointer; font-weight: bold; font-size: 18px;
-            box-shadow: 
-                0 8px 0 var(--ice-shadow), /* 模擬冰塊厚度 */
-                0 15px 25px rgba(0,0,0,0.08); /* 底部柔和陰影 */
-            transition: all 0.15s ease; /* 🔑 關鍵：讓轉動滑順 */
-            transform: rotate(-5deg);    /* 讓冰塊平常向左斜 5 度 */
+            box-shadow: 0 8px 0 var(--ice-shadow);
+            transition: all 0.1s; transform: rotate(-3deg);
         }
-
-        /* 讓冰塊內的文字反向轉正 */
-        .ice-block span {
-            display: inline-block;
-            transform: rotate(5deg);
-            transition: all 0.15s ease;
-        }
-        
-        /* 按下去的特效 */
-        .ice-block:active {
-            /* translateY(6px) 是下沉，rotate(5deg) 是讓它從 -5度 轉到 5度 */
-            transform: translateY(6px) rotate(5deg) !important;
-
-            /* 調整陰影，讓厚度變薄 */
-            box-shadow: 
-                0 2px 0 var(--ice-shadow), 
-                0 5px 10px rgba(0,0,0,0.1); 
-        }
-
-        /* 按下去時，文字也要跟著反向轉回來，才不會歪掉 */
-        .ice-block:active span {
-            transform: rotate(-5deg) !important;
-        }
-        
-        /* 裝飾用的冰紋 */
-        .ice-block::before {
-            content: ''; position: absolute; top: 15%; left: 20%;
-            width: 30%; height: 10%; background: rgba(255,255,255,0.8);
-            border-radius: 10px; transform: rotate(-10deg);
-        }
+        .ice-block:active { transform: translateY(6px) rotate(2deg); box-shadow: 0 2px 0 var(--ice-shadow); }
 
         /* 📖 資訊展示框 */
         .info-card {
-            width: 100%; max-width: 380px; margin-top: 40px; display: none;
+            width: 100%; max-width: 380px; margin-top: 30px; display: none;
             background: white; border-radius: 30px; padding: 25px;
             box-shadow: 0 15px 45px rgba(123, 162, 193, 0.2);
             border: 3px solid var(--ice-white);
-            animation: icePop 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-        }
-
-        @keyframes icePop { from { opacity: 0; transform: scale(0.9) translateY(20px); } to { opacity: 1; transform: scale(1) translateY(0); } }
-
-        .info-card h3 { color: var(--text-blue); margin-top: 0; display: flex; align-items: center; gap: 10px; }
-        
-        .photo-wall { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-top: 15px; }
-        .photo-wall img, .photo-wall iframe { width: 100%; height: 110px; object-fit: cover; border-radius: 18px; background: #eee; }
-
-        /* 遊戲選項：同樣使用小冰塊感 */
-        .game-btn {
-            width: 100%; padding: 18px; margin: 10px 0; border: none;
-            background: var(--ice-white); border-radius: 20px;
-            color: var(--text-blue); font-size: 18px; font-weight: bold;
-            box-shadow: 0 5px 0 #ccddec; cursor: pointer; transition: 0.2s;
-        }
-        .game-btn:active { transform: translateY(3px); box-shadow: 0 2px 0 #ccddec; }
-        .correct { background: #e6ffed !important; box-shadow: 0 5px 0 #b2d8b9 !important; color: #22863a !important; }
-
-        /* --- 認識我：冰磚相框與文字樣式更新 --- */
-        .ice-photo-frame {
-            width: 100%;
-            background: #f0f8ff; /* 冰塊白 */
-            border-radius: 25px 40px 30px 35px; /* 這裡讓它有不規則的自然感 */
-            padding: 10px;
-            box-shadow: 0 10px 0 #7ba2c1; /* 這裡就是你想要的 3D 厚度感 */
-            margin-bottom: 25px;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            overflow: hidden;
             box-sizing: border-box;
         }
 
-        .ice-photo-frame img {
-            width: 100%;
-            height: 220px; /* 如果覺得照片太高，可以改小這個數值 */
-            object-fit: cover; /* 讓照片自動填滿不變形 */
-            border-radius: 20px;
-        }
+        .ice-photo-frame { width: 100%; border-radius: 20px; box-shadow: 0 8px 0 var(--ice-shadow); margin-bottom: 20px; overflow: hidden; }
+        .ice-photo-frame img { width: 100%; height: 200px; object-fit: cover; display: block; }
 
-        .description-text {
-            font-size: 18px;
-            line-height: 1.8;
-            color: #2c689c; /* 深藍色文字，小朋友比較好閱讀 */
-            text-align: left;
-        }
+        /* 遊戲專用樣式 */
+        .game-progress { width: 100%; height: 10px; background: #eee; border-radius: 5px; margin: 10px 0; overflow: hidden; }
+        .progress-fill { width: 20%; height: 100%; background: var(--forest-green); transition: 0.3s; }
+        .game-btn { width: 100%; padding: 15px; margin: 8px 0; border: none; background: #eef6ff; border-radius: 15px; font-weight: bold; cursor: pointer; box-shadow: 0 4px 0 #ccddec; }
+        .game-btn:active { transform: translateY(2px); box-shadow: 0 2px 0 #ccddec; }
+        .correct { background: #e6ffed !important; color: #22863a !important; box-shadow: 0 4px 0 #b2d8b9 !important; }
 
-        .description-text b {
-            color: #1a4a73;
-            font-size: 20px;
-        }
-
-        /* --- 翻轉卡片容器 --- */
-        .knowledge-card-container {
-            perspective: 1000px; /* 建立 3D 空間感 */
-            width: 100%;
-            height: 250px;
-            margin-bottom: 25px;
-            cursor: pointer;
-        }
-
-        .knowledge-card-inner {
-            position: relative;
-            width: 100%;
-            height: 100%;
-            text-align: center;
-            transition: transform 0.8s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-            transform-style: preserve-3d;
-        }
-
-        /* 點擊後翻轉 180 度 */
-        .knowledge-card-container.flipped .knowledge-card-inner {
-            transform: rotateY(180deg);
-        }
-
-        /* 正面與背面共用樣式 */
-        .card-front, .card-back {
-            position: absolute;
-            width: 100%;
-            height: 100%;
-            backface-visibility: hidden; /* 翻過去後隱藏背面 */
-            border-radius: 30px;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            padding: 20px;
-            box-sizing: border-box;
-            box-shadow: 0 10px 0 var(--ice-shadow); /* 維持 3D 厚度感 */
-        }
-
-        /* 正面樣式 (冰塊感) */
-        .card-front {
-            background: var(--ice-white);
-            border: 3px solid var(--ocean-blue);
-            color: var(--text-blue);
-        }
-
-        .card-front .q-mark {
-            font-size: 60px;
-            margin-bottom: 10px;
-        }
-
-        /* 背面樣式 (翻開後的顏色) */
-        .card-back {
-            background: #ffffff;
-            border: 3px solid #ffd700; /* 金色邊框代表找到寶藏答案 */
-            transform: rotateY(180deg);
-            color: #333;
-        }
-
-         /* --- 1. 遊戲進度條 --- */
-        .game-progress {
-            width: 100%; height: 12px; background: #ddd;
-            border-radius: 10px; margin: 15px 0; overflow: hidden;
-        }
-        .progress-fill {
-            width: 20%; height: 100%; background: var(--forest-green);
-            transition: width 0.5s ease;
-        }
-
-        /* --- 2. 噴彩帶特效容器 --- */
-        .confetti-container {
-            position: absolute; width: 100%; height: 100%;
-            top: 0; left: 0; pointer-events: none; display: none; z-index: 100;
-        }
-        .confetti {
-            position: absolute; width: 8px; height: 8px;
-            animation: fall 2s linear forwards;
-        }
-        @keyframes fall {
-            0% { transform: translateY(-10px) rotate(0deg); opacity: 1; }
-            100% { transform: translateY(300px) rotate(360deg); opacity: 0; }
-        }
-
-        /* --- 3. 成就彈窗樣式 (照你的圖製作) --- */
+        /* 成就彈窗 */
         .achievement-overlay {
-            display: none; position: fixed; top: 0; left: 0; 
-            width: 100%; height: 100%; background: rgba(0,0,0,0.8);
-            z-index: 9999; justify-content: center; align-items: center;
+            display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(0,0,0,0.8); z-index: 9999; justify-content: center; align-items: center;
         }
         .achievement-card {
             background: linear-gradient(180deg, #ffe082 0%, #ffca28 100%);
-            width: 85%; max-width: 350px; padding: 30px 20px;
-            border-radius: 40px; text-align: center; border: 5px solid #fff;
-            box-shadow: 0 0 30px rgba(255, 235, 59, 0.5);
-            animation: popIn 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            width: 80%; max-width: 300px; padding: 30px; border-radius: 30px; text-align: center; border: 5px solid #fff;
         }
-        @keyframes popIn {
-            0% { transform: scale(0.5); opacity: 0; }
-            100% { transform: scale(1); opacity: 1; }
-        }
-        .medal-img { width: 180px; margin-bottom: 15px; }
-        .achievement-btn {
-            background: #fff; border: none; padding: 12px 40px;
-            border-radius: 50px; font-size: 18px; font-weight: bold;
-            color: #ff9800; box-shadow: 0 4px 0 #fb8c00; cursor: pointer;
-        }
+        .confetti-container { position: absolute; width: 100%; height: 100%; top: 0; left: 0; pointer-events: none; display: none; }
+        .confetti { position: absolute; width: 8px; height: 8px; animation: fall 2s linear forwards; }
+        @keyframes fall { 0% { transform: translateY(-10px); opacity: 1; } 100% { transform: translateY(300px); opacity: 0; } }
     </style>
 </head>
 <body>
 
     <div class="header-section">
-        <div class="cloud-speech">
-            哈囉！我是皇帝企鵝！🐧
-        </div>
-        
+        <div class="cloud-speech">哈囉！我是皇帝企鵝！🐧</div>
         <model-viewer src="https://cdn.jsdelivr.net/gh/yenmeiomni/animal-game@main/emperorpenguin_v1.glb" auto-rotate camera-controls ar></model-viewer>
-
-        <div class="ice-transition">
-            <div class="ice-l"></div>
-            <div class="ice-r"></div>
-        </div>
+        <div class="ice-transition"><div class="ice-l"></div><div class="ice-r"></div></div>
     </div>
 
     <div class="ocean-content">
-        <div class="deco-paws" style="top:20px; left:15%;">❄️</div>
-        <div class="deco-paws" style="top:100px; right:10%;">❄️</div>
-
         <div class="ice-grid">
             <div class="ice-block" onclick="openBox('box1')"><span>認識我</span></div>
-            <div class="ice-block" onclick="openBox('box2')" style="margin-top: 15px;"><span>小小秘密</span></div>
+            <div class="ice-block" onclick="openBox('box2')"><span>小小秘密</span></div>
             <div class="ice-block" onclick="openBox('box3')"><span>互動遊戲</span></div>
-            <div class="ice-block" onclick="openBox('box4')" style="margin-top: 15px;"><span>生活影像</span></div>
+            <div class="ice-block" onclick="openBox('box4')"><span>生活影像</span></div>
         </div>
 
         <div id="box1" class="info-card">
-    <div class="ice-photo-frame">
-        <img src="./emperorpenguins_photo_01.jpg" alt="皇帝企鵝真實照">
-    </div>
-
-    <div style="background: #eef6ff; border-radius: 20px; padding: 15px; margin-bottom: 25px; border: 2px solid var(--ocean-blue);">
-        <p style="margin: 8px 0;"><b>🆔 名字：</b> 皇帝企鵝 (Emperor Penguin)</p>
-        <p style="margin: 8px 0;"><b>🏠 住址：</b> 全地球最冷的南極洲</p>
-        <p style="margin: 8px 0;"><b>🍴 愛吃：</b> 魚、磷蝦和小烏賊</p>
-        <p style="margin: 8px 0;"><b>🏅 專長：</b> 所有的企鵝中體型最大，能在酷寒中照顧蛋寶寶</p>
-        
-        <div style="margin-top: 15px; padding-top: 10px; border-top: 1px dashed var(--ocean-blue); display: flex; align-items: center; justify-content: center; cursor: pointer;" onclick="playAudio()">
-            <span style="font-size: 18px; color: var(--text-blue); font-weight: bold;">🔊 點我來聽聽我的叫聲</span>
+            <div class="ice-photo-frame"><img src="./emperorpenguins_photo_01.jpg"></div>
+            <p><b>🏠 住址：</b> 南極洲</p>
+            <p><b>🍴 愛吃：</b> 魚、磷蝦</p>
+            <button class="game-btn" onclick="playAudio()">🔊 聽聽我的叫聲</button>
         </div>
-    </div>
 
-    <h3>🔍 身體特徵</h3>
-    
-    <div class="description-text">
-        <p><b>● 金黃色圍巾</b><br>
-           我的耳朵和脖子旁邊有漂亮的黃色斑塊，看起來很高貴。</p>
-        
-        <p><b>● 巨大的雪地靴</b><br>
-           北極熊的腳掌非常大，腳底還有毛，讓牠在冰上跑步也不會滑倒！</p>
-
-        <p><b>● 像潛水艇的身材</b><br>
-           我的流線型身體讓我在水裡游得跟飛一樣快！</p>
-           
-        <p><b>● 肚子育兒袋</b><br>
-           我的腳掌上方有一層厚厚的皮褶，可以像小被子一樣把蛋蓋住保暖！</p>
-    </div>
-</div>
-
-        <div id="box2" class="info-card">
-    <h3 style="text-align: center; width: 100%; display: block;">💡 點點看，找秘密！</h3>
-
-    <div class="knowledge-card-container" onclick="this.classList.toggle('flipped')">
-        <div class="knowledge-card-inner">
-            <div class="card-front">
-                <div class="q-mark">❓</div>
-                <p><b>為什麼企鵝不會飛？</b></p>
-                <small>(點一下翻開看答案)</small>
+        <div id="box3" class="info-card">
+            <div id="confetti" class="confetti-container"></div>
+            <h3 id="game-title" style="text-align:center;">🎮 闖關遊戲</h3>
+            <div class="game-progress"><div id="progress" class="progress-fill"></div></div>
+            <div id="game-content">
+                <div class="ice-photo-frame"><img id="game-img" src=""></div>
+                <p id="game-question" style="text-align:center; font-weight:bold;"></p>
+                <div id="options-area"></div>
             </div>
-            <div class="card-back">
-                <p><b>✨ 因為我把技能都點在游泳了！</b></p>
-                <p style="font-size: 16px;">我的翅膀變成了像槳一樣的鰭，在水裡游泳比鳥飛得還快喔！</p>
-            </div>
-        </div>
-    </div>
-
-    <div class="knowledge-card-container" onclick="this.classList.toggle('flipped')">
-        <div class="knowledge-card-inner">
-            <div class="card-front">
-                <div class="q-mark">🔥</div>
-                <p><b>我們怎麼保暖呢？</b></p>
-                <small>(點一下翻開看答案)</small>
-            </div>
-            <div class="card-back">
-                <p><b>✨ 大家抱在一起！</b></p>
-                <p style="font-size: 16px;">我們會幾百隻擠成一團，輪流換到中間取暖，這是我們的「企鵝取暖陣」！</p>
-            </div>
-        </div>
-    </div>
-</div>
-        
-        <div id="box4" class="info-card">
-            <h3>🖼️ 影像牆</h3>
-            <div class="photo-wall">
-                <img src="./emperorpenguins_photo_02.jpeg">
-                <iframe src="https://www.youtube.com/embed/UREUvuS2MsA?rel=0"></iframe>
-                <img src="./emperorpenguins_photo_03.jpg">
-                <img src="./emperorpenguins_photo_04.jpg">
-            </div>
+            <p id="msg" style="text-align:center;"></p>
         </div>
 
-        <div id="box3" class="info-card" style="position: relative; overflow: hidden;">
-    <div id="confetti" class="confetti-container"></div>
-    
-    <h3 id="game-title" style="text-align: center;">🎮 森林探險：第 1 關</h3>
-    <div class="game-progress"><div id="progress" class="progress-fill"></div></div>
-
-    <div id="game-content">
-        <div class="ice-photo-frame">
-            <img id="game-img" src="./photo1.jpg" alt="遊戲圖片">
-        </div>
-        <div class="description-text" style="text-align: center; margin-bottom: 20px;">
-            <p id="game-question">準備好開始挑戰了嗎？</p>
-        </div>
-        <div id="options-area">
-            </div>
+        <div id="box2" class="info-card"><h3>💡 小秘密</h3><p>點擊按鈕來探索吧！</p></div>
+        <div id="box4" class="info-card"><h3>🖼️ 影像牆</h3><p>這裡放影片和照片。</p></div>
     </div>
-    <p id="msg" style="text-align:center; font-weight:bold; margin-top:15px;"></p>
-</div>
 
-<div id="achievementPopup" class="achievement-overlay">
-    <div class="achievement-card">
-        <h2 style="color: #795548;">恭喜完成挑戰！</h2>
-        <img src="./medal.png" class="medal-img" alt="成就徽章">
-        <div style="background: rgba(255,255,255,0.5); padding: 10px; border-radius: 20px; margin: 10px 0;">
-            <b style="color: #5d4037;">挑戰達人</b><br>
-            <small style="color: #795548;">你已經對我非常了解了！</small>
+    <div id="achievementPopup" class="achievement-overlay">
+        <div class="achievement-card">
+            <h2>🎉 挑戰成功！</h2>
+            <p>你真是企鵝小專家！</p>
+            <button class="achievement-btn" onclick="closeAchievement()">太棒了</button>
         </div>
-        <button class="achievement-btn" onclick="closeAchievement()">太棒了！</button>
     </div>
-</div>
 
     <audio id="snd" src="https://cdn.jsdelivr.net/gh/yenmeiomni/animal-game@main/emperorpenguins_sound_01.mp3"></audio>
 
     <script>
-        let currentStep = 1;
-        let lastLevelScore = { river: false, grass: false };
-
-        // 💡 每一隻動物的題目請在這裡修改
-        const quizData = {
-            1: { q: "問題 1 的文字內容？", img: "./img1.jpg", opt: [{t: "正確選項", ok: true}, {t: "錯誤選項", ok: false}] },
-            2: { q: "問題 2 的文字內容？", img: "./img2.jpg", opt: [{t: "正確選項", ok: true}, {t: "錯誤選項", ok: false}] },
-            3: { q: "問題 3 的文字內容？", img: "./img3.jpg", opt: [{t: "正確選項", ok: true}, {t: "錯誤選項", ok: false}] },
-            4: { q: "問題 4 的文字內容？", img: "./img4.jpg", opt: [{t: "正確選項", ok: true}, {t: "錯誤選項", ok: false}] }
-        };
-
-        // 初始化第一題
-        updateQuiz(1);
-
-        function nextStep(step, isCorrect) {
-            const m = document.getElementById('msg');
-            if (isCorrect) {
-                m.innerText = "🎉 答對了！太厲害了！";
-                m.style.color = "#22863a";
-                showConfetti(); // 答對就噴彩帶
-
-                setTimeout(() => {
-                    currentStep++;
-                    if (currentStep <= 4) {
-                        updateQuiz(currentStep);
-                    } else {
-                        showFinalLevel(); // 進入最終關卡
-                    }
-                }, 1200);
-            } else {
-                m.innerText = "❌ 再試一次看看！";
-                m.style.color = "#d73a49";
+        // 1. 核心控制：切換盒子顯示
+        function openBox(id) {
+            // 先隱藏所有卡片
+            document.querySelectorAll('.info-card').forEach(card => card.style.display = 'none');
+            // 顯示點擊的那張
+            const target = document.getElementById(id);
+            if (target) {
+                target.style.display = 'block';
+                target.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
             }
         }
 
+        // 2. 音效控制
+        function playAudio() { document.getElementById('snd').play(); }
+
+        // 3. 遊戲邏輯
+        let currentStep = 1;
+        let lastLevelScore = { ice: false, ocean: false };
+
+        const quizData = {
+            1: { q: "我是誰的爸爸？", img: "./emperorpenguins_photo_01.jpg", opt: [{t: "企鵝寶寶", ok: true}, {t: "北極熊", ok: false}] },
+            2: { q: "我住在什麼地方？", img: "./emperorpenguins_photo_01.jpg", opt: [{t: "南極洲", ok: true}, {t: "沙漠", ok: false}] },
+            3: { q: "我最喜歡吃什麼？", img: "./emperorpenguins_photo_01.jpg", opt: [{t: "小魚", ok: true}, {t: "漢堡", ok: false}] },
+            4: { q: "我會飛嗎？", img: "./emperorpenguins_photo_01.jpg", opt: [{t: "不會，我會游泳", ok: true}, {t: "會，我飛超高", ok: false}] }
+        };
+
         function updateQuiz(step) {
             const data = quizData[step];
-            document.getElementById('game-title').innerText = `🎮 森林探險：第 ${step} 關`;
+            if(!data) return;
+            document.getElementById('game-title').innerText = `🎮 南極挑戰：第 ${step} 關`;
             document.getElementById('progress').style.width = (step * 20) + "%";
             document.getElementById('game-img').src = data.img;
             document.getElementById('game-question').innerText = data.q;
@@ -459,45 +189,56 @@
             document.getElementById('options-area').innerHTML = html;
         }
 
+        function nextStep(step, isCorrect) {
+            const m = document.getElementById('msg');
+            if (isCorrect) {
+                m.innerText = "🎉 答對了！";
+                showConfetti();
+                setTimeout(() => {
+                    currentStep++;
+                    if (currentStep <= 4) updateQuiz(currentStep);
+                    else showFinalLevel();
+                }, 1000);
+            } else {
+                m.innerText = "❌ 再試一次！";
+            }
+        }
+
         function showFinalLevel() {
-            document.getElementById('game-title').innerText = `🎮 最終挑戰：找到我的家`;
+            document.getElementById('game-title').innerText = `🎮 最終挑戰`;
             document.getElementById('progress').style.width = "100%";
-            document.getElementById('game-img').src = "./final_house.jpg"; // 💡 最後一題圖片
-            document.getElementById('game-question').innerHTML = "請選出<b>兩個</b>正確的家！";
+            document.getElementById('game-question').innerText = "選出兩個我的家！";
             document.getElementById('options-area').innerHTML = `
-                <button class="game-btn" id="btn-1" onclick="checkFinal(1)">💧 涼爽的河流積木</button>
-                <button class="game-btn" id="btn-2" onclick="checkFinal(2)">🌿 濕熱的草地積木</button>
-                <button class="game-btn" onclick="nextStep(5, false)">❄️ 寒冷的冰原積木</button>
+                <button class="game-btn" id="f1" onclick="checkFinal('ice')">❄️ 浮冰積木</button>
+                <button class="game-btn" id="f2" onclick="checkFinal('ocean')">🌊 大海積木</button>
             `;
         }
 
-        function checkFinal(id) {
-            if(id === 1) { lastLevelScore.river = true; document.getElementById('btn-1').classList.add('correct'); }
-            if(id === 2) { lastLevelScore.grass = true; document.getElementById('btn-2').classList.add('correct'); }
-    
-            if(lastLevelScore.river && lastLevelScore.grass) {
+        function checkFinal(type) {
+            if(type==='ice'){ lastLevelScore.ice = true; document.getElementById('f1').classList.add('correct'); }
+            if(type==='ocean'){ lastLevelScore.ocean = true; document.getElementById('f2').classList.add('correct'); }
+            if(lastLevelScore.ice && lastLevelScore.ocean) {
                 showConfetti();
-                setTimeout(showAchievement, 1000);
+                setTimeout(() => { document.getElementById('achievementPopup').style.display='flex'; }, 1000);
             }
         }
 
-        function showAchievement() { document.getElementById('achievementPopup').style.display = 'flex'; }
-        function closeAchievement() { document.getElementById('achievementPopup').style.display = 'none'; }
-
-        // 彩帶動畫生成
         function showConfetti() {
             const c = document.getElementById('confetti');
             c.style.display = 'block'; c.innerHTML = '';
-            for(let i=0; i<30; i++) {
+            for(let i=0; i<20; i++){
                 const d = document.createElement('div');
-                d.className = 'confetti';
-                d.style.left = Math.random()*100+'%';
-                d.style.backgroundColor = ['#ff0','#f0f','#0ff','#0f0'][Math.floor(Math.random()*4)];
-                d.style.animationDelay = Math.random()+'s';
+                d.className = 'confetti'; d.style.left = Math.random()*100+'%';
+                d.style.backgroundColor = ['#fff','#7ba2c1','#ffd700'][Math.floor(Math.random()*3)];
                 c.appendChild(d);
             }
-            setTimeout(() => c.style.display='none', 2000);
+            setTimeout(()=>c.style.display='none', 2000);
         }
+
+        function closeAchievement() { document.getElementById('achievementPopup').style.display = 'none'; }
+
+        // 啟動第一題
+        updateQuiz(1);
     </script>
 </body>
 </html>
