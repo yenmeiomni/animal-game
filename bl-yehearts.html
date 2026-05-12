@@ -181,6 +181,66 @@
             margin-bottom: 10px; /* 讓 emoji 跟下面的文字保持一點距離 */
             display: block;      /* 確保它獨立佔一行 */
         }
+        
+        /* 成就彈窗背景（全螢幕半透明黑） */
+        .achievement-overlay {
+            display: none; /* 平時隱藏 */
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(0, 0, 0, 0.7);
+            z-index: 1000;
+            justify-content: center;
+            align-items: center;
+        }
+        
+        /* 彈窗主體卡片 */
+        .achievement-card {
+            background: #ffeb3b; /* 暖黃色背景 */
+            background: linear-gradient(180deg, #ffe082 0%, #ffca28 100%);
+            width: 85%;
+            max-width: 350px;
+            padding: 30px 20px;
+            border-radius: 40px;
+            text-align: center;
+            position: relative;
+            border: 5px solid #fff;
+            box-shadow: 0 0 30px rgba(255, 235, 59, 0.5);
+            animation: popIn 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        }
+        
+        /* 彈入動畫 */
+        @keyframes popIn {
+            0% { transform: scale(0.5); opacity: 0; }
+            100% { transform: scale(1); opacity: 1; }
+        }
+        /* 徽章圖片樣式 */
+        .medal-img {
+            width: 200px;
+            margin-bottom: 20px;
+        }
+        .congrats-title {
+            font-size: 28px;
+            color: #795548; /* 深咖啡色文字 */
+            font-weight: bold;
+            margin-bottom: 10px;
+        }
+        .achievement-btn {
+            background: #fff;
+            border: none;
+            padding: 12px 40px;
+            border-radius: 50px;
+            font-size: 18px;
+            font-weight: bold;
+            color: #ff9800;
+            box-shadow: 0 4px 0 #fb8c00;
+            cursor: pointer;
+            margin-top: 20px;
+        }
+        
+        .achievement-btn:active {
+            transform: translateY(2px);
+            box-shadow: 0 2px 0 #fb8c00;
+        }
     </style>
 </head>
 <body>
@@ -300,5 +360,20 @@
             }
         }
     </script>
+    <div id="achievementPopup" class="achievement-overlay">
+        <div class="achievement-card">
+            <h2 class="congrats-title">恭喜完成挑戰！</h2>
+            <p style="color: #8d6e63; font-weight: bold;">你獲得了一枚成就徽章！</p>
+        
+            <img src="./medal.png" class="medal-img" alt="成就徽章">
+        
+            <div style="background: rgba(255,255,255,0.5); padding: 10px; border-radius: 20px; margin: 10px 0;">
+                <b style="color: #5d4037;">挑戰達人</b><br>
+                <small style="color: #795548;">成功完成挑戰，太棒了！</small>
+            </div>
+
+            <button class="achievement-btn" onclick="closeAchievement()">太棒了！</button>
+        </div>
+    </div>
 </body>
 </html>
