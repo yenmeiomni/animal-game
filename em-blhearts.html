@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+        <!DOCTYPE html>
 <html lang="zh-Hant">
 <head>
     <meta charset="UTF-8">
@@ -133,145 +133,145 @@
         .correct { background: #e6ffed !important; box-shadow: 0 5px 0 #b2d8b9 !important; color: #22863a !important; }
 
         /* --- 認識我：冰磚相框與文字樣式更新 --- */
-.ice-photo-frame {
-    width: 100%;
-    background: #f0f8ff; /* 冰塊白 */
-    border-radius: 25px 40px 30px 35px; /* 這裡讓它有不規則的自然感 */
-    padding: 10px;
-    box-shadow: 0 10px 0 #7ba2c1; /* 這裡就是你想要的 3D 厚度感 */
-    margin-bottom: 25px;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    overflow: hidden;
-    box-sizing: border-box;
-}
+        .ice-photo-frame {
+            width: 100%;
+            background: #f0f8ff; /* 冰塊白 */
+            border-radius: 25px 40px 30px 35px; /* 這裡讓它有不規則的自然感 */
+            padding: 10px;
+            box-shadow: 0 10px 0 #7ba2c1; /* 這裡就是你想要的 3D 厚度感 */
+            margin-bottom: 25px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            overflow: hidden;
+            box-sizing: border-box;
+        }
 
-.ice-photo-frame img {
-    width: 100%;
-    height: 220px; /* 如果覺得照片太高，可以改小這個數值 */
-    object-fit: cover; /* 讓照片自動填滿不變形 */
-    border-radius: 20px;
-}
+        .ice-photo-frame img {
+            width: 100%;
+            height: 220px; /* 如果覺得照片太高，可以改小這個數值 */
+            object-fit: cover; /* 讓照片自動填滿不變形 */
+            border-radius: 20px;
+        }
 
-.description-text {
-    font-size: 18px;
-    line-height: 1.8;
-    color: #2c689c; /* 深藍色文字，小朋友比較好閱讀 */
-    text-align: left;
-}
+        .description-text {
+            font-size: 18px;
+            line-height: 1.8;
+            color: #2c689c; /* 深藍色文字，小朋友比較好閱讀 */
+            text-align: left;
+        }
 
-.description-text b {
-    color: #1a4a73;
-    font-size: 20px;
-}
+        .description-text b {
+            color: #1a4a73;
+            font-size: 20px;
+        }
 
         /* --- 翻轉卡片容器 --- */
-.knowledge-card-container {
-    perspective: 1000px; /* 建立 3D 空間感 */
-    width: 100%;
-    height: 250px;
-    margin-bottom: 25px;
-    cursor: pointer;
-}
+        .knowledge-card-container {
+            perspective: 1000px; /* 建立 3D 空間感 */
+            width: 100%;
+            height: 250px;
+            margin-bottom: 25px;
+            cursor: pointer;
+        }
 
-.knowledge-card-inner {
-    position: relative;
-    width: 100%;
-    height: 100%;
-    text-align: center;
-    transition: transform 0.8s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-    transform-style: preserve-3d;
-}
+        .knowledge-card-inner {
+            position: relative;
+            width: 100%;
+            height: 100%;
+            text-align: center;
+            transition: transform 0.8s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            transform-style: preserve-3d;
+        }
 
-/* 點擊後翻轉 180 度 */
-.knowledge-card-container.flipped .knowledge-card-inner {
-    transform: rotateY(180deg);
-}
+        /* 點擊後翻轉 180 度 */
+        .knowledge-card-container.flipped .knowledge-card-inner {
+            transform: rotateY(180deg);
+        }
 
-/* 正面與背面共用樣式 */
-.card-front, .card-back {
-    position: absolute;
-    width: 100%;
-    height: 100%;
-    backface-visibility: hidden; /* 翻過去後隱藏背面 */
-    border-radius: 30px;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    padding: 20px;
-    box-sizing: border-box;
-    box-shadow: 0 10px 0 var(--ice-shadow); /* 維持 3D 厚度感 */
-}
+        /* 正面與背面共用樣式 */
+        .card-front, .card-back {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            backface-visibility: hidden; /* 翻過去後隱藏背面 */
+            border-radius: 30px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+            box-sizing: border-box;
+            box-shadow: 0 10px 0 var(--ice-shadow); /* 維持 3D 厚度感 */
+        }
 
-/* 正面樣式 (冰塊感) */
-.card-front {
-    background: var(--ice-white);
-    border: 3px solid var(--ocean-blue);
-    color: var(--text-blue);
-}
+        /* 正面樣式 (冰塊感) */
+        .card-front {
+            background: var(--ice-white);
+            border: 3px solid var(--ocean-blue);
+            color: var(--text-blue);
+        }
 
-.card-front .q-mark {
-    font-size: 60px;
-    margin-bottom: 10px;
-}
+        .card-front .q-mark {
+            font-size: 60px;
+            margin-bottom: 10px;
+        }
 
-/* 背面樣式 (翻開後的顏色) */
-.card-back {
-    background: #ffffff;
-    border: 3px solid #ffd700; /* 金色邊框代表找到寶藏答案 */
-    transform: rotateY(180deg);
-    color: #333;
-}
+        /* 背面樣式 (翻開後的顏色) */
+        .card-back {
+            background: #ffffff;
+            border: 3px solid #ffd700; /* 金色邊框代表找到寶藏答案 */
+            transform: rotateY(180deg);
+            color: #333;
+        }
 
- /* --- 1. 遊戲進度條 --- */
-.game-progress {
-    width: 100%; height: 12px; background: #ddd;
-    border-radius: 10px; margin: 15px 0; overflow: hidden;
-}
-.progress-fill {
-    width: 20%; height: 100%; background: var(--forest-green);
-    transition: width 0.5s ease;
-}
+         /* --- 1. 遊戲進度條 --- */
+        .game-progress {
+            width: 100%; height: 12px; background: #ddd;
+            border-radius: 10px; margin: 15px 0; overflow: hidden;
+        }
+        .progress-fill {
+            width: 20%; height: 100%; background: var(--forest-green);
+            transition: width 0.5s ease;
+        }
 
-/* --- 2. 噴彩帶特效容器 --- */
-.confetti-container {
-    position: absolute; width: 100%; height: 100%;
-    top: 0; left: 0; pointer-events: none; display: none; z-index: 100;
-}
-.confetti {
-    position: absolute; width: 8px; height: 8px;
-    animation: fall 2s linear forwards;
-}
-@keyframes fall {
-    0% { transform: translateY(-10px) rotate(0deg); opacity: 1; }
-    100% { transform: translateY(300px) rotate(360deg); opacity: 0; }
-}
+        /* --- 2. 噴彩帶特效容器 --- */
+        .confetti-container {
+            position: absolute; width: 100%; height: 100%;
+            top: 0; left: 0; pointer-events: none; display: none; z-index: 100;
+        }
+        .confetti {
+            position: absolute; width: 8px; height: 8px;
+            animation: fall 2s linear forwards;
+        }
+        @keyframes fall {
+            0% { transform: translateY(-10px) rotate(0deg); opacity: 1; }
+            100% { transform: translateY(300px) rotate(360deg); opacity: 0; }
+        }
 
-/* --- 3. 成就彈窗樣式 (照你的圖製作) --- */
-.achievement-overlay {
-    display: none; position: fixed; top: 0; left: 0; 
-    width: 100%; height: 100%; background: rgba(0,0,0,0.8);
-    z-index: 9999; justify-content: center; align-items: center;
-}
-.achievement-card {
-    background: linear-gradient(180deg, #ffe082 0%, #ffca28 100%);
-    width: 85%; max-width: 350px; padding: 30px 20px;
-    border-radius: 40px; text-align: center; border: 5px solid #fff;
-    box-shadow: 0 0 30px rgba(255, 235, 59, 0.5);
-    animation: popIn 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-}
-@keyframes popIn {
-    0% { transform: scale(0.5); opacity: 0; }
-    100% { transform: scale(1); opacity: 1; }
-}
-.medal-img { width: 180px; margin-bottom: 15px; }
-.achievement-btn {
-    background: #fff; border: none; padding: 12px 40px;
-    border-radius: 50px; font-size: 18px; font-weight: bold;
-    color: #ff9800; box-shadow: 0 4px 0 #fb8c00; cursor: pointer;
-}
+        /* --- 3. 成就彈窗樣式 (照你的圖製作) --- */
+        .achievement-overlay {
+            display: none; position: fixed; top: 0; left: 0; 
+            width: 100%; height: 100%; background: rgba(0,0,0,0.8);
+            z-index: 9999; justify-content: center; align-items: center;
+        }
+        .achievement-card {
+            background: linear-gradient(180deg, #ffe082 0%, #ffca28 100%);
+            width: 85%; max-width: 350px; padding: 30px 20px;
+            border-radius: 40px; text-align: center; border: 5px solid #fff;
+            box-shadow: 0 0 30px rgba(255, 235, 59, 0.5);
+            animation: popIn 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        }
+        @keyframes popIn {
+            0% { transform: scale(0.5); opacity: 0; }
+            100% { transform: scale(1); opacity: 1; }
+        }
+        .medal-img { width: 180px; margin-bottom: 15px; }
+        .achievement-btn {
+            background: #fff; border: none; padding: 12px 40px;
+            border-radius: 50px; font-size: 18px; font-weight: bold;
+            color: #ff9800; box-shadow: 0 4px 0 #fb8c00; cursor: pointer;
+        }
     </style>
 </head>
 <body>
@@ -410,94 +410,94 @@
 
     <script>
         let currentStep = 1;
-let lastLevelScore = { river: false, grass: false };
+        let lastLevelScore = { river: false, grass: false };
 
-// 💡 每一隻動物的題目請在這裡修改
-const quizData = {
-    1: { q: "問題 1 的文字內容？", img: "./img1.jpg", opt: [{t: "正確選項", ok: true}, {t: "錯誤選項", ok: false}] },
-    2: { q: "問題 2 的文字內容？", img: "./img2.jpg", opt: [{t: "正確選項", ok: true}, {t: "錯誤選項", ok: false}] },
-    3: { q: "問題 3 的文字內容？", img: "./img3.jpg", opt: [{t: "正確選項", ok: true}, {t: "錯誤選項", ok: false}] },
-    4: { q: "問題 4 的文字內容？", img: "./img4.jpg", opt: [{t: "正確選項", ok: true}, {t: "錯誤選項", ok: false}] }
-};
+        // 💡 每一隻動物的題目請在這裡修改
+        const quizData = {
+            1: { q: "問題 1 的文字內容？", img: "./img1.jpg", opt: [{t: "正確選項", ok: true}, {t: "錯誤選項", ok: false}] },
+            2: { q: "問題 2 的文字內容？", img: "./img2.jpg", opt: [{t: "正確選項", ok: true}, {t: "錯誤選項", ok: false}] },
+            3: { q: "問題 3 的文字內容？", img: "./img3.jpg", opt: [{t: "正確選項", ok: true}, {t: "錯誤選項", ok: false}] },
+            4: { q: "問題 4 的文字內容？", img: "./img4.jpg", opt: [{t: "正確選項", ok: true}, {t: "錯誤選項", ok: false}] }
+        };
 
-// 初始化第一題
-updateQuiz(1);
+        // 初始化第一題
+        updateQuiz(1);
 
-function nextStep(step, isCorrect) {
-    const m = document.getElementById('msg');
-    if (isCorrect) {
-        m.innerText = "🎉 答對了！太厲害了！";
-        m.style.color = "#22863a";
-        showConfetti(); // 答對就噴彩帶
+        function nextStep(step, isCorrect) {
+            const m = document.getElementById('msg');
+            if (isCorrect) {
+                m.innerText = "🎉 答對了！太厲害了！";
+                m.style.color = "#22863a";
+                showConfetti(); // 答對就噴彩帶
 
-        setTimeout(() => {
-            currentStep++;
-            if (currentStep <= 4) {
-                updateQuiz(currentStep);
+                setTimeout(() => {
+                    currentStep++;
+                    if (currentStep <= 4) {
+                        updateQuiz(currentStep);
+                    } else {
+                        showFinalLevel(); // 進入最終關卡
+                    }
+                }, 1200);
             } else {
-                showFinalLevel(); // 進入最終關卡
+                m.innerText = "❌ 再試一次看看！";
+                m.style.color = "#d73a49";
             }
-        }, 1200);
-    } else {
-        m.innerText = "❌ 再試一次看看！";
-        m.style.color = "#d73a49";
-    }
-}
+        }
 
-function updateQuiz(step) {
-    const data = quizData[step];
-    document.getElementById('game-title').innerText = `🎮 森林探險：第 ${step} 關`;
-    document.getElementById('progress').style.width = (step * 20) + "%";
-    document.getElementById('game-img').src = data.img;
-    document.getElementById('game-question').innerText = data.q;
-    document.getElementById('msg').innerText = "";
+        function updateQuiz(step) {
+            const data = quizData[step];
+            document.getElementById('game-title').innerText = `🎮 森林探險：第 ${step} 關`;
+            document.getElementById('progress').style.width = (step * 20) + "%";
+            document.getElementById('game-img').src = data.img;
+            document.getElementById('game-question').innerText = data.q;
+            document.getElementById('msg').innerText = "";
 
-    let html = "";
-    data.opt.forEach(o => {
-        html += `<button class="game-btn" onclick="nextStep(${step}, ${o.ok})">${o.t}</button>`;
-    });
-    document.getElementById('options-area').innerHTML = html;
-}
+            let html = "";
+            data.opt.forEach(o => {
+                html += `<button class="game-btn" onclick="nextStep(${step}, ${o.ok})">${o.t}</button>`;
+            });
+            document.getElementById('options-area').innerHTML = html;
+        }
 
-function showFinalLevel() {
-    document.getElementById('game-title').innerText = `🎮 最終挑戰：找到我的家`;
-    document.getElementById('progress').style.width = "100%";
-    document.getElementById('game-img').src = "./final_house.jpg"; // 💡 最後一題圖片
-    document.getElementById('game-question').innerHTML = "請選出<b>兩個</b>正確的家！";
-    document.getElementById('options-area').innerHTML = `
-        <button class="game-btn" id="btn-1" onclick="checkFinal(1)">💧 涼爽的河流積木</button>
-        <button class="game-btn" id="btn-2" onclick="checkFinal(2)">🌿 濕熱的草地積木</button>
-        <button class="game-btn" onclick="nextStep(5, false)">❄️ 寒冷的冰原積木</button>
-    `;
-}
+        function showFinalLevel() {
+            document.getElementById('game-title').innerText = `🎮 最終挑戰：找到我的家`;
+            document.getElementById('progress').style.width = "100%";
+            document.getElementById('game-img').src = "./final_house.jpg"; // 💡 最後一題圖片
+            document.getElementById('game-question').innerHTML = "請選出<b>兩個</b>正確的家！";
+            document.getElementById('options-area').innerHTML = `
+                <button class="game-btn" id="btn-1" onclick="checkFinal(1)">💧 涼爽的河流積木</button>
+                <button class="game-btn" id="btn-2" onclick="checkFinal(2)">🌿 濕熱的草地積木</button>
+                <button class="game-btn" onclick="nextStep(5, false)">❄️ 寒冷的冰原積木</button>
+            `;
+        }
 
-function checkFinal(id) {
-    if(id === 1) { lastLevelScore.river = true; document.getElementById('btn-1').classList.add('correct'); }
-    if(id === 2) { lastLevelScore.grass = true; document.getElementById('btn-2').classList.add('correct'); }
+        function checkFinal(id) {
+            if(id === 1) { lastLevelScore.river = true; document.getElementById('btn-1').classList.add('correct'); }
+            if(id === 2) { lastLevelScore.grass = true; document.getElementById('btn-2').classList.add('correct'); }
     
-    if(lastLevelScore.river && lastLevelScore.grass) {
-        showConfetti();
-        setTimeout(showAchievement, 1000);
-    }
-}
+            if(lastLevelScore.river && lastLevelScore.grass) {
+                showConfetti();
+                setTimeout(showAchievement, 1000);
+            }
+        }
 
-function showAchievement() { document.getElementById('achievementPopup').style.display = 'flex'; }
-function closeAchievement() { document.getElementById('achievementPopup').style.display = 'none'; }
+        function showAchievement() { document.getElementById('achievementPopup').style.display = 'flex'; }
+        function closeAchievement() { document.getElementById('achievementPopup').style.display = 'none'; }
 
-// 彩帶動畫生成
-function showConfetti() {
-    const c = document.getElementById('confetti');
-    c.style.display = 'block'; c.innerHTML = '';
-    for(let i=0; i<30; i++) {
-        const d = document.createElement('div');
-        d.className = 'confetti';
-        d.style.left = Math.random()*100+'%';
-        d.style.backgroundColor = ['#ff0','#f0f','#0ff','#0f0'][Math.floor(Math.random()*4)];
-        d.style.animationDelay = Math.random()+'s';
-        c.appendChild(d);
-    }
-    setTimeout(() => c.style.display='none', 2000);
-}
+        // 彩帶動畫生成
+        function showConfetti() {
+            const c = document.getElementById('confetti');
+            c.style.display = 'block'; c.innerHTML = '';
+            for(let i=0; i<30; i++) {
+                const d = document.createElement('div');
+                d.className = 'confetti';
+                d.style.left = Math.random()*100+'%';
+                d.style.backgroundColor = ['#ff0','#f0f','#0ff','#0f0'][Math.floor(Math.random()*4)];
+                d.style.animationDelay = Math.random()+'s';
+                c.appendChild(d);
+            }
+            setTimeout(() => c.style.display='none', 2000);
+        }
     </script>
 </body>
 </html>
