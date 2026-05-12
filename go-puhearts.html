@@ -1,262 +1,303 @@
 <!DOCTYPE html>
 <html lang="zh-Hant">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>大猩猩的雨林家園</title>
-    <script type="module" src="https://ajax.googleapis.com/ajax/libs/model-viewer/3.5.0/model-viewer.min.js"></script>
-    
-    <style>
-        :root {
-            --forest-green: #2d5a27;   /* 深綠色 */
-            --leaf-light: #e8f5e9;     /* 淺綠色 */
-            --toucan-orange: #ff9800;  /* 橘色 */
-            --wood-brown: #795548;     /* 棕色 */
-            --text-dark: #1b331a;      /* 深綠文字 */
-            --ocean-green: #f1f8e9;    /* 按鈕區背景 */
-            --ice-white: #ffffff;      
-            --ice-shadow: #558b2f;     
-        }
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>大猩猩的雨林家園</title>
+    <script type="module" src="https://ajax.googleapis.com/ajax/libs/model-viewer/3.5.0/model-viewer.min.js"></script>
+    
+    <style>
+        :root {
+            --forest-green: #2d5a27;   /* 深綠色 */
+            --leaf-light: #e8f5e9;     /* 淺綠色 */
+            --toucan-orange: #ff9800;  /* 橘色 */
+            --wood-brown: #795548;     /* 棕色 */
+            --text-dark: #1b331a;      /* 深綠文字 */
+            --ocean-green: #f1f8e9;    /* 按鈕區背景：淺綠色 */
+            --ice-white: #ffffff;      
+            --ice-shadow: #558b2f;     
+        }
 
-        body { 
-            margin: 0; font-family: "Microsoft JhengHei", sans-serif; 
-            background-color: #ffffff; color: var(--text-dark);
-            display: flex; flex-direction: column; align-items: center; overflow-x: hidden;
-        }
+        body { 
+            margin: 0; font-family: "Microsoft JhengHei", sans-serif; 
+            background-color: #ffffff; color: var(--text-dark);
+            display: flex; flex-direction: column; align-items: center; overflow-x: hidden;
+        }
 
-        .header-section {
-            width: 100%; background-color: var(--forest-green);
-            padding-bottom: 60px; position: relative;
-            display: flex; flex-direction: column; align-items: center;
-        }
+        .header-section {
+            width: 100%; background-color: var(--forest-green);
+            padding-bottom: 60px; position: relative;
+            display: flex; flex-direction: column; align-items: center;
+        }
 
-        .cloud-speech {
-            position: relative; background: #fff; border-radius: 30px;
-            padding: 12px 25px; margin-top: 25px; font-weight: bold; font-size: 18px;
-            box-shadow: 0 4px 10px rgba(0,0,0,0.1); z-index: 10; color: var(--forest-green);
-        }
-        .cloud-speech::after {
-            content: ''; position: absolute; bottom: -8px; left: 50%;
-            width: 16px; height: 16px; background: white; border-radius: 50%; transform: translateX(-50%);
-        }
+        .cloud-speech {
+            position: relative; background: #fff; border-radius: 30px;
+            padding: 12px 25px; margin-top: 25px; font-weight: bold; font-size: 18px;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.1); display: flex; align-items: center;
+            z-index: 10; color: var(--forest-green);
+        }
+        .cloud-speech::after {
+            content: ''; position: absolute; bottom: -8px; left: 50%;
+            width: 16px; height: 16px; background: white; border-radius: 50%; transform: translateX(-50%);
+        }
 
-        model-viewer { width: 100%; height: 320px; background: transparent; }
+        model-viewer { width: 100%; height: 320px; background: transparent; }
 
-        .ice-transition {
-            position: absolute; bottom: 0; left: 0; width: 100%; height: 80px; 
-            display: flex; justify-content: center; align-items: flex-end; pointer-events: none;
-        }
-        .ice-l { background: #689f38; left: -10%; width: 60%; height: 100%; position: absolute; border-radius: 100% 0% 100% 0%; transform: rotate(-5deg); z-index: 2; }
-        .ice-r { background: #8bc34a; right: -10%; width: 60%; height: 100%; position: absolute; border-radius: 0% 100% 0% 100%; transform: rotate(5deg); opacity: 0.9; z-index: 1; }
-        
-        .ocean-content {
-            width: 100%; padding: 40px 20px; box-sizing: border-box;
-            background-color: var(--ocean-green); 
-            display: flex; flex-direction: column; align-items: center;
-            min-height: 800px;
-        }
+        /* 🍂 落葉堆轉場區 */
+        .ice-transition {
+            position: absolute; bottom: 0; left: 0; width: 100%; height: 80px; 
+            display: flex; justify-content: center; align-items: flex-end; pointer-events: none;
+        }
+        .ice-l, .ice-r { width: 60%; height: 100%; position: absolute; bottom: -10px; }
+        .ice-l { 
+            background: #689f38; left: -10%;
+            border-radius: 100% 0% 100% 0% / 100% 100% 0% 0%;
+            transform: rotate(-5deg); z-index: 2;
+        }
+        .ice-r { 
+            background: #8bc34a; right: -10%;
+            border-radius: 0% 100% 0% 100% / 100% 100% 0% 0%;
+            transform: rotate(5deg); opacity: 0.9; z-index: 1;
+        }
+        
+        /* 🍃 按鈕內容區背景色改為淺綠 */
+        .ocean-content {
+            width: 100%; padding: 40px 20px; box-sizing: border-box;
+            background-color: var(--ocean-green); 
+            display: flex; flex-direction: column; align-items: center;
+            position: relative; min-height: 800px;
+        }
 
-        .ice-grid { display: flex; flex-wrap: wrap; justify-content: center; gap: 20px; width: 100%; max-width: 400px; padding: 20px 0; }
-        
-        .ice-block {
-            position: relative; width: 140px; height: 90px; background: #8bc34a;
-            border-radius: 0% 100% 0% 100%; display: flex; justify-content: center; align-items: center;
-            cursor: pointer; font-weight: bold; font-size: 18px; color: var(--forest-green);
-            box-shadow: 0 8px 0 var(--ice-shadow); transform: rotate(-8deg); transition: 0.1s;
-        }
-        .ice-block span { transform: rotate(8deg); }
-        .ice-block:active { transform: translateY(6px) rotate(0deg); box-shadow: 0 2px 0 var(--ice-shadow); }
-        .ice-block:active span { transform: rotate(0deg); }
+        .ice-grid {
+            display: flex; flex-wrap: wrap; justify-content: center;
+            gap: 20px; width: 100%; max-width: 400px; padding: 20px 0;
+            z-index: 5;
+        }
+        
+        /* 1. 葉子按鈕基本樣式 */
+        .ice-block {
+            position: relative; 
+            width: 140px; 
+            height: 90px;
+            background: #8bc34a;
+            /* 葉子形狀：左上、右下是尖的 */
+            border-radius: 0% 100% 0% 100% / 0% 100% 0% 100%;
+            display: flex; 
+            justify-content: center; 
+            align-items: center;
+            cursor: pointer; 
+            font-weight: bold; 
+            font-size: 18px;
+            color: var(--forest-green);
+            /* 3D 厚度陰影 */
+            box-shadow: 0 8px 0 var(--ice-shadow), 0 15px 25px rgba(0,0,0,0.08);
+            transition: all 0.15s ease; /* 讓動作更靈敏 */
+            z-index: 5;
+        }
+        
+        /* 2. 讓文字轉回來（保持水平） */
+        .ice-block span {
+            display: inline-block;
+            transition: all 0.15s ease; /* 這一行很重要，讓轉動變滑順，不是死板板的切換 */
+        }
+        
+        /* 讓所有葉子按鈕都統一向左斜 8 度 */
+        .ice-grid .ice-block {
+            transform: rotate(-8deg);
+            transition: all 0.15s ease;
+        }
+        /* 讓所有按鈕內的文字都統一向右轉回 8 度，保持水平 */
+        .ice-block span {
+            display: inline-block;
+            transform: rotate(8deg);
+        }
+        /* 移除（或註解掉）原本針對 nth-child(even) 的旋轉設定 */
+        /* 不要這段了： .ice-grid .ice-block:nth-child(even) { transform: rotate(8deg); } */
+        
+        /* 所有按鈕按下去時：保持左斜 8 度，並向下位移 6px */
+        .ice-block:active {
+            transform: translateY(6px) rotate(0deg) !important;
+            box-shadow: 0 2px 0 var(--ice-shadow), 0 5px 10px rgba(0,0,0,0.1);
+        }
+        
+        /* 同時，因為葉子變 0 度了，文字也要跟著變回 0 度才會是正的 */
+        .ice-block:active span {
+            transform: rotate(0deg) !important;
+        }
+        
+        /* 📖 資訊展示框：綠色光暈特效 */
+        .info-card {
+            display: none; width: 95%; max-width: 500px;
+            margin: 25px auto; background: #f1f8e9 !important;
+            border-radius: 30px; padding: 25px;
+            border: 3px solid #8bc34a; box-sizing: border-box;
+            z-index: 10;
+            box-shadow: 0 0 30px rgba(139, 195, 74, 0.6), 0 0 10px rgba(139, 195, 74, 0.3);
+            animation: slideUp 0.4s ease-out;
+        }
 
-        .info-card {
-            display: none; width: 100%; max-width: 380px; margin-top: 25px;
-            background: #fff; border-radius: 30px; padding: 25px;
-            border: 3px solid #8bc34a; box-sizing: border-box;
-            box-shadow: 0 10px 30px rgba(139, 195, 74, 0.3);
-            animation: slideUp 0.4s ease-out;
-        }
-        @keyframes slideUp { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
+        @keyframes slideUp {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
 
-        .ice-photo-frame { width: 100%; border-radius: 20px; box-shadow: 0 8px 0 var(--wood-brown); margin-bottom: 20px; overflow: hidden; }
-        .ice-photo-frame img { width: 100%; height: 200px; object-fit: cover; display: block; }
+        .ice-photo-frame {
+            width: 100%; background: var(--leaf-light);
+            border-radius: 20px 50px 30px 40px; padding: 10px;
+            box-shadow: 0 10px 0 var(--wood-brown);
+            margin-bottom: 25px; display: flex; justify-content: center; align-items: center;
+            overflow: hidden; box-sizing: border-box;
+        }
+        .ice-photo-frame img { width: 100%; height: 220px; object-fit: cover; border-radius: 20px; }
 
-        .game-progress { width: 100%; height: 10px; background: #eee; border-radius: 5px; margin: 15px 0; overflow: hidden; }
-        .progress-fill { width: 20%; height: 100%; background: #4caf50; transition: 0.3s; }
-        
-        .game-btn { width: 100%; padding: 15px; margin: 8px 0; border: none; background: #f1f8e9; border-radius: 15px; font-weight: bold; cursor: pointer; box-shadow: 0 4px 0 #558b2f; color: var(--forest-green); }
-        .correct { background: #e6ffed !important; color: #22863a !important; box-shadow: 0 4px 0 #22863a !important; }
+        .description-text { font-size: 18px; line-height: 1.8; color: #2c689c; text-align: left; }
+        .description-text b { color: #1a4a73; font-size: 20px; }
 
-        /* 翻轉卡片 */
-        .knowledge-card-container { perspective: 1000px; width: 100%; height: 200px; margin-bottom: 20px; cursor: pointer; }
-        .knowledge-card-inner { position: relative; width: 100%; height: 100%; transition: 0.6s; transform-style: preserve-3d; }
-        .knowledge-card-container.flipped .knowledge-card-inner { transform: rotateY(180deg); }
-        .card-front, .card-back { position: absolute; width: 100%; height: 100%; backface-visibility: hidden; border-radius: 20px; display: flex; flex-direction: column; justify-content: center; align-items: center; padding: 15px; box-sizing: border-box; border: 2px solid #8bc34a; }
-        .card-back { transform: rotateY(180deg); background: #fff; border-color: #ffd700; }
+        /* 翻轉卡片容器 */
+        .knowledge-card-container { perspective: 1000px; width: 100%; height: 250px; margin-bottom: 25px; cursor: pointer; }
+        .knowledge-card-inner { position: relative; width: 100%; height: 100%; text-align: center; transition: transform 0.8s; transform-style: preserve-3d; }
+        .knowledge-card-container.flipped .knowledge-card-inner { transform: rotateY(180deg); }
+        .card-front, .card-back {
+            position: absolute; width: 100%; height: 100%; backface-visibility: hidden;
+            border-radius: 30px; display: flex; flex-direction: column; justify-content: center; align-items: center;
+            padding: 20px; box-sizing: border-box; box-shadow: 0 10px 0 #ccddec;
+        }
+        .card-front { background: #fff; border: 3px solid #8bc34a; color: var(--forest-green); }
+        .card-back { background: #fff; border: 3px solid #ffd700; transform: rotateY(180deg); color: #333; }
 
-        /* 成就彈窗 */
-        .achievement-overlay { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.8); z-index: 9999; justify-content: center; align-items: center; }
-        .achievement-card { background: linear-gradient(180deg, #ffe082 0%, #ffca28 100%); width: 80%; max-width: 300px; padding: 30px; border-radius: 30px; text-align: center; border: 5px solid #fff; }
-        .confetti-container { position: absolute; width: 100%; height: 100%; top: 0; left: 0; pointer-events: none; display: none; z-index: 100; }
-        .confetti { position: absolute; width: 8px; height: 8px; animation: fall 2s linear forwards; }
-        @keyframes fall { 0% { transform: translateY(-10px); opacity: 1; } 100% { transform: translateY(300px); opacity: 0; } }
-    </style>
+        .photo-wall { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-top: 15px; }
+        .photo-wall img, .photo-wall iframe { width: 100%; height: 110px; border-radius: 18px; object-fit: cover; }
+
+        .game-btn {
+            width: 100%; padding: 18px; margin: 10px 0; border: none;
+            background: #fff; border-radius: 20px; color: var(--forest-green);
+            font-size: 18px; font-weight: bold; box-shadow: 0 5px 0 #558b2f; cursor: pointer;
+        }
+        .correct { background: #e6ffed !important; color: #22863a !important; box-shadow: 0 5px 0 #22863a !important; }
+
+        /* 控制翻轉卡片正面 emoji 的大小 */
+        .card-front .q-mark {
+            font-size: 60px;    /* 這裡的 60px 就是讓你覺得「好看又夠大」的大小 */
+            margin-bottom: 10px; /* 讓 emoji 跟下面的文字保持一點距離 */
+            display: block;      /* 確保它獨立佔一行 */
+        }
+    </style>
 </head>
 <body>
 
-    <div class="header-section">
-        <div class="cloud-speech">哈囉！我是銀背大猩猩！🦍</div>
-        <model-viewer src="https://cdn.jsdelivr.net/gh/yenmeiomni/animal-game@main/gorilla_v1.glb" auto-rotate camera-controls ar></model-viewer>
-        <div class="ice-transition"><div class="ice-l"></div><div class="ice-r"></div></div>
-    </div>
+    <div class="header-section">
+        <div class="cloud-speech">哈囉！我是銀背大猩猩！🦍</div>
+        <model-viewer src="https://cdn.jsdelivr.net/gh/yenmeiomni/animal-game@main/gorilla_v1.glb" auto-rotate camera-controls ar></model-viewer>
+        <div class="ice-transition">
+            <div class="ice-l"></div>
+            <div class="ice-r"></div>
+        </div>
+    </div>
 
-    <div class="ocean-content">
-        <div class="ice-grid">
-            <div class="ice-block" onclick="openBox('box1')"><span>認識我</span></div>
-            <div class="ice-block" onclick="openBox('box2')"><span>小小秘密</span></div>
-            <div class="ice-block" onclick="openBox('box3')"><span>互動遊戲</span></div>
-            <div class="ice-block" onclick="openBox('box4')"><span>生活影像</span></div>
-        </div>
+    <div class="ocean-content">
+        <div class="ice-grid">
+            <div class="ice-block" onclick="openBox('box1')"><span>認識我</span></div>
+            <div class="ice-block" onclick="openBox('box2')" style="margin-top: 15px;"><span>小小秘密</span></div>
+            <div class="ice-block" onclick="openBox('box3')"><span>互動遊戲</span></div>
+            <div class="ice-block" onclick="openBox('box4')" style="margin-top: 15px;"><span>生活影像</span></div>
+        </div>
 
-        <div id="box1" class="info-card">
-            <div class="ice-photo-frame"><img src="./gorilla_photo_01.jpg"></div>
-            <p><b>🏠 住址：</b> 非洲熱帶雨林</p>
-            <p><b>🍴 愛吃：</b> 嫩葉、竹筍、水果</p>
-            <button class="game-btn" onclick="playAudio()">🔊 聽聽我的叫聲</button>
-            <p style="font-size: 15px; color: #666; margin-top: 15px;"><b>● 銀色的背部：</b>成熟雄性的特徵。</p>
-        </div>
+        <div id="box1" class="info-card">
+            <div class="ice-photo-frame">
+                <img src="./gorilla_photo_01.jpg" alt="大猩猩真實照">
+            </div>
+            <div style="background: #ffffff; border-radius: 20px; padding: 20px; margin-bottom: 25px; border: 2px solid #2d5a27; position: relative;">
+                <p style="margin: 8px 0;"><b>🆔 名字：</b> 大猩猩 (Silverback Gorilla)</p>
+                <p style="margin: 8px 0;"><b>🏠 住址：</b> 非洲的熱帶雨林和高山森林</p>
+                <p style="margin: 8px 0;"><b>🍴 愛吃：</b> 嫩葉、竹筍、水果（我可是素食主義者唷）</p>
+                <p style="margin: 8px 0;"><b>🏅 專長：</b> 擁有超級強大的力氣，是森林裡的溫柔首領</p>
+                <div style="margin-top: 15px; padding-top: 10px; border-top: 1px dashed #2d5a27; display: flex; align-items: center; justify-content: center; cursor: pointer;" onclick="playAudio()">
+                    <span style="font-size: 18px; color: var(--forest-green); font-weight: bold;">🔊 點我來聽聽我的叫聲</span>
+                </div>
+            </div>
+            <h3>🔍 身體特徵</h3>
+            <div class="description-text">
+                <p><b>● 銀色的背部：</b><br>當雄性猩猩長大成熟後，背部的毛會變成漂亮的銀灰色。</p>
+                <p><b>● 寬闊的胸膛</b><br>我會用手拍打胸脯，發出很大的聲音來展現力量或溝通。</p>
+                <p><b>● 靈活的手掌</b><br>我的手和人類很像，有指紋也能抓取細小的食物！</p>
+            </div>
+        </div>
 
-        <div id="box2" class="info-card">
-            <h3 style="text-align: center;">💡 點點看，找秘密！</h3>
-            <div class="knowledge-card-container" onclick="this.classList.toggle('flipped')">
-                <div class="knowledge-card-inner">
-                    <div class="card-front"><div style="font-size: 40px;">❓</div><p>我拍打胸部是想打架嗎？</p></div>
-                    <div class="card-back"><p><b>✨ 不一定唷！</b></p><p>有時是溝通或打招呼，我很溫和的！</p></div>
-                </div>
-            </div>
-        </div>
+        <div id="box2" class="info-card">
+            <h3 style="text-align: center; width: 100%; display: block;">💡 點點看，找秘密！</h3>
+            <div class="knowledge-card-container" onclick="this.classList.toggle('flipped')">
+                <div class="knowledge-card-inner">
+                    <div class="card-front">
+                        <div class="q-mark">❓</div>
+                        <p><b>我拍打胸部是要打架嗎？</b></p>
+                        <small>(點一下翻開看答案)</small>
+                    </div>
+                    <div class="card-back">
+                        <p><b>✨ 不一定唷！</b></p>
+                        <p style="font-size: 16px;">有時候是為了跟同伴打招呼，或是嚇跑敵人，但我平時很溫和，所以看到我可以跟我打招呼唷！</p>
+                    </div>
+                </div>
+            </div>
+            <div class="knowledge-card-container" onclick="this.classList.toggle('flipped')">
+                <div class="knowledge-card-inner">
+                    <div class="card-front">
+                        <div class="q-mark">🛏️</div>
+                        <p><b>我睡在哪裡呢？</b></p>
+                        <small>(點一下翻開看答案)</small>
+                    </div>
+                    <div class="card-back">
+                        <p><b>✨ 我每天都會蓋新家！</b></p>
+                        <p style="font-size: 16px;">每天晚上睡覺前，我都會用樹枝跟葉子鋪一個新鮮的床墊！</p>
+                    </div>
+                </div>
+            </div>
+        </div>
 
-        <div id="box3" class="info-card" style="position: relative; overflow: hidden;">
-            <div id="confetti" class="confetti-container"></div>
-            <h3 id="game-title" style="text-align: center;">🎮 森林挑戰</h3>
-            <div class="game-progress"><div id="progress" class="progress-fill"></div></div>
-            <div id="game-content">
-                <div class="ice-photo-frame"><img id="game-img" src=""></div>
-                <p id="game-question" style="text-align: center; font-weight: bold;"></p>
-                <div id="options-area"></div>
-            </div>
-            <p id="msg" style="text-align:center; font-weight:bold; margin-top:10px;"></p>
-        </div>
+        <div id="box3" class="info-card">
+            <h3 style="text-align: center;">🎮 找找我的家</h3>
+            <div class="ice-photo-frame">
+                <img src="https://cdn.jsdelivr.net/gh/yenmeiomni/animal-game@main/你的積木照片.jpg" alt="互動積木照片">
+            </div>
+            <div class="description-text" style="text-align: center; margin-bottom: 20px;">
+                <p>我喜歡在茂密的樹木之間穿梭，找尋美味的葉子...<br><b>請低頭找找看，哪一個積木是我的家？</b></p>
+            </div>
+            <button class="game-btn" onclick="check(this, true)">🌳 茂密的落葉積木</button>
+            <button class="game-btn" onclick="check(this, false)">❄️ 寒冷的冰原積木</button>
+            <p id="msg" style="text-align:center; font-weight:bold; margin-top:15px; font-size: 18px;"></p>
+        </div>
 
-        <div id="box4" class="info-card">
-            <h3>🖼️ 生活影像</h3>
-            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px;">
-                <img src="./gorilla_photo_03.jpg" style="width:100%; border-radius:10px;">
-                <iframe src="https://www.youtube.com/embed/w5ZXH1VkILY?rel=0" style="width:100%; height:100px; border-radius:10px; border:none;"></iframe>
-            </div>
-        </div>
-    </div>
+        <div id="box4" class="info-card">
+            <h3>🖼️ 影像牆</h3>
+            <div class="photo-wall">
+                <img src="./gorilla_photo_03.jpg">
+                <iframe src="https://www.youtube.com/embed/w5ZXH1VkILY?rel=0"></iframe>
+                <img src="./gorilla_photo_02.png">
+                <img src="./gorilla_photo_04.jpeg">
+            </div>
+        </div>
+    </div>
 
-    <div id="achievementPopup" class="achievement-overlay">
-        <div class="achievement-card">
-            <h2>🏆 森林首領！</h2>
-            <p>你已經完全了解大猩猩了！</p>
-            <button class="game-btn" style="background:#fff;" onclick="closeAchievement()">太棒了</button>
-        </div>
-    </div>
+    <audio id="snd" src="https://cdn.jsdelivr.net/gh/yenmeiomni/animal-game@main/gorilla_sound_01.mp3"></audio>
 
-    <audio id="snd" src="https://cdn.jsdelivr.net/gh/yenmeiomni/animal-game@main/gorilla_sound_01.mp3"></audio>
-
-    <script>
-        function openBox(id) {
-            document.querySelectorAll('.info-card').forEach(c => c.style.display = 'none');
-            const target = document.getElementById(id);
-            if(target) {
-                target.style.display = 'block';
-                target.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
-            }
-        }
-
-        function playAudio() { document.getElementById('snd').play(); }
-
-        let currentStep = 1;
-        let lastLevelScore = { forest: false, mountain: false };
-
-        // 🦍 遊戲題目設計
-        const quizData = {
-            1: { q: "我平常喜歡吃什麼？", img: "./gorilla_photo_01.jpg", opt: [{t: "嫩葉與水果", ok: true}, {t: "熱狗堡", ok: false}] },
-            2: { q: "我的背部變成銀灰色代表？", img: "./gorilla_photo_02.png", opt: [{t: "我長大成熟了", ok: true}, {t: "我老了", ok: false}] },
-            3: { q: "我每天睡覺前會做什麼？", img: "./gorilla_photo_03.jpg", opt: [{t: "蓋一個葉子床", ok: true}, {t: "找山洞住", ok: false}] },
-            4: { q: "我是如何溝通力量的？", img: "./gorilla_photo_04.jpeg", opt: [{t: "拍打胸脯", ok: true}, {t: "大聲尖叫", ok: false}] }
-        };
-
-        function updateQuiz(step) {
-            const data = quizData[step];
-            if(!data) return;
-            document.getElementById('game-title').innerText = `🎮 森林挑戰：第 ${step} 關`;
-            document.getElementById('progress').style.width = (step * 20) + "%";
-            document.getElementById('game-img').src = data.img;
-            document.getElementById('game-question').innerText = data.q;
-            document.getElementById('msg').innerText = "";
-
-            let html = "";
-            data.opt.forEach(o => {
-                html += `<button class="game-btn" onclick="nextStep(${step}, ${o.ok})">${o.t}</button>`;
-            });
-            document.getElementById('options-area').innerHTML = html;
-        }
-
-        function nextStep(step, isCorrect) {
-            const m = document.getElementById('msg');
-            if (isCorrect) {
-                m.innerText = "🎉 太棒了！";
-                m.style.color = "#22863a";
-                showConfetti();
-                setTimeout(() => {
-                    currentStep++;
-                    if (currentStep <= 4) updateQuiz(currentStep);
-                    else showFinalLevel();
-                }, 1000);
-            } else {
-                m.innerText = "❌ 再猜猜看？";
-                m.style.color = "#d73a49";
-            }
-        }
-
-        function showFinalLevel() {
-            document.getElementById('game-title').innerText = `🎮 最終考驗`;
-            document.getElementById('progress').style.width = "100%";
-            document.getElementById('game-question').innerHTML = "請選出<b>兩個</b>適合大猩猩的積木家園！";
-            document.getElementById('options-area').innerHTML = `
-                <button class="game-btn" id="f1" onclick="checkFinal('forest')">🌳 茂密落葉積木</button>
-                <button class="game-btn" id="f2" onclick="checkFinal('mountain')">⛰️ 高山森林積木</button>
-            `;
-        }
-
-        function checkFinal(type) {
-            if(type==='forest'){ lastLevelScore.forest = true; document.getElementById('f1').classList.add('correct'); }
-            if(type==='mountain'){ lastLevelScore.mountain = true; document.getElementById('f2').classList.add('correct'); }
-            if(lastLevelScore.forest && lastLevelScore.mountain) {
-                showConfetti();
-                setTimeout(() => { document.getElementById('achievementPopup').style.display='flex'; }, 1000);
-            }
-        }
-
-        function showConfetti() {
-            const c = document.getElementById('confetti');
-            c.style.display = 'block'; c.innerHTML = '';
-            for(let i=0; i<20; i++){
-                const d = document.createElement('div');
-                d.className = 'confetti'; d.style.left = Math.random()*100+'%';
-                d.style.backgroundColor = ['#4caf50','#8bc34a','#ffeb3b'][Math.floor(Math.random()*3)];
-                c.appendChild(d);
-            }
-            setTimeout(()=>c.style.display='none', 2000);
-        }
-
-        function closeAchievement() { document.getElementById('achievementPopup').style.display = 'none'; }
-        
-        // 初始啟動
-        updateQuiz(1);
-    </script>
+    <script>
+        function playAudio() { document.getElementById('snd').play(); }
+        function openBox(id) {
+            document.querySelectorAll('.info-card').forEach(c => c.style.display = 'none');
+            const target = document.getElementById(id);
+            target.style.display = 'block';
+            target.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+        }
+        function check(btn, ok) {
+            const m = document.getElementById('msg');
+            if(ok) {
+                btn.classList.add('correct');
+                m.innerText = "🎉 答對了！這裡最舒服了！";
+                m.style.color = "#22863a";
+            } else {
+                m.innerText = "❌ 嗚～這裡太冷了啦！";
+                m.style.color = "#d73a49";
+            }
+        }
+    </script>
 </body>
 </html>
